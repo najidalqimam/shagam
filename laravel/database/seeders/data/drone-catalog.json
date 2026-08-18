@@ -1,0 +1,2949 @@
+{
+  "version": 1,
+  "generatedAt": "2026-08-15T16:12:49.761Z",
+  "source": "data/drone-manufacturers.xlsx",
+  "manufacturers": [
+    {
+      "id": "mfr_d30c1f049558",
+      "name": "3DHS",
+      "models": [
+        {
+          "id": "mdl_384b59a56dfb",
+          "name": "Edge 540 106"
+        }
+      ]
+    },
+    {
+      "id": "mfr_600f834a133c",
+      "name": "3DRobotics",
+      "models": [
+        {
+          "id": "mdl_66229c99b4d9",
+          "name": "3DR Iris+"
+        },
+        {
+          "id": "mdl_c956d7f8bfeb",
+          "name": "3DR Solo (with gimbal)"
+        },
+        {
+          "id": "mdl_37133fc156ce",
+          "name": "3DR Solo (without gimbal)"
+        }
+      ]
+    },
+    {
+      "id": "mfr_e830290dac34",
+      "name": "Acecore Technologies",
+      "models": [
+        {
+          "id": "mdl_b630086165df",
+          "name": "NOA 6 (Q30)"
+        },
+        {
+          "id": "mdl_e68a96c46dbe",
+          "name": "ZOE"
+        }
+      ]
+    },
+    {
+      "id": "mfr_fa491a8239e4",
+      "name": "AeroVision technologies",
+      "models": [
+        {
+          "id": "mdl_a7a1f8c8b3fe",
+          "name": "EPSILON-M"
+        }
+      ]
+    },
+    {
+      "id": "mfr_141ba13dc9ff",
+      "name": "AheadX",
+      "models": [
+        {
+          "id": "mdl_c0b201875c69",
+          "name": "QP530"
+        }
+      ]
+    },
+    {
+      "id": "mfr_234450ab34e0",
+      "name": "Air Hogs",
+      "models": [
+        {
+          "id": "mdl_cefdb8d20d5d",
+          "name": "Air Hogs Millenium Falcon"
+        }
+      ]
+    },
+    {
+      "id": "mfr_579239d25754",
+      "name": "Air X Machina",
+      "models": [
+        {
+          "id": "mdl_c99c195ffffc",
+          "name": "Freerange Air X Edition 5 inch"
+        }
+      ]
+    },
+    {
+      "id": "mfr_f0d485f4e884",
+      "name": "Antigravity",
+      "models": [
+        {
+          "id": "mdl_47f3ccfd3f9a",
+          "name": "A1"
+        }
+      ]
+    },
+    {
+      "id": "mfr_cbdfd44eb0a4",
+      "name": "Aossci",
+      "models": [
+        {
+          "id": "mdl_b34f098837b3",
+          "name": "XC-25"
+        }
+      ]
+    },
+    {
+      "id": "mfr_4a52e8fe84a8",
+      "name": "APEX Aerotech",
+      "models": [
+        {
+          "id": "mdl_bc56d0887b30",
+          "name": "102\" Slick 360"
+        }
+      ]
+    },
+    {
+      "id": "mfr_02e6d3a9e6d4",
+      "name": "APEXDC",
+      "models": [
+        {
+          "id": "mdl_55a7348b2304",
+          "name": "Evo 5"
+        }
+      ]
+    },
+    {
+      "id": "mfr_e544f116e108",
+      "name": "AQUILINE DRONES",
+      "models": [
+        {
+          "id": "mdl_bcb7f4a18fee",
+          "name": "SPARTACUS ENDURE"
+        }
+      ]
+    },
+    {
+      "id": "mfr_6ea7fef201a5",
+      "name": "ARCSKY",
+      "models": [
+        {
+          "id": "mdl_ede2470f47b0",
+          "name": "X55"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a1e513dd2ab8",
+      "name": "Armattan Quads",
+      "models": [
+        {
+          "id": "mdl_89134be29d3c",
+          "name": "Beaver 5"
+        }
+      ]
+    },
+    {
+      "id": "mfr_97fa90395930",
+      "name": "ARRIS",
+      "models": [
+        {
+          "id": "mdl_16df1ce24436",
+          "name": "X900"
+        }
+      ]
+    },
+    {
+      "id": "mfr_7e20844d872f",
+      "name": "AstroRC",
+      "models": [
+        {
+          "id": "mdl_c1a929422c7c",
+          "name": "Starloop35 V2"
+        }
+      ]
+    },
+    {
+      "id": "mfr_ac41930b4fe9",
+      "name": "Atmos",
+      "models": [
+        {
+          "id": "mdl_4c195e3c12d4",
+          "name": "Marlyn"
+        }
+      ]
+    },
+    {
+      "id": "mfr_ad10fa246a1b",
+      "name": "Aurelia Aerospace",
+      "models": [
+        {
+          "id": "mdl_231778e0e079",
+          "name": "Aurelia X4 Standard"
+        },
+        {
+          "id": "mdl_725a44a6a670",
+          "name": "X6 MAX"
+        },
+        {
+          "id": "mdl_1b05f195d746",
+          "name": "X6 Standard"
+        },
+        {
+          "id": "mdl_02712b469132",
+          "name": "X8 Standard"
+        }
+      ]
+    },
+    {
+      "id": "mfr_69e8bfcfce42",
+      "name": "Autel Robotics",
+      "models": [
+        {
+          "id": "mdl_9d290a386950",
+          "name": "Autel X-Star Premium"
+        },
+        {
+          "id": "mdl_03fddc2550f7",
+          "name": "EVO II Pro V3"
+        },
+        {
+          "id": "mdl_d5640e4cb2da",
+          "name": "EVO Lite +"
+        },
+        {
+          "id": "mdl_df9a2b22e6cb",
+          "name": "EVO Max 4T"
+        },
+        {
+          "id": "mdl_f5fe1ddc785c",
+          "name": "EVO NANO+"
+        },
+        {
+          "id": "mdl_28f5f71bacdb",
+          "name": "evo pro 2"
+        }
+      ]
+    },
+    {
+      "id": "mfr_20feca15ec25",
+      "name": "AVESTEC",
+      "models": [
+        {
+          "id": "mdl_b53c4a91a0cc",
+          "name": "SKYRONE V2"
+        },
+        {
+          "id": "mdl_4ddd9ba42ab9",
+          "name": "SKYRONE-B"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a05ef3d59993",
+      "name": "Axixflying",
+      "models": [
+        {
+          "id": "mdl_22eb05bacc21",
+          "name": "MANTA 5 PRO"
+        },
+        {
+          "id": "mdl_e5a11de744a4",
+          "name": "Manta 5 SE"
+        }
+      ]
+    },
+    {
+      "id": "mfr_03d8c05a3921",
+      "name": "BEIJING DAGONG TECHNOLOGY CO., LTD",
+      "models": [
+        {
+          "id": "mdl_0dd04521a729",
+          "name": "DG-M20"
+        }
+      ]
+    },
+    {
+      "id": "mfr_1912447bbb47",
+      "name": "BETAFPV",
+      "models": [
+        {
+          "id": "mdl_107f1fc83ae4",
+          "name": "Aquila20"
+        },
+        {
+          "id": "mdl_9db88e5045e0",
+          "name": "Cetus X"
+        },
+        {
+          "id": "mdl_9f413b57e429",
+          "name": "Meteor75 Pro O4"
+        },
+        {
+          "id": "mdl_22e0b74824ad",
+          "name": "Pavo Femto"
+        },
+        {
+          "id": "mdl_50a4c36d158b",
+          "name": "Pavo Pico II Brushless Whoop"
+        },
+        {
+          "id": "mdl_dd178e93c35f",
+          "name": "Pavo20 Pro"
+        },
+        {
+          "id": "mdl_6af8a28c95cc",
+          "name": "Pavo25 V2"
+        },
+        {
+          "id": "mdl_b0a60e2cb6e7",
+          "name": "Pavo35"
+        },
+        {
+          "id": "mdl_14676ce3c27b",
+          "name": "Pavo360 FPV Quadcopter"
+        }
+      ]
+    },
+    {
+      "id": "mfr_2044d23f4347",
+      "name": "BEYOND VISION",
+      "models": [
+        {
+          "id": "mdl_be7aedea3a6f",
+          "name": "BVQ418"
+        },
+        {
+          "id": "mdl_c817a919209a",
+          "name": "BVQ825"
+        },
+        {
+          "id": "mdl_abbde4c50599",
+          "name": "HEIFU Pro"
+        },
+        {
+          "id": "mdl_e66f859ebb40",
+          "name": "VTOne"
+        }
+      ]
+    },
+    {
+      "id": "mfr_cf0925f7c943",
+      "name": "beyond-vision",
+      "models": [
+        {
+          "id": "mdl_289f7e070daf",
+          "name": "BVQ 418"
+        }
+      ]
+    },
+    {
+      "id": "mfr_067cb2b4d11b",
+      "name": "Blade",
+      "models": [
+        {
+          "id": "mdl_1704684ea867",
+          "name": "Blade 180 QX HD"
+        },
+        {
+          "id": "mdl_2d644e6fe007",
+          "name": "Blade 200 QX"
+        },
+        {
+          "id": "mdl_2487707f2231",
+          "name": "Blade Glimpse FPV HD camera"
+        },
+        {
+          "id": "mdl_cc498f6720c3",
+          "name": "Blade Inductrix Quadcopter"
+        },
+        {
+          "id": "mdl_132ec6d3897c",
+          "name": "Blade Mach25 FPV Racer"
+        },
+        {
+          "id": "mdl_8a79e674770e",
+          "name": "Blade Nano QX 3D"
+        },
+        {
+          "id": "mdl_a6dcafdf4acf",
+          "name": "Blade Nano QX FPV BNF w/out Headset"
+        },
+        {
+          "id": "mdl_f0904c03c253",
+          "name": "Blade Nano QX FPV RTF"
+        },
+        {
+          "id": "mdl_fe267395f30a",
+          "name": "Blade Nano QX RTF"
+        },
+        {
+          "id": "mdl_63810565086f",
+          "name": "Blade Pico QX RTF"
+        },
+        {
+          "id": "mdl_d2c566c074c6",
+          "name": "Blade Vortex 250 Pro"
+        }
+      ]
+    },
+    {
+      "id": "mfr_c7ba927a7ef0",
+      "name": "Blueflite",
+      "models": [
+        {
+          "id": "mdl_26d8aaff240d",
+          "name": "461"
+        }
+      ]
+    },
+    {
+      "id": "mfr_5a2f0318caee",
+      "name": "Boran",
+      "models": [
+        {
+          "id": "mdl_665e3204c8bb",
+          "name": "BR20"
+        }
+      ]
+    },
+    {
+      "id": "mfr_6e255d2c97de",
+      "name": "C-astral",
+      "models": [
+        {
+          "id": "mdl_518e308509ac",
+          "name": "Bramor c4eye"
+        },
+        {
+          "id": "mdl_16007576ec0a",
+          "name": "UT Gen 1"
+        }
+      ]
+    },
+    {
+      "id": "mfr_1c2c0e3e3a87",
+      "name": "CADDXFPV",
+      "models": [
+        {
+          "id": "mdl_f30187179b50",
+          "name": "GoFilm"
+        }
+      ]
+    },
+    {
+      "id": "mfr_316c45f289d0",
+      "name": "CARF Models",
+      "models": [
+        {
+          "id": "mdl_7343cfb76323",
+          "name": "F4U-4 Corsair"
+        },
+        {
+          "id": "mdl_707054a46651",
+          "name": "J-10"
+        },
+        {
+          "id": "mdl_d8ce65faf770",
+          "name": "Rebel Pro"
+        },
+        {
+          "id": "mdl_4c9a3e1d5763",
+          "name": "SU30"
+        }
+      ]
+    },
+    {
+      "id": "mfr_62ddbb1a35e6",
+      "name": "catalyst machineworks",
+      "models": [
+        {
+          "id": "mdl_a986e886f1ef",
+          "name": "Moneyshot"
+        }
+      ]
+    },
+    {
+      "id": "mfr_6ab033d11669",
+      "name": "CFly",
+      "models": [
+        {
+          "id": "mdl_5ea47133a4bc",
+          "name": "Faith 2 Pro"
+        },
+        {
+          "id": "mdl_8ec752a89e3e",
+          "name": "Faith 2S"
+        },
+        {
+          "id": "mdl_526e73890db1",
+          "name": "Faith Mini 2"
+        }
+      ]
+    },
+    {
+      "id": "mfr_c5b40ee21dbf",
+      "name": "CHASING",
+      "models": [
+        {
+          "id": "mdl_dff5a115a357",
+          "name": "MINI S"
+        }
+      ]
+    },
+    {
+      "id": "mfr_d6b39ff4979d",
+      "name": "CHCNAV",
+      "models": [
+        {
+          "id": "mdl_98a7c8593562",
+          "name": "BB4"
+        },
+        {
+          "id": "mdl_e3e8b587d18b",
+          "name": "P330PRO"
+        },
+        {
+          "id": "mdl_54ad9b2c59db",
+          "name": "X-500"
+        }
+      ]
+    },
+    {
+      "id": "mfr_105c98ef249e",
+      "name": "Cheerson",
+      "models": [
+        {
+          "id": "mdl_7de2d1603e2d",
+          "name": "Cheerson CX-10C Nano"
+        },
+        {
+          "id": "mdl_838bf67551f7",
+          "name": "Cheerson CX-STARS Mini"
+        }
+      ]
+    },
+    {
+      "id": "mfr_cb590f2fb981",
+      "name": "Contixo",
+      "models": [
+        {
+          "id": "mdl_f7623d7c1021",
+          "name": "F24 Zoro Pro"
+        }
+      ]
+    },
+    {
+      "id": "mfr_61f9d37783e0",
+      "name": "CORBY",
+      "models": [
+        {
+          "id": "mdl_c2dfa9d0490a",
+          "name": "CX007"
+        },
+        {
+          "id": "mdl_c59f5da7a773",
+          "name": "CX023"
+        }
+      ]
+    },
+    {
+      "id": "mfr_9821aa992f26",
+      "name": "CUAV Tech Inc.Ltd",
+      "models": [
+        {
+          "id": "mdl_fd4db91c919e",
+          "name": "VT260"
+        }
+      ]
+    },
+    {
+      "id": "mfr_4ccd0be459bc",
+      "name": "Cyberdrone",
+      "models": [
+        {
+          "id": "mdl_7f3dfa47521d",
+          "name": "Cyberligt Quadcopter"
+        }
+      ]
+    },
+    {
+      "id": "mfr_75464295d901",
+      "name": "DAMODA",
+      "models": [
+        {
+          "id": "mdl_531130c73e2b",
+          "name": "Outdoor V3 formation UAV"
+        }
+      ]
+    },
+    {
+      "id": "mfr_7d2af550e5b5",
+      "name": "DCI DRONES",
+      "models": [
+        {
+          "id": "mdl_07e64b104f6b",
+          "name": "Agri Z62 Ltr"
+        },
+        {
+          "id": "mdl_51c106178119",
+          "name": "Agri Z70 Ltr"
+        },
+        {
+          "id": "mdl_72e3d7855673",
+          "name": "Clean Elite Pro 16L"
+        },
+        {
+          "id": "mdl_f35d3b8a6be6",
+          "name": "Clean Elite Pro 40L"
+        },
+        {
+          "id": "mdl_d2fe6ff06bd7",
+          "name": "Heat Hawk Thermal"
+        }
+      ]
+    },
+    {
+      "id": "mfr_105cf23e30da",
+      "name": "DCL-FPV",
+      "models": [
+        {
+          "id": "mdl_2fca780608ba",
+          "name": "FPV-5 INCHES"
+        }
+      ]
+    },
+    {
+      "id": "mfr_7ee1ad7fce34",
+      "name": "DeepSpace",
+      "models": [
+        {
+          "id": "mdl_36f61eaa9a6e",
+          "name": "Seeker3"
+        },
+        {
+          "id": "mdl_d0a26dcf8648",
+          "name": "Seeker5"
+        },
+        {
+          "id": "mdl_36cefcbe4906",
+          "name": "Stellar 25"
+        }
+      ]
+    },
+    {
+      "id": "mfr_ff5782da81d7",
+      "name": "DELAIR",
+      "models": [
+        {
+          "id": "mdl_56cde4028992",
+          "name": "UX-11"
+        }
+      ]
+    },
+    {
+      "id": "mfr_8bff7f43501b",
+      "name": "DELTA QUAD",
+      "models": [
+        {
+          "id": "mdl_77f1d9fbc52a",
+          "name": "pro Map"
+        }
+      ]
+    },
+    {
+      "id": "mfr_765068490ac8",
+      "name": "DeltaQuad B.V.",
+      "models": [
+        {
+          "id": "mdl_7020408d01e6",
+          "name": "DeltaQuad Pro"
+        }
+      ]
+    },
+    {
+      "id": "mfr_70efccb95ea7",
+      "name": "Didiok Makings",
+      "models": [
+        {
+          "id": "mdl_86e375c7664e",
+          "name": "JX-6A"
+        }
+      ]
+    },
+    {
+      "id": "mfr_03a661edc124",
+      "name": "DJI",
+      "models": [
+        {
+          "id": "mdl_1517b3eda4aa",
+          "name": "Agras T10"
+        },
+        {
+          "id": "mdl_9893d6a4313a",
+          "name": "AGRAS T25P"
+        },
+        {
+          "id": "mdl_5ed2c3a9134b",
+          "name": "AGRAS T30"
+        },
+        {
+          "id": "mdl_264b84fdaf0e",
+          "name": "Agras T40"
+        },
+        {
+          "id": "mdl_dd30e3a5e514",
+          "name": "Agras T50"
+        },
+        {
+          "id": "mdl_65dc8858ffc1",
+          "name": "Air 2S"
+        },
+        {
+          "id": "mdl_9e1eb66d561f",
+          "name": "Air 3"
+        },
+        {
+          "id": "mdl_71fb4423cfb4",
+          "name": "Air 3S"
+        },
+        {
+          "id": "mdl_c89e96e06541",
+          "name": "Avata"
+        },
+        {
+          "id": "mdl_2142b416574a",
+          "name": "AVATA 2"
+        },
+        {
+          "id": "mdl_e9a5c6d40e52",
+          "name": "Avata 360"
+        },
+        {
+          "id": "mdl_4532cb3ccad8",
+          "name": "DJI Matrice 3D"
+        },
+        {
+          "id": "mdl_4e8963c5a1f9",
+          "name": "F450 Naza"
+        },
+        {
+          "id": "mdl_7428a696d25a",
+          "name": "Flip"
+        },
+        {
+          "id": "mdl_415908cf4119",
+          "name": "Flycart 30"
+        },
+        {
+          "id": "mdl_64fddeeee8d4",
+          "name": "FPV"
+        },
+        {
+          "id": "mdl_9a0a5aaed950",
+          "name": "Inspire 1"
+        },
+        {
+          "id": "mdl_003b2fc8d7e3",
+          "name": "Inspire 2"
+        },
+        {
+          "id": "mdl_8012bdbb984a",
+          "name": "Inspire 3"
+        },
+        {
+          "id": "mdl_fc71e45d46a5",
+          "name": "Inspire Pro"
+        },
+        {
+          "id": "mdl_6a24d58729fc",
+          "name": "Lito 1"
+        },
+        {
+          "id": "mdl_468a32b543d4",
+          "name": "Lito X1"
+        },
+        {
+          "id": "mdl_213fee65891d",
+          "name": "M300 RTK"
+        },
+        {
+          "id": "mdl_83597676ddd6",
+          "name": "Matrice 100"
+        },
+        {
+          "id": "mdl_cf02b5759905",
+          "name": "Matrice 200 V2"
+        },
+        {
+          "id": "mdl_e5547a5fe1dd",
+          "name": "Matrice 200/210/210 RTK"
+        },
+        {
+          "id": "mdl_1491fb4c2625",
+          "name": "Matrice 300"
+        },
+        {
+          "id": "mdl_80a73e212afa",
+          "name": "MATRICE 300 RTK"
+        },
+        {
+          "id": "mdl_d5221c514eec",
+          "name": "Matrice 30T"
+        },
+        {
+          "id": "mdl_3c5cbc7407b8",
+          "name": "Matrice 350 RTK"
+        },
+        {
+          "id": "mdl_502198f20622",
+          "name": "Matrice 3TD"
+        },
+        {
+          "id": "mdl_1646e2bb4a1c",
+          "name": "Matrice 4"
+        },
+        {
+          "id": "mdl_ed287bb7196e",
+          "name": "Matrice 400"
+        },
+        {
+          "id": "mdl_e664edc12588",
+          "name": "Matrice 4D"
+        },
+        {
+          "id": "mdl_1ca87f5a4c51",
+          "name": "Matrice 4E"
+        },
+        {
+          "id": "mdl_b71e2fdb7488",
+          "name": "Matrice 4T"
+        },
+        {
+          "id": "mdl_25e7add7fd98",
+          "name": "Matrice 4TD"
+        },
+        {
+          "id": "mdl_1dcf3971ef02",
+          "name": "Matrice 600"
+        },
+        {
+          "id": "mdl_5012c5ad510e",
+          "name": "MATRICE 600 Pro"
+        },
+        {
+          "id": "mdl_c3bd4ca947cc",
+          "name": "Mavic 1"
+        },
+        {
+          "id": "mdl_70476d3c8141",
+          "name": "Mavic 2 Enterprise"
+        },
+        {
+          "id": "mdl_90b158292ccb",
+          "name": "mavic 2 enterprise advanced"
+        },
+        {
+          "id": "mdl_d53a5dce4893",
+          "name": "Mavic 2 Enterprise DUAL"
+        },
+        {
+          "id": "mdl_a0d88d6cc0e4",
+          "name": "MAVIC 2 PRO"
+        },
+        {
+          "id": "mdl_21b72ca510c5",
+          "name": "Mavic 2 zoom"
+        },
+        {
+          "id": "mdl_708077699b1b",
+          "name": "Mavic 3"
+        },
+        {
+          "id": "mdl_7dfc3f121ce6",
+          "name": "MAVIC 3 CINE"
+        },
+        {
+          "id": "mdl_f9feecd9664a",
+          "name": "Mavic 3 Classic"
+        },
+        {
+          "id": "mdl_7951ba39a037",
+          "name": "Mavic 3 Enterprise"
+        },
+        {
+          "id": "mdl_2584c88b293e",
+          "name": "Mavic 3 Pro"
+        },
+        {
+          "id": "mdl_10aed905032e",
+          "name": "MAVIC 3 PRO CINE"
+        },
+        {
+          "id": "mdl_8469afb3230b",
+          "name": "Mavic 3M"
+        },
+        {
+          "id": "mdl_5b2d71493115",
+          "name": "Mavic 4 Pro"
+        },
+        {
+          "id": "mdl_9d5f299340d7",
+          "name": "Mavic Air"
+        },
+        {
+          "id": "mdl_b7485281a323",
+          "name": "Mavic Air 2"
+        },
+        {
+          "id": "mdl_9b5004607194",
+          "name": "Mavic Mini"
+        },
+        {
+          "id": "mdl_9f39762700d8",
+          "name": "MAVIC MINI 2"
+        },
+        {
+          "id": "mdl_6f938b58e4e2",
+          "name": "Mavic Pro"
+        },
+        {
+          "id": "mdl_eebb3fba3513",
+          "name": "MAVIC PRO 2"
+        },
+        {
+          "id": "mdl_8a1a2663987b",
+          "name": "Mavic Pro Platinium"
+        },
+        {
+          "id": "mdl_0b37806da318",
+          "name": "Mavic Pro Platinum"
+        },
+        {
+          "id": "mdl_16d8605a1990",
+          "name": "MINI"
+        },
+        {
+          "id": "mdl_6d748c2c5bca",
+          "name": "Mini 2"
+        },
+        {
+          "id": "mdl_6016863142ac",
+          "name": "Mini 2 SE"
+        },
+        {
+          "id": "mdl_b65175565b0e",
+          "name": "MINI 3"
+        },
+        {
+          "id": "mdl_49c7fb20bf4c",
+          "name": "Mini 3 pro"
+        },
+        {
+          "id": "mdl_f32c51ed7044",
+          "name": "Mini 4 Pro"
+        },
+        {
+          "id": "mdl_9685d7aba09f",
+          "name": "Mini 4K"
+        },
+        {
+          "id": "mdl_1d2e5d4ab30b",
+          "name": "Mini 5 Pro"
+        },
+        {
+          "id": "mdl_11d2baeca02b",
+          "name": "Mini SE"
+        },
+        {
+          "id": "mdl_e684ed8a37e5",
+          "name": "Neo"
+        },
+        {
+          "id": "mdl_755b137d9e80",
+          "name": "Neo 2"
+        },
+        {
+          "id": "mdl_4d3ce86f6001",
+          "name": "O4 Air Unit Pro"
+        },
+        {
+          "id": "mdl_02b7142ad667",
+          "name": "Phantom 1"
+        },
+        {
+          "id": "mdl_b949af9c2e8b",
+          "name": "Phantom 2"
+        },
+        {
+          "id": "mdl_5c5e6cc62163",
+          "name": "Phantom 2 Vision+"
+        },
+        {
+          "id": "mdl_8e98cdc0b9fb",
+          "name": "Phantom 3 Advanced"
+        },
+        {
+          "id": "mdl_498020829935",
+          "name": "Phantom 3 Professional"
+        },
+        {
+          "id": "mdl_e651680df82c",
+          "name": "Phantom 3 SE"
+        },
+        {
+          "id": "mdl_8e2bc7e23ec5",
+          "name": "Phantom 3 Standard"
+        },
+        {
+          "id": "mdl_bd5251f6883c",
+          "name": "Phantom 4"
+        },
+        {
+          "id": "mdl_63b6cc81dba5",
+          "name": "Phantom 4 Pro"
+        },
+        {
+          "id": "mdl_ac44160c89eb",
+          "name": "phantom 4 RTK"
+        },
+        {
+          "id": "mdl_71ce38d1310a",
+          "name": "RoboMaster TT"
+        },
+        {
+          "id": "mdl_8bff1b837e15",
+          "name": "Spark"
+        },
+        {
+          "id": "mdl_66675471fead",
+          "name": "Spreading Wings S1000"
+        },
+        {
+          "id": "mdl_c6895587531b",
+          "name": "Spreading Wings S900"
+        },
+        {
+          "id": "mdl_8cd65f152a74",
+          "name": "TELLO"
+        }
+      ]
+    },
+    {
+      "id": "mfr_7b0cd31fbe99",
+      "name": "Donecle",
+      "models": [
+        {
+          "id": "mdl_dc43610919c0",
+          "name": "Iris GVI"
+        }
+      ]
+    },
+    {
+      "id": "mfr_788855dad029",
+      "name": "DOOSAN",
+      "models": [
+        {
+          "id": "mdl_85a678895cbb",
+          "name": "DS30W"
+        }
+      ]
+    },
+    {
+      "id": "mfr_175eee39a725",
+      "name": "Dream Eagle",
+      "models": [
+        {
+          "id": "mdl_cecba8ef7578",
+          "name": "YS-50"
+        }
+      ]
+    },
+    {
+      "id": "mfr_2607f3952e2a",
+      "name": "Drone Volt",
+      "models": [
+        {
+          "id": "mdl_c03306a70091",
+          "name": "Hercules 20"
+        },
+        {
+          "id": "mdl_c2376ece2d92",
+          "name": "Hercules H10"
+        }
+      ]
+    },
+    {
+      "id": "mfr_d20517f2a743",
+      "name": "Dronnair Ltd",
+      "models": [
+        {
+          "id": "mdl_b550f856b792",
+          "name": "Coot"
+        }
+      ]
+    },
+    {
+      "id": "mfr_65f9a6f805b2",
+      "name": "Dronus",
+      "models": [
+        {
+          "id": "mdl_a6f9ac62a2b4",
+          "name": "K500I"
+        }
+      ]
+    },
+    {
+      "id": "mfr_d482ec26658c",
+      "name": "E-flite",
+      "models": [
+        {
+          "id": "mdl_d51ae39d290b",
+          "name": "Apprentice STS 1.5m"
+        }
+      ]
+    },
+    {
+      "id": "mfr_c68f50c5ec75",
+      "name": "E-HAWK Technology LLC.",
+      "models": [
+        {
+          "id": "mdl_23c461de65f2",
+          "name": "EHM - 1000"
+        },
+        {
+          "id": "mdl_c03cf8fdfbb3",
+          "name": "EHM - 2000"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a03e95807527",
+      "name": "Easy Aerial",
+      "models": [
+        {
+          "id": "mdl_47ffc508dfb5",
+          "name": "Osprey"
+        }
+      ]
+    },
+    {
+      "id": "mfr_9ee67dc9dc65",
+      "name": "Ehang",
+      "models": [
+        {
+          "id": "mdl_4e139b5b1661",
+          "name": "GHOSTDRONE 2.0"
+        }
+      ]
+    },
+    {
+      "id": "mfr_00f56828a3ed",
+      "name": "Elite Aerosports",
+      "models": [
+        {
+          "id": "mdl_a0af17d20a82",
+          "name": "Havoc SS"
+        }
+      ]
+    },
+    {
+      "id": "mfr_6864f285777d",
+      "name": "Emax",
+      "models": [
+        {
+          "id": "mdl_e1b9adcb1488",
+          "name": "Tiny Hawk III"
+        }
+      ]
+    },
+    {
+      "id": "mfr_6c3dc7321be6",
+      "name": "EXPEC ARC SAUDI ARAMCO",
+      "models": [
+        {
+          "id": "mdl_8ab2023a0c08",
+          "name": "ASAD 1.2.4"
+        },
+        {
+          "id": "mdl_acee61e44bbe",
+          "name": "ASAD 2.0"
+        }
+      ]
+    },
+    {
+      "id": "mfr_4248c1e3ffe9",
+      "name": "EXTREME FLIGHT",
+      "models": [
+        {
+          "id": "mdl_b645e82a02d0",
+          "name": "extra 260"
+        },
+        {
+          "id": "mdl_c0a5371ba42d",
+          "name": "EXTRA-NG"
+        },
+        {
+          "id": "mdl_899b5e435697",
+          "name": "EXTRA300"
+        },
+        {
+          "id": "mdl_ef5b779978fd",
+          "name": "LASER EXP"
+        },
+        {
+          "id": "mdl_0f3b76b70292",
+          "name": "SLICK 580"
+        }
+      ]
+    },
+    {
+      "id": "mfr_21085bc56e0f",
+      "name": "Fcourier",
+      "models": [
+        {
+          "id": "mdl_75c6aba3bc85",
+          "name": "E6A"
+        },
+        {
+          "id": "mdl_0da81112b670",
+          "name": "E6B"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a6137f069fc1",
+      "name": "FIMI",
+      "models": [
+        {
+          "id": "mdl_bba43b0c0c8e",
+          "name": "FIMI X8 Mini"
+        },
+        {
+          "id": "mdl_01453faa7fc3",
+          "name": "MiDrone-4K"
+        },
+        {
+          "id": "mdl_9fc69c9dc02b",
+          "name": "MINI 3"
+        },
+        {
+          "id": "mdl_b6a0f4b10d56",
+          "name": "X8 Pro"
+        },
+        {
+          "id": "mdl_d34217137d3f",
+          "name": "X8 SE"
+        },
+        {
+          "id": "mdl_c406a1f7143b",
+          "name": "X8 Tele"
+        }
+      ]
+    },
+    {
+      "id": "mfr_b6124592e3c2",
+      "name": "Fixar Aero",
+      "models": [
+        {
+          "id": "mdl_f23485d290cd",
+          "name": "25"
+        },
+        {
+          "id": "mdl_df78c1120ccf",
+          "name": "Fixar 007"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a8271fc3aa39",
+      "name": "FLARE WINGS",
+      "models": [
+        {
+          "id": "mdl_751bd08d968a",
+          "name": "FW 25"
+        }
+      ]
+    },
+    {
+      "id": "mfr_ce889328d1ca",
+      "name": "Flex Innovations",
+      "models": [
+        {
+          "id": "mdl_8ae578023e47",
+          "name": "MAMBA 120cc"
+        }
+      ]
+    },
+    {
+      "id": "mfr_7cd050965f8a",
+      "name": "Fly4Future",
+      "models": [
+        {
+          "id": "mdl_82dd9ee45244",
+          "name": "X500 V2"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a7a5ad3f5194",
+      "name": "Flyability",
+      "models": [
+        {
+          "id": "mdl_bce521f5807a",
+          "name": "Elios 2"
+        },
+        {
+          "id": "mdl_ed6a01150d26",
+          "name": "ELIOS 3"
+        }
+      ]
+    },
+    {
+      "id": "mfr_51fd2e7e4633",
+      "name": "FLYBOTIX",
+      "models": [
+        {
+          "id": "mdl_361edc92e7bd",
+          "name": "ASIO X"
+        }
+      ]
+    },
+    {
+      "id": "mfr_80d683da2adc",
+      "name": "FlyFishRC",
+      "models": [
+        {
+          "id": "mdl_e09766353973",
+          "name": "Volador VX3.5"
+        }
+      ]
+    },
+    {
+      "id": "mfr_c8099a8d07c1",
+      "name": "Flywoo",
+      "models": [
+        {
+          "id": "mdl_863a34937b5c",
+          "name": "Explorer LR4"
+        },
+        {
+          "id": "mdl_9c9c4d025f91",
+          "name": "Flytimes 85 HD"
+        }
+      ]
+    },
+    {
+      "id": "mfr_66d8b38bb699",
+      "name": "FMS",
+      "models": [
+        {
+          "id": "mdl_87504dd0525a",
+          "name": "1700mm PA-18 Super Cub V2 RTF / PNP"
+        },
+        {
+          "id": "mdl_98d2deef3767",
+          "name": "Sky Trainer 182 1400MM ARTF, Bestsellers"
+        }
+      ]
+    },
+    {
+      "id": "mfr_20bc7b3d2f06",
+      "name": "Fotokite",
+      "models": [
+        {
+          "id": "mdl_02a18e697f5f",
+          "name": "Fotokite Segma"
+        }
+      ]
+    },
+    {
+      "id": "mfr_427eca367b2b",
+      "name": "Foxeer",
+      "models": [
+        {
+          "id": "mdl_d5e6564a2573",
+          "name": "Aura 7 V2"
+        }
+      ]
+    },
+    {
+      "id": "mfr_5291e1c5102e",
+      "name": "Foxtech",
+      "models": [
+        {
+          "id": "mdl_e675ab4c4846",
+          "name": "AYK-350 Heavy Load VTOL"
+        },
+        {
+          "id": "mdl_8818a6a68fd2",
+          "name": "Foxtech Loong 2160 VTOL"
+        }
+      ]
+    },
+    {
+      "id": "mfr_31ff79d3d601",
+      "name": "FreeFly",
+      "models": [
+        {
+          "id": "mdl_64ded68af58e",
+          "name": "Alta X"
+        }
+      ]
+    },
+    {
+      "id": "mfr_eabe056ab3f8",
+      "name": "FutureLab LLC",
+      "models": [
+        {
+          "id": "mdl_0779dba09a48",
+          "name": "Ant"
+        },
+        {
+          "id": "mdl_307bc92f9111",
+          "name": "Bumblebee"
+        },
+        {
+          "id": "mdl_830ca0bcb12e",
+          "name": "Fly"
+        },
+        {
+          "id": "mdl_2818f45f31b2",
+          "name": "Vzhuh FPV"
+        }
+      ]
+    },
+    {
+      "id": "mfr_895a616dbebd",
+      "name": "GeoScan",
+      "models": [
+        {
+          "id": "mdl_0ce498e4a3b0",
+          "name": "201"
+        },
+        {
+          "id": "mdl_c4750fb4b7a1",
+          "name": "GEOSCAN 401"
+        },
+        {
+          "id": "mdl_0c3b7a32d15f",
+          "name": "Salute"
+        }
+      ]
+    },
+    {
+      "id": "mfr_50ac58e6f4a6",
+      "name": "GEPRC",
+      "models": [
+        {
+          "id": "mdl_2e79e43f67a2",
+          "name": "Cinebot 25 V2 O4 Pro"
+        },
+        {
+          "id": "mdl_4003b4adc18b",
+          "name": "Cinebot30 HD O3 Quadcopter"
+        },
+        {
+          "id": "mdl_50f821925ee1",
+          "name": "CineLog 35"
+        },
+        {
+          "id": "mdl_2cdd338e55dc",
+          "name": "DarkStar20 HD O3"
+        },
+        {
+          "id": "mdl_482b1d37879c",
+          "name": "Mark4"
+        },
+        {
+          "id": "mdl_2750eb6c705d",
+          "name": "Vapor-D5 O4 Pro"
+        },
+        {
+          "id": "mdl_e66d19a65e42",
+          "name": "Vapor-D6 HD O4 Pro FPV Drone"
+        },
+        {
+          "id": "mdl_9ba6b7c9183c",
+          "name": "Vapor-X5 O4 Pro"
+        }
+      ]
+    },
+    {
+      "id": "mfr_e5c65f0bbcc8",
+      "name": "Globe UAV",
+      "models": [
+        {
+          "id": "mdl_8c2087f3d60d",
+          "name": "V4 Octocopter"
+        }
+      ]
+    },
+    {
+      "id": "mfr_b5e71300c802",
+      "name": "H-Aero",
+      "models": [
+        {
+          "id": "mdl_53d75e598ef5",
+          "name": "ZERO"
+        }
+      ]
+    },
+    {
+      "id": "mfr_c62b0348fc11",
+      "name": "HanCOMinSpace",
+      "models": [
+        {
+          "id": "mdl_a3916f555f08",
+          "name": "HD-550"
+        },
+        {
+          "id": "mdl_4aa4e392ca98",
+          "name": "Vertical Fixed Wing"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a09d47e3ff0e",
+      "name": "Hanseatic Aviation Solutions",
+      "models": [
+        {
+          "id": "mdl_9887f5e72f24",
+          "name": "S180Mk.ll"
+        },
+        {
+          "id": "mdl_552006c3886d",
+          "name": "X810"
+        },
+        {
+          "id": "mdl_4e8694005091",
+          "name": "X824Mk.II"
+        }
+      ]
+    },
+    {
+      "id": "mfr_edfccfc6d774",
+      "name": "Happymodel",
+      "models": [
+        {
+          "id": "mdl_a2e21a7ffb3b",
+          "name": "Mobula6"
+        }
+      ]
+    },
+    {
+      "id": "mfr_b082ed46f5ea",
+      "name": "height technologies",
+      "models": [
+        {
+          "id": "mdl_b5a4dac7a1cf",
+          "name": "G3"
+        },
+        {
+          "id": "mdl_8d421a3808cb",
+          "name": "Martlet MI-2"
+        }
+      ]
+    },
+    {
+      "id": "mfr_b543f925d3cf",
+      "name": "Henan Yugong Machinery Co., Ltd",
+      "models": [
+        {
+          "id": "mdl_2bd42e8f3628",
+          "name": "YG10L"
+        }
+      ]
+    },
+    {
+      "id": "mfr_2429a032abbf",
+      "name": "HEQ",
+      "models": [
+        {
+          "id": "mdl_6dd26b0848c6",
+          "name": "SWAN K1 MAPPING"
+        }
+      ]
+    },
+    {
+      "id": "mfr_1529ada1de2b",
+      "name": "High Great Innovation Technology",
+      "models": [
+        {
+          "id": "mdl_b43094315fcc",
+          "name": "EMO"
+        },
+        {
+          "id": "mdl_e88542e367c4",
+          "name": "FYLO EDU"
+        },
+        {
+          "id": "mdl_29e834a83868",
+          "name": "RIFF"
+        }
+      ]
+    },
+    {
+      "id": "mfr_3e1751a37eba",
+      "name": "Hollyway",
+      "models": [
+        {
+          "id": "mdl_f190958d4142",
+          "name": "Iron Series"
+        }
+      ]
+    },
+    {
+      "id": "mfr_6a16996bc984",
+      "name": "Holy Stone",
+      "models": [
+        {
+          "id": "mdl_484378b7b1a7",
+          "name": "HS700E"
+        },
+        {
+          "id": "mdl_120e40526fac",
+          "name": "HS710"
+        },
+        {
+          "id": "mdl_000547dec075",
+          "name": "HS720"
+        },
+        {
+          "id": "mdl_e33ba5d2c626",
+          "name": "HS900"
+        }
+      ]
+    },
+    {
+      "id": "mfr_9a258b77bd0a",
+      "name": "Holybro",
+      "models": [
+        {
+          "id": "mdl_bd58cf9662e7",
+          "name": "X500"
+        }
+      ]
+    },
+    {
+      "id": "mfr_c49dd41a8611",
+      "name": "HONPHO",
+      "models": [
+        {
+          "id": "mdl_b886a83456a6",
+          "name": "HF-25"
+        }
+      ]
+    },
+    {
+      "id": "mfr_7e67a70de21e",
+      "name": "Horizon Hobby",
+      "models": [
+        {
+          "id": "mdl_fc016597cb4b",
+          "name": "Blade Chroma w/ 1080p camera"
+        },
+        {
+          "id": "mdl_f660972ccc97",
+          "name": "Blade Chroma w/ 4K camera"
+        },
+        {
+          "id": "mdl_d72887dd5681",
+          "name": "Blade Chroma w/ fixed GoPro mount"
+        },
+        {
+          "id": "mdl_561b101501a7",
+          "name": "Blade Chroma w/ GoPro-ready gimbal"
+        }
+      ]
+    },
+    {
+      "id": "mfr_ca8b8a5e9207",
+      "name": "Hover Camera",
+      "models": [
+        {
+          "id": "mdl_9748fe029171",
+          "name": "Hover Camera Passport"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a341d3ee811f",
+      "name": "HOVERAir",
+      "models": [
+        {
+          "id": "mdl_add2707ec8d8",
+          "name": "X1"
+        },
+        {
+          "id": "mdl_508e33bb290a",
+          "name": "X1 PROMAX"
+        }
+      ]
+    },
+    {
+      "id": "mfr_16801192e049",
+      "name": "Hylio",
+      "models": [
+        {
+          "id": "mdl_2a2cbf559dda",
+          "name": "AG-110"
+        }
+      ]
+    },
+    {
+      "id": "mfr_84ffb2b17d8a",
+      "name": "Hyspex",
+      "models": [
+        {
+          "id": "mdl_791e542721ee",
+          "name": "Hercules X8"
+        }
+      ]
+    },
+    {
+      "id": "mfr_34befa20996f",
+      "name": "IdeaForge",
+      "models": [
+        {
+          "id": "mdl_9e75cc3eaba9",
+          "name": "Netra V4 Pro"
+        },
+        {
+          "id": "mdl_4d53c383d3ce",
+          "name": "Q6 V2"
+        },
+        {
+          "id": "mdl_7a46e9849f62",
+          "name": "Switch V2"
+        }
+      ]
+    },
+    {
+      "id": "mfr_378fd3ef9eea",
+      "name": "IFLIGHT",
+      "models": [
+        {
+          "id": "mdl_a74bdf6035ff",
+          "name": "Afterburner 5"
+        },
+        {
+          "id": "mdl_5186436f4c1a",
+          "name": "AOS 5"
+        },
+        {
+          "id": "mdl_c17aebee3f32",
+          "name": "BOB57 O3 6S HD BNF"
+        },
+        {
+          "id": "mdl_1f69e216332c",
+          "name": "Chimera 7"
+        },
+        {
+          "id": "mdl_730b9445d1f0",
+          "name": "CineFlow 5 O4 HD BNF"
+        },
+        {
+          "id": "mdl_eb10c87bc86f",
+          "name": "Defender 25"
+        },
+        {
+          "id": "mdl_cbe521766d45",
+          "name": "Helion 10"
+        },
+        {
+          "id": "mdl_1e5703ccad22",
+          "name": "Nazgul Evoque F5"
+        },
+        {
+          "id": "mdl_b98d5aec6dd8",
+          "name": "Nazgul XL5"
+        },
+        {
+          "id": "mdl_bfa0469eb629",
+          "name": "Proxima 6 6S"
+        },
+        {
+          "id": "mdl_7715434e0c90",
+          "name": "Specter 7 O4 6S HD"
+        },
+        {
+          "id": "mdl_537f736fec77",
+          "name": "Taurus X8 Pro"
+        },
+        {
+          "id": "mdl_318d947edf63",
+          "name": "X413 8S GPS ANALOG"
+        }
+      ]
+    },
+    {
+      "id": "mfr_61daf66479fd",
+      "name": "ImpulseRC",
+      "models": [
+        {
+          "id": "mdl_3303889f3144",
+          "name": "Apex EVO 5\" FPV"
+        }
+      ]
+    },
+    {
+      "id": "mfr_157d5460b1df",
+      "name": "Intra defense technology",
+      "models": [
+        {
+          "id": "mdl_072cc472fd7f",
+          "name": "ASEF II"
+        }
+      ]
+    },
+    {
+      "id": "mfr_9ef69119ce44",
+      "name": "ISS aerospace",
+      "models": [
+        {
+          "id": "mdl_30df6e55c43c",
+          "name": "SENSUS M"
+        }
+      ]
+    },
+    {
+      "id": "mfr_e8f85473ffe9",
+      "name": "IZI",
+      "models": [
+        {
+          "id": "mdl_25ed7193b2c3",
+          "name": "MINI X"
+        }
+      ]
+    },
+    {
+      "id": "mfr_99964b171e23",
+      "name": "JIUSI",
+      "models": [
+        {
+          "id": "mdl_13e456df3e9c",
+          "name": "D15R"
+        }
+      ]
+    },
+    {
+      "id": "mfr_812c4951d783",
+      "name": "Jouav",
+      "models": [
+        {
+          "id": "mdl_5e06f2b3d50b",
+          "name": "CW-15"
+        },
+        {
+          "id": "mdl_befd48e06e1f",
+          "name": "CW-20E"
+        },
+        {
+          "id": "mdl_6a983f8a16b7",
+          "name": "CW-25E"
+        }
+      ]
+    },
+    {
+      "id": "mfr_288812388591",
+      "name": "JOYANCE",
+      "models": [
+        {
+          "id": "mdl_fc8acd8362b4",
+          "name": "JTC10"
+        },
+        {
+          "id": "mdl_abef3b181086",
+          "name": "JTC20"
+        },
+        {
+          "id": "mdl_eb29aadbdc07",
+          "name": "JTC30"
+        }
+      ]
+    },
+    {
+      "id": "mfr_633d533e8f3f",
+      "name": "Levaplus",
+      "models": [
+        {
+          "id": "mdl_88f331624305",
+          "name": "AE86 Pro Max+"
+        }
+      ]
+    },
+    {
+      "id": "mfr_8a2e0ead03fc",
+      "name": "Lucid Bots",
+      "models": [
+        {
+          "id": "mdl_c7ff779ddd29",
+          "name": "Sherpa Drone"
+        }
+      ]
+    },
+    {
+      "id": "mfr_acb90a56a0bb",
+      "name": "Lumenier",
+      "models": [
+        {
+          "id": "mdl_fc835dd33767",
+          "name": "QAV-S"
+        }
+      ]
+    },
+    {
+      "id": "mfr_d6102a6ccfb9",
+      "name": "MAD MOTOR",
+      "models": [
+        {
+          "id": "mdl_675b63f7b262",
+          "name": "Maduk Mini Lifter"
+        }
+      ]
+    },
+    {
+      "id": "mfr_6f1781e781c3",
+      "name": "MARS ROBOTICS",
+      "models": [
+        {
+          "id": "mdl_68b5258bb778",
+          "name": "AEROMAAPPER TALON"
+        }
+      ]
+    },
+    {
+      "id": "mfr_ea6ade59844e",
+      "name": "Meituan",
+      "models": [
+        {
+          "id": "mdl_1c659690338c",
+          "name": "FP400 V3.3"
+        },
+        {
+          "id": "mdl_c690a963a7c3",
+          "name": "M-Drone Gen 4"
+        },
+        {
+          "id": "mdl_95bb47b882c2",
+          "name": "M-Drone Gen 4L"
+        }
+      ]
+    },
+    {
+      "id": "mfr_d241ae822937",
+      "name": "Meteomatics",
+      "models": [
+        {
+          "id": "mdl_5afee5ff4a4d",
+          "name": "MM-670-ML"
+        }
+      ]
+    },
+    {
+      "id": "mfr_0f2167cf8117",
+      "name": "Micro Drones",
+      "models": [
+        {
+          "id": "mdl_f20cb056bdf2",
+          "name": "EasyOneUHR+"
+        },
+        {
+          "id": "mdl_f56fd32f95f2",
+          "name": "mdMapper1000DG"
+        }
+      ]
+    },
+    {
+      "id": "mfr_1014457e1ac6",
+      "name": "Microavia",
+      "models": [
+        {
+          "id": "mdl_10f0404f40e0",
+          "name": "Atlas"
+        },
+        {
+          "id": "mdl_1ac368fa674e",
+          "name": "Geodrone"
+        }
+      ]
+    },
+    {
+      "id": "mfr_5a5473d19da7",
+      "name": "MinYin Aviation",
+      "models": [
+        {
+          "id": "mdl_256557a48ed8",
+          "name": "DXVT 35"
+        }
+      ]
+    },
+    {
+      "id": "mfr_6bd3491b72db",
+      "name": "MMC",
+      "models": [
+        {
+          "id": "mdl_061863f39c6b",
+          "name": "Griflion M11"
+        }
+      ]
+    },
+    {
+      "id": "mfr_c97c802ed464",
+      "name": "ModalAI",
+      "models": [
+        {
+          "id": "mdl_8c11c305d34e",
+          "name": "Starling 2"
+        },
+        {
+          "id": "mdl_6ebe0ea96037",
+          "name": "Starling 2 Max"
+        }
+      ]
+    },
+    {
+      "id": "mfr_9a548de3304f",
+      "name": "Multinnov",
+      "models": [
+        {
+          "id": "mdl_a1e89c86d11f",
+          "name": "STEREO 3"
+        }
+      ]
+    },
+    {
+      "id": "mfr_e4cae455f75d",
+      "name": "Newton",
+      "models": [
+        {
+          "id": "mdl_34f2c58f0844",
+          "name": "AERIGON Cinema Drone"
+        }
+      ]
+    },
+    {
+      "id": "mfr_2406ef8758c0",
+      "name": "NexTech",
+      "models": [
+        {
+          "id": "mdl_d8cadd1d2623",
+          "name": "Atlas V-E"
+        },
+        {
+          "id": "mdl_77ddd8a0d383",
+          "name": "Atlas-T"
+        }
+      ]
+    },
+    {
+      "id": "mfr_48d810e09fad",
+      "name": "Nightingale Security",
+      "models": [
+        {
+          "id": "mdl_08849b206a97",
+          "name": "Blackbird A Block 2"
+        }
+      ]
+    },
+    {
+      "id": "mfr_108481fb7a4e",
+      "name": "Opteran",
+      "models": [
+        {
+          "id": "mdl_43f1f11bd53b",
+          "name": "Cl35"
+        }
+      ]
+    },
+    {
+      "id": "mfr_dcebe8c7ab57",
+      "name": "Performance Aircraft Unlimited",
+      "models": [
+        {
+          "id": "mdl_d4c89660c505",
+          "name": "EXTRA 330 LX 120CC"
+        },
+        {
+          "id": "mdl_5f524295d359",
+          "name": "EXTRA 330 LX 70CC"
+        }
+      ]
+    },
+    {
+      "id": "mfr_1ce82d679ed2",
+      "name": "PHOENIX WINGS",
+      "models": [
+        {
+          "id": "mdl_7423dbba4b83",
+          "name": "PW.Orca"
+        }
+      ]
+    },
+    {
+      "id": "mfr_b8174fa5e9c4",
+      "name": "PiHOT",
+      "models": [
+        {
+          "id": "mdl_ea679d822774",
+          "name": "P90 Max"
+        }
+      ]
+    },
+    {
+      "id": "mfr_348ae45cd2dc",
+      "name": "Pilot RC",
+      "models": [
+        {
+          "id": "mdl_1fa3124efa10",
+          "name": "Decathlon"
+        },
+        {
+          "id": "mdl_037ceeef2533",
+          "name": "EDGE 540 V3 – 85"
+        }
+      ]
+    },
+    {
+      "id": "mfr_d0abeefc23ef",
+      "name": "Potensic",
+      "models": [
+        {
+          "id": "mdl_eb267fb01d81",
+          "name": "Atom"
+        },
+        {
+          "id": "mdl_99955aed305e",
+          "name": "ATOM SE"
+        }
+      ]
+    },
+    {
+      "id": "mfr_49d0aaecec95",
+      "name": "Power Vision",
+      "models": [
+        {
+          "id": "mdl_b1b362c3ddf3",
+          "name": "PowerEgg X"
+        }
+      ]
+    },
+    {
+      "id": "mfr_c664fbe40298",
+      "name": "Quad Standard Labs",
+      "models": [
+        {
+          "id": "mdl_2f7506f65cf5",
+          "name": "Shendrones Hydrophobe"
+        },
+        {
+          "id": "mdl_1f4445f3cd3d",
+          "name": "Shendrones Ichabod Jr 2.0"
+        }
+      ]
+    },
+    {
+      "id": "mfr_3d75ac6a8514",
+      "name": "QuadSat",
+      "models": [
+        {
+          "id": "mdl_f3b3889fc984",
+          "name": "QS6-24"
+        }
+      ]
+    },
+    {
+      "id": "mfr_cfb2ba579f26",
+      "name": "Quanser",
+      "models": [
+        {
+          "id": "mdl_b1e57979451f",
+          "name": "Q Drone 2"
+        }
+      ]
+    },
+    {
+      "id": "mfr_0c07f04aac3c",
+      "name": "QUANTUM-SYSTEMS",
+      "models": [
+        {
+          "id": "mdl_07303604198d",
+          "name": "+Trinity F90"
+        },
+        {
+          "id": "mdl_da52a7f12b4d",
+          "name": "Trinity Pro"
+        }
+      ]
+    },
+    {
+      "id": "mfr_6cc790007b7f",
+      "name": "rainmaker",
+      "models": [
+        {
+          "id": "mdl_d12d929eeff5",
+          "name": "EAGLE"
+        }
+      ]
+    },
+    {
+      "id": "mfr_3e999120f133",
+      "name": "REKON FPV",
+      "models": [
+        {
+          "id": "mdl_df1929df2373",
+          "name": "Rekon7 PRO LR"
+        }
+      ]
+    },
+    {
+      "id": "mfr_3df026aa67d9",
+      "name": "Rigitech",
+      "models": [
+        {
+          "id": "mdl_51fcdb0b7edb",
+          "name": "Eiger"
+        }
+      ]
+    },
+    {
+      "id": "mfr_30986cd22ab5",
+      "name": "robotics-centre",
+      "models": [
+        {
+          "id": "mdl_321898eac640",
+          "name": "MC-1 Baaz"
+        }
+      ]
+    },
+    {
+      "id": "mfr_ab9f14c93dcc",
+      "name": "RR PIZZA",
+      "models": [
+        {
+          "id": "mdl_3667dafd84bf",
+          "name": "RR Pizza 11\" x8 BNF"
+        }
+      ]
+    },
+    {
+      "id": "mfr_237688454f43",
+      "name": "RRFPV",
+      "models": [
+        {
+          "id": "mdl_2aa4d8980548",
+          "name": "7 PRO"
+        },
+        {
+          "id": "mdl_cead337c561d",
+          "name": "AKIRA"
+        },
+        {
+          "id": "mdl_12c9226d84ef",
+          "name": "ALPHA"
+        },
+        {
+          "id": "mdl_5f5861610f20",
+          "name": "RR Predator"
+        },
+        {
+          "id": "mdl_f8acd8511f8d",
+          "name": "RR QAV-PRO 13\" 12s"
+        },
+        {
+          "id": "mdl_8223c97c1742",
+          "name": "SWOL"
+        }
+      ]
+    },
+    {
+      "id": "mfr_1a9190ace73f",
+      "name": "Ruko",
+      "models": [
+        {
+          "id": "mdl_240d16df22a6",
+          "name": "F11GIM2"
+        },
+        {
+          "id": "mdl_ed8e5d74bbe8",
+          "name": "U11"
+        }
+      ]
+    },
+    {
+      "id": "mfr_9b1a39a0b122",
+      "name": "ScoutDI",
+      "models": [
+        {
+          "id": "mdl_90f44c9e9b7f",
+          "name": "Scout 137 Gen3"
+        }
+      ]
+    },
+    {
+      "id": "mfr_2c723eda8e50",
+      "name": "SEESAW D&U",
+      "models": [
+        {
+          "id": "mdl_7f6f288696ed",
+          "name": "QB-07"
+        },
+        {
+          "id": "mdl_6237fdebef82",
+          "name": "VB-12"
+        },
+        {
+          "id": "mdl_a87734de317b",
+          "name": "VE-20"
+        }
+      ]
+    },
+    {
+      "id": "mfr_bb8651b264d2",
+      "name": "SenseFly",
+      "models": [
+        {
+          "id": "mdl_d87ef0248f9f",
+          "name": "Albris"
+        },
+        {
+          "id": "mdl_07e4858dfc38",
+          "name": "Ebee X"
+        }
+      ]
+    },
+    {
+      "id": "mfr_ece75bc8aa90",
+      "name": "Shandong Hoch Technology Innovation Co.LTD",
+      "models": [
+        {
+          "id": "mdl_e767434ac544",
+          "name": "HXC"
+        },
+        {
+          "id": "mdl_8eece5866c25",
+          "name": "HYC"
+        }
+      ]
+    },
+    {
+      "id": "mfr_e94c34f25eee",
+      "name": "SHANDONG JOYANCE INTELLIGENCE TECHNOLOGY CO. LTD",
+      "models": [
+        {
+          "id": "mdl_3805d70f2d5c",
+          "name": "JTC100"
+        },
+        {
+          "id": "mdl_22f687a66c60",
+          "name": "JTC60"
+        }
+      ]
+    },
+    {
+      "id": "mfr_6b45a1b549d9",
+      "name": "Shantou Feilite Aeromodelling Industry Co., Ltd.",
+      "models": [
+        {
+          "id": "mdl_8b2cbd466023",
+          "name": "H869SW"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a19b6d7dcc0e",
+      "name": "Shatou Shangheng",
+      "models": [
+        {
+          "id": "mdl_26cbe64fd372",
+          "name": "AE30"
+        }
+      ]
+    },
+    {
+      "id": "mfr_daa36006629e",
+      "name": "Shendrones",
+      "models": [
+        {
+          "id": "mdl_c2f2ba9592df",
+          "name": "Ichabod JR 2.0 FPV"
+        }
+      ]
+    },
+    {
+      "id": "mfr_81a3961f1c9a",
+      "name": "Shenzhen Egretta Technology Pte Ltd",
+      "models": [
+        {
+          "id": "mdl_4a7945ec82a5",
+          "name": "EMC-50"
+        }
+      ]
+    },
+    {
+      "id": "mfr_dd1087f164a6",
+      "name": "SIGMA INGEGNERIA",
+      "models": [
+        {
+          "id": "mdl_f51af5b06e5c",
+          "name": "HORUS-QUAD"
+        }
+      ]
+    },
+    {
+      "id": "mfr_92deb61afc51",
+      "name": "SISTECH",
+      "models": [
+        {
+          "id": "mdl_ac9ab092c129",
+          "name": "K-Mapper F"
+        }
+      ]
+    },
+    {
+      "id": "mfr_21b2f7a1b296",
+      "name": "SJRC",
+      "models": [
+        {
+          "id": "mdl_6b2886e5bfbf",
+          "name": "F11s 4K PRO"
+        },
+        {
+          "id": "mdl_26b4c4b28b2c",
+          "name": "F22s 4K Pro"
+        }
+      ]
+    },
+    {
+      "id": "mfr_37765d85fb5a",
+      "name": "SKY Tech",
+      "models": [
+        {
+          "id": "mdl_b4c935ad600d",
+          "name": "SC25"
+        },
+        {
+          "id": "mdl_8754c33c51c8",
+          "name": "SC35"
+        }
+      ]
+    },
+    {
+      "id": "mfr_25aa7097ef56",
+      "name": "Skydio",
+      "models": [
+        {
+          "id": "mdl_596a80175278",
+          "name": "r1"
+        },
+        {
+          "id": "mdl_b7e1ae240ef1",
+          "name": "SKYDIO 2"
+        },
+        {
+          "id": "mdl_4dbe7e480af5",
+          "name": "Skydio X2E"
+        },
+        {
+          "id": "mdl_83dabea192dd",
+          "name": "X10"
+        },
+        {
+          "id": "mdl_cd012f423f84",
+          "name": "X2D"
+        }
+      ]
+    },
+    {
+      "id": "mfr_d607fe496ca2",
+      "name": "Skydriod",
+      "models": [
+        {
+          "id": "mdl_8025e66da579",
+          "name": "MX450"
+        }
+      ]
+    },
+    {
+      "id": "mfr_1676383fc105",
+      "name": "Skye Air Mobility Private Limited",
+      "models": [
+        {
+          "id": "mdl_644703d60f8e",
+          "name": "Rotorcraft"
+        }
+      ]
+    },
+    {
+      "id": "mfr_071d10257a39",
+      "name": "SKYEVTOL",
+      "models": [
+        {
+          "id": "mdl_e4ef06490166",
+          "name": "SKY-15E"
+        },
+        {
+          "id": "mdl_1e8bfd0f2cbc",
+          "name": "SKY-D10"
+        }
+      ]
+    },
+    {
+      "id": "mfr_cc70acd75075",
+      "name": "SkyGauge",
+      "models": [
+        {
+          "id": "mdl_6427c6a26fd7",
+          "name": "SkyGauge UAV"
+        }
+      ]
+    },
+    {
+      "id": "mfr_2e6f9d2767db",
+      "name": "Skylabs",
+      "models": [
+        {
+          "id": "mdl_728fa1c1ce82",
+          "name": "Agnifly Nano Drone"
+        }
+      ]
+    },
+    {
+      "id": "mfr_4bfb8f8cbf2a",
+      "name": "SKYMAGIC",
+      "models": [
+        {
+          "id": "mdl_06a6cdc62338",
+          "name": "X-258MB"
+        }
+      ]
+    },
+    {
+      "id": "mfr_ec5a6a16cff4",
+      "name": "SNAPTAIN",
+      "models": [
+        {
+          "id": "mdl_0dfd261de551",
+          "name": "P30 PRO"
+        }
+      ]
+    },
+    {
+      "id": "mfr_ac5f84077ce9",
+      "name": "Sony",
+      "models": [
+        {
+          "id": "mdl_97a30fae2352",
+          "name": "ARS-S1"
+        }
+      ]
+    },
+    {
+      "id": "mfr_10553f939f68",
+      "name": "Speedybee",
+      "models": [
+        {
+          "id": "mdl_15c56c8cd63d",
+          "name": "Bee 25"
+        },
+        {
+          "id": "mdl_79e5eb3e0eff",
+          "name": "Bee25"
+        },
+        {
+          "id": "mdl_d3a57e60f2c9",
+          "name": "BEE35"
+        },
+        {
+          "id": "mdl_64be11e6172d",
+          "name": "Mario Mini 25"
+        },
+        {
+          "id": "mdl_f1ead21478a0",
+          "name": "Master 5 V2 HD"
+        }
+      ]
+    },
+    {
+      "id": "mfr_b6c8957f41d8",
+      "name": "Striekair",
+      "models": [
+        {
+          "id": "mdl_654433b6e484",
+          "name": "CarryAir Full electro"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a187b75abd37",
+      "name": "Syma",
+      "models": [
+        {
+          "id": "mdl_486e3d98dd66",
+          "name": "Z3"
+        }
+      ]
+    },
+    {
+      "id": "mfr_781b21cb428a",
+      "name": "T-DRONES",
+      "models": [
+        {
+          "id": "mdl_c8383c181ff1",
+          "name": "M690Pro"
+        },
+        {
+          "id": "mdl_7f7d752193e0",
+          "name": "MX860"
+        },
+        {
+          "id": "mdl_a787f3ba9be0",
+          "name": "VA32"
+        }
+      ]
+    },
+    {
+      "id": "mfr_0a72488552a7",
+      "name": "Team BlackSheep",
+      "models": [
+        {
+          "id": "mdl_be6f571e4513",
+          "name": "Mr Steele Source one V5 BNF/RTF - 6S"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a65fe9ded05b",
+      "name": "techmax Technology",
+      "models": [
+        {
+          "id": "mdl_92ae0ba391a2",
+          "name": "TM 360"
+        }
+      ]
+    },
+    {
+      "id": "mfr_c17e324c10fe",
+      "name": "Teledyne Flir",
+      "models": [
+        {
+          "id": "mdl_773238f02c27",
+          "name": "SkyRanger R70"
+        }
+      ]
+    },
+    {
+      "id": "mfr_0159849a09a1",
+      "name": "TELEGRID",
+      "models": [
+        {
+          "id": "mdl_10fea79a0af0",
+          "name": "DE2020"
+        }
+      ]
+    },
+    {
+      "id": "mfr_803d30985091",
+      "name": "Terra Drone Corporation",
+      "models": [
+        {
+          "id": "mdl_c552ecb83ebd",
+          "name": "Terra Xross1"
+        }
+      ]
+    },
+    {
+      "id": "mfr_3ebba5e0470f",
+      "name": "Terra Inspeconeering",
+      "models": [
+        {
+          "id": "mdl_87d42bb89b2b",
+          "name": "G2.1.8"
+        }
+      ]
+    },
+    {
+      "id": "mfr_9a1eeaf3ada1",
+      "name": "The Source Wholesale",
+      "models": [
+        {
+          "id": "mdl_a0124933fdf4",
+          "name": "RED5 Raptor Drone"
+        }
+      ]
+    },
+    {
+      "id": "mfr_4b622b0808fd",
+      "name": "TOPODRONE",
+      "models": [
+        {
+          "id": "mdl_ea2da30b6e75",
+          "name": "aOrion Heli-E"
+        }
+      ]
+    },
+    {
+      "id": "mfr_2180064ac0ad",
+      "name": "Topsun Energy Limited",
+      "models": [
+        {
+          "id": "mdl_54b240fbb531",
+          "name": "AEROYAN AG-01"
+        }
+      ]
+    },
+    {
+      "id": "mfr_6ccf4ffc1002",
+      "name": "TopXGun",
+      "models": [
+        {
+          "id": "mdl_c4e5d43d6dc3",
+          "name": "FP700"
+        }
+      ]
+    },
+    {
+      "id": "mfr_dcd0c7a31f0b",
+      "name": "UAV Systems int",
+      "models": [
+        {
+          "id": "mdl_baa9da5768c3",
+          "name": "Aurelia X6 MAX"
+        }
+      ]
+    },
+    {
+      "id": "mfr_403135599cf2",
+      "name": "UPTEKO",
+      "models": [
+        {
+          "id": "mdl_986ed7fde872",
+          "name": "LARK"
+        }
+      ]
+    },
+    {
+      "id": "mfr_7483405ed69d",
+      "name": "Velos Rotors",
+      "models": [
+        {
+          "id": "mdl_7c50372696b8",
+          "name": "Velos V3"
+        }
+      ]
+    },
+    {
+      "id": "mfr_b7010f7bc1d2",
+      "name": "Verity",
+      "models": [
+        {
+          "id": "mdl_59e4e95f33f5",
+          "name": "Drone Series 3"
+        }
+      ]
+    },
+    {
+      "id": "mfr_79b6745d2932",
+      "name": "Vertical technologies",
+      "models": [
+        {
+          "id": "mdl_aaebfa2cf4be",
+          "name": "DeltaQuad Pro"
+        }
+      ]
+    },
+    {
+      "id": "mfr_d25aa70f893b",
+      "name": "VimDrones",
+      "models": [
+        {
+          "id": "mdl_c9793f047877",
+          "name": "Mazzy Star Drone"
+        }
+      ]
+    },
+    {
+      "id": "mfr_008fb599a5b0",
+      "name": "Voliro",
+      "models": [
+        {
+          "id": "mdl_b85c544ae8d9",
+          "name": "Voliro T"
+        }
+      ]
+    },
+    {
+      "id": "mfr_2867201a813d",
+      "name": "Volocopter",
+      "models": [
+        {
+          "id": "mdl_bd5391dee00b",
+          "name": "Habibi 009"
+        }
+      ]
+    },
+    {
+      "id": "mfr_fedf10e7e0f0",
+      "name": "Vulcan UAV",
+      "models": [
+        {
+          "id": "mdl_8fd0fbd57c37",
+          "name": "Black Widow"
+        }
+      ]
+    },
+    {
+      "id": "mfr_55c1c777b080",
+      "name": "Walkera",
+      "models": [
+        {
+          "id": "mdl_23c66796fa26",
+          "name": "R500 RTK"
+        }
+      ]
+    },
+    {
+      "id": "mfr_262e34e0891e",
+      "name": "Wingtra",
+      "models": [
+        {
+          "id": "mdl_1c3982180208",
+          "name": "WingtraOne"
+        },
+        {
+          "id": "mdl_eb41334c9416",
+          "name": "WingtraRAY"
+        }
+      ]
+    },
+    {
+      "id": "mfr_222ffc0e9814",
+      "name": "Woot Tech",
+      "models": [
+        {
+          "id": "mdl_b5ef31fa4c97",
+          "name": "Clean X (No Tank on Board)"
+        }
+      ]
+    },
+    {
+      "id": "mfr_a5854db48c1c",
+      "name": "Wuhan Huinong UAV TECH",
+      "models": [
+        {
+          "id": "mdl_90740a212832",
+          "name": "axis 4"
+        }
+      ]
+    },
+    {
+      "id": "mfr_8e7d8ed76c3e",
+      "name": "Wuhan Superlieur Technology Co., Ltd.",
+      "models": [
+        {
+          "id": "mdl_816ee35ff815",
+          "name": "S159"
+        }
+      ]
+    },
+    {
+      "id": "mfr_725fae796355",
+      "name": "XiL",
+      "models": [
+        {
+          "id": "mdl_97db8e566b25",
+          "name": "011 RTS"
+        },
+        {
+          "id": "mdl_c75017bdfd01",
+          "name": "193 s"
+        }
+      ]
+    },
+    {
+      "id": "mfr_f290f4e41551",
+      "name": "XMR/C",
+      "models": [
+        {
+          "id": "mdl_18e0ec35f180",
+          "name": "M11"
+        }
+      ]
+    },
+    {
+      "id": "mfr_c8631c10dcdb",
+      "name": "YANGDA",
+      "models": [
+        {
+          "id": "mdl_f934a1270376",
+          "name": "Sky Whale Heavy Lift"
+        },
+        {
+          "id": "mdl_6fb06d4c966d",
+          "name": "Sky Whale Mini"
+        },
+        {
+          "id": "mdl_c63fba175f7c",
+          "name": "YD6-1600S"
+        }
+      ]
+    },
+    {
+      "id": "mfr_e606554ef294",
+      "name": "Yuneec",
+      "models": [
+        {
+          "id": "mdl_b34dc17cc1a2",
+          "name": "Yuneec Typhoon Q500 4K"
+        }
+      ]
+    },
+    {
+      "id": "mfr_1dbee2619093",
+      "name": "Zero Zero Robotic",
+      "models": [
+        {
+          "id": "mdl_28e99e46c33c",
+          "name": "Hover Camera X1"
+        },
+        {
+          "id": "mdl_fda857f02e96",
+          "name": "HoverAir X1 Pro"
+        }
+      ]
+    },
+    {
+      "id": "mfr_54347520345b",
+      "name": "ZIYAN",
+      "models": [
+        {
+          "id": "mdl_30883fec8da1",
+          "name": "Falcon 10"
+        }
+      ]
+    },
+    {
+      "id": "mfr_1a0162001f6b",
+      "name": "ZLRC",
+      "models": [
+        {
+          "id": "mdl_3ec64a489d84",
+          "name": "SG909 MAX"
+        }
+      ]
+    }
+  ]
+}

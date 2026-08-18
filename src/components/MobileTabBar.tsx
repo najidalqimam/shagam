@@ -105,8 +105,8 @@ function DroneCtaIcon() {
 
 const SIDE_TABS = [
   { hash: "#top", id: "home" as const, section: "top" },
-  { hash: "#services", id: "services" as const, section: "services" },
   { hash: "#how", id: "how" as const, section: "how" },
+  { hash: "#services", id: "services" as const, section: "services" },
   { href: "/join-operator", id: "operators" as const, section: "operators" },
 ];
 
@@ -121,6 +121,7 @@ export function MobileTabBar() {
 
   const labelFor = (section: (typeof SIDE_TABS)[number]["section"]) => {
     if (section === "top") return t.navHome;
+    if (section === "operators") return t.joinAsOperator;
     return content.navLinks.find((l) => l.href === `#${section}`)?.label ?? section;
   };
 
@@ -136,7 +137,6 @@ export function MobileTabBar() {
       { href: "#top", id: "top" },
       { href: "#how", id: "how" },
       { href: "#services", id: "services" },
-      { href: "#operators", id: "operators" },
       { href: "#contact", id: "contact" },
     ];
 

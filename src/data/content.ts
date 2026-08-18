@@ -1,8 +1,7 @@
 export const navLinks = [
-  { href: "#services", label: "الخدمات" },
   { href: "#how", label: "كيف نعمل" },
+  { href: "#services", label: "الخدمات" },
   { href: "#why", label: "لماذا شاغم" },
-  { href: "#operators", label: "للمشغّلين" },
   { href: "#enterprise", label: "المستفيدين" },
   { href: "#contact", label: "تواصل" },
 ];

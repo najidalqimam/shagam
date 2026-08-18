@@ -9,15 +9,30 @@ import { useEffect, useRef, useState } from "react";
 
 const GOLD = "#D3A74D";
 const GREEN = "#07564F";
+const VB_W = 1000;
+const VB_H = 420;
 
-/** Wavy path: step 01 (right) → 05 (left) in viewBox coords. */
-const PATH_D =
-  "M 920 210 C 780 80, 700 80, 560 210 S 420 340, 280 210 S 140 80, 80 210";
+/** 5 evenly spaced nodes (RTL: 01 on the right). Peaks up, troughs down. */
+const NODE_XY = [
+  { x: 880, y: 150 },
+  { x: 690, y: 270 },
+  { x: 500, y: 150 },
+  { x: 310, y: 270 },
+  { x: 120, y: 150 },
+] as const;
 
-/** Approximate node positions along the path (0–1) for 5 steps. */
-const NODE_T = [0.02, 0.26, 0.5, 0.74, 0.98] as const;
+const HANDLE = 63;
 
-/** Cards alternate above / below the path. */
+/** Smooth sine through the nodes, flat tangents at each step. */
+const PATH_D = [
+  `M ${NODE_XY[0].x} ${NODE_XY[0].y}`,
+  `C ${NODE_XY[0].x - HANDLE} ${NODE_XY[0].y}, ${NODE_XY[1].x + HANDLE} ${NODE_XY[1].y}, ${NODE_XY[1].x} ${NODE_XY[1].y}`,
+  `C ${NODE_XY[1].x - HANDLE} ${NODE_XY[1].y}, ${NODE_XY[2].x + HANDLE} ${NODE_XY[2].y}, ${NODE_XY[2].x} ${NODE_XY[2].y}`,
+  `C ${NODE_XY[2].x - HANDLE} ${NODE_XY[2].y}, ${NODE_XY[3].x + HANDLE} ${NODE_XY[3].y}, ${NODE_XY[3].x} ${NODE_XY[3].y}`,
+  `C ${NODE_XY[3].x - HANDLE} ${NODE_XY[3].y}, ${NODE_XY[4].x + HANDLE} ${NODE_XY[4].y}, ${NODE_XY[4].x} ${NODE_XY[4].y}`,
+].join(" ");
+
+/** Cards sit above peaks and below troughs. */
 const CARD_SIDE: Array<"up" | "down"> = ["up", "down", "up", "down", "up"];
 
 function StepIcon({ index }: { index: number }) {
@@ -93,10 +108,6 @@ function DesktopJourney({
   const pathRef = useRef<SVGPathElement>(null);
   const traveledRef = useRef<SVGPathElement>(null);
   const droneRef = useRef<HTMLDivElement>(null);
-  const [nodePts, setNodePts] = useState<Array<{ x: number; y: number }>>(
-    () => NODE_T.map(() => ({ x: 0, y: 0 })),
-  );
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const path = pathRef.current;
@@ -108,53 +119,27 @@ function DesktopJourney({
     if (len <= 0) return;
 
     traveled.style.strokeDasharray = `${len}`;
-    // progress 0 → nothing drawn; 1 → full
     const draw = Math.min(1, Math.max(0, progress));
     traveled.style.strokeDashoffset = `${len * (1 - draw)}`;
 
-    // Place drone near active step (or along progress)
-    const t =
-      reducedMotion
-        ? NODE_T[activeStep]
-        : NODE_T[0] + (NODE_T[NODE_T.length - 1] - NODE_T[0]) * draw;
-    const pt = path.getPointAtLength(t * len);
-    const look = path.getPointAtLength(Math.min(len, t * len + 4));
+    const node = NODE_XY[Math.min(activeStep, NODE_XY.length - 1)];
+    const dist = reducedMotion ? null : draw * len;
+    const pt = dist == null ? node : path.getPointAtLength(dist);
+    const lookAt = dist == null ? len * 0.02 : Math.min(len, dist + 4);
+    const look = path.getPointAtLength(lookAt);
     const angle = (Math.atan2(look.y - pt.y, look.x - pt.x) * 180) / Math.PI;
     const lean = Math.max(-24, Math.min(24, angle * 0.2));
 
-    drone.style.left = `${(pt.x / 1000) * 100}%`;
-    drone.style.top = `${(pt.y / 420) * 100}%`;
+    drone.style.left = `${(pt.x / VB_W) * 100}%`;
+    drone.style.top = `${(pt.y / VB_H) * 100}%`;
     drone.style.transform = `translate3d(-50%, -50%, 0) rotate(${lean}deg)`;
   }, [progress, activeStep, reducedMotion]);
 
-  useEffect(() => {
-    const path = pathRef.current;
-    if (!path) return;
-    const measure = () => {
-      const len = path.getTotalLength();
-      if (len <= 0) return;
-      setNodePts(
-        NODE_T.map((t) => {
-          const pt = path.getPointAtLength(t * len);
-          return { x: pt.x, y: pt.y };
-        }),
-      );
-      setReady(true);
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
-
   return (
-    <div
-      className={`relative mx-auto w-full max-w-[1100px] ${
-        ready ? "opacity-100" : "opacity-0"
-      } transition-opacity duration-300`}
-    >
-      <div className="relative" style={{ paddingTop: "9.5rem", paddingBottom: "9.5rem" }}>
+    <div className="relative mx-auto w-full max-w-[1100px]">
+      <div className="relative" style={{ paddingTop: "8.5rem", paddingBottom: "8.5rem" }}>
         <svg
-          viewBox="0 0 1000 420"
+          viewBox={`0 0 ${VB_W} ${VB_H}`}
           className="pointer-events-none absolute inset-0 h-full w-full"
           preserveAspectRatio="xMidYMid meet"
           aria-hidden
@@ -188,7 +173,7 @@ function DesktopJourney({
         </svg>
 
         {/* Nodes */}
-        {nodePts.map((pt, i) => {
+        {NODE_XY.map((pt, i) => {
           const done = i < activeStep;
           const active = i === activeStep;
           return (
@@ -196,8 +181,8 @@ function DesktopJourney({
               key={steps[i].num}
               className="absolute z-10"
               style={{
-                left: `${(pt.x / 1000) * 100}%`,
-                top: `${(pt.y / 420) * 100}%`,
+                left: `${(pt.x / VB_W) * 100}%`,
+                top: `${(pt.y / VB_H) * 100}%`,
                 transform: "translate(-50%, -50%)",
               }}
             >
@@ -236,8 +221,8 @@ function DesktopJourney({
           ref={droneRef}
           className="pointer-events-none absolute z-20 h-12 w-12"
           style={{
-            left: "92%",
-            top: "50%",
+            left: `${(NODE_XY[0].x / VB_W) * 100}%`,
+            top: `${(NODE_XY[0].y / VB_H) * 100}%`,
             transform: "translate3d(-50%, -50%, 0)",
           }}
         >
@@ -246,7 +231,7 @@ function DesktopJourney({
 
         {/* Cards */}
         {steps.map((step, i) => {
-          const pt = nodePts[i] ?? { x: 0, y: 0 };
+          const pt = NODE_XY[i];
           const up = CARD_SIDE[i] === "up";
           const active = i === activeStep;
           const upcoming = i > activeStep;
@@ -256,11 +241,11 @@ function DesktopJourney({
               key={step.num}
               className="absolute z-10 w-[min(200px,18vw)]"
               style={{
-                left: `${(pt.x / 1000) * 100}%`,
-                top: `${(pt.y / 420) * 100}%`,
+                left: `${(pt.x / VB_W) * 100}%`,
+                top: `${(pt.y / VB_H) * 100}%`,
                 transform: up
-                  ? "translate(-50%, calc(-100% - 28px))"
-                  : "translate(-50%, 28px)",
+                  ? "translate(-50%, calc(-100% - 22px))"
+                  : "translate(-50%, 22px)",
               }}
             >
               {/* Connector stub */}

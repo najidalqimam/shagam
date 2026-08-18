@@ -1,0 +1,35 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+    --color-brand: #0b4a45;
+    --color-brand-deep: #083833;
+    --color-brand-elevated: #0e5650;
+    --color-mint: #a9d4cd;
+    --color-sand: #b8944f;
+    --color-bg: #0b4a45;
+    --color-bg-elevated: #0e5650;
+    --color-bg-soft: #f2f7f6;
+    --color-ink: #f5faf9;
+    --color-ink-muted: #a9d4cd;
+    --color-ink-dark: #0b4a45;
+    --color-ink-dark-muted: #4d6f6a;
+    --color-line: rgb(245 250 249 / 0.14);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+}
+
+.section-pad {
+    padding-inline: clamp(1rem, 4vw, 4.5rem);
+}

@@ -1,20 +1,14 @@
 "use client";
 
-import { DroneIcon } from "./DroneIcon";
 import { Reveal } from "./Reveal";
 import { useLocale } from "./LocaleProvider";
 import { useSiteContent } from "./SiteContentProvider";
-import { useEffect, useRef, useState } from "react";
 
 const journeyMeta = [
   { id: "req", num: "01" },
   { id: "ops", num: "02" },
   { id: "out", num: "03" },
 ] as const;
-
-/** Flatter path across three aligned cards (viewBox 0 0 560 220). */
-const JOURNEY_PATH =
-  "M 70 110 C 160 70, 220 70, 280 110 S 400 150, 490 110";
 
 function JourneyIcon({ id }: { id: (typeof journeyMeta)[number]["id"] }) {
   if (id === "req") {
@@ -102,156 +96,39 @@ function JourneyIcon({ id }: { id: (typeof journeyMeta)[number]["id"] }) {
   );
 }
 
-function JourneyPanel({ reducedMotion }: { reducedMotion: boolean }) {
+function JourneyPanel() {
   const { t } = useLocale();
   const journey = journeyMeta.map((step, i) => ({
     ...step,
     title: t.heroCards[i]?.title ?? "",
     body: t.heroCards[i]?.body ?? "",
   }));
-  const rootRef = useRef<HTMLDivElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
-  const droneRef = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
-  const raf = useRef(0);
-
-  useEffect(() => {
-    const el = rootRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.25 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (reducedMotion || !inView) {
-      if (raf.current) cancelAnimationFrame(raf.current);
-      raf.current = 0;
-      const path = pathRef.current;
-      const drone = droneRef.current;
-      if (path && drone) {
-        const len = path.getTotalLength();
-        const pt = path.getPointAtLength(len * 0.55);
-        drone.style.left = `${(pt.x / 560) * 100}%`;
-        drone.style.top = `${(pt.y / 220) * 100}%`;
-        drone.style.transform = "translate3d(-50%, -50%, 0)";
-      }
-      return;
-    }
-
-    const path = pathRef.current;
-    const drone = droneRef.current;
-    if (!path || !drone) return;
-
-    const len = path.getTotalLength();
-    const duration = 7800;
-    let start = 0;
-    let alive = true;
-    let frame = 0;
-
-    const tick = (now: number) => {
-      if (!alive) return;
-      if (document.visibilityState === "hidden") {
-        raf.current = requestAnimationFrame(tick);
-        return;
-      }
-      frame += 1;
-      // ~30fps is enough for a decorative path follow
-      if (frame % 2 === 1) {
-        raf.current = requestAnimationFrame(tick);
-        return;
-      }
-      if (!start) start = now;
-      const t = ((now - start) % duration) / duration;
-      const p = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-      const dist = p * len;
-      const pt = path.getPointAtLength(dist);
-      const look = path.getPointAtLength(Math.min(len, dist + 3));
-      const angle =
-        (Math.atan2(look.y - pt.y, look.x - pt.x) * 180) / Math.PI;
-      const lean = Math.max(-22, Math.min(22, angle * 0.2));
-
-      drone.style.left = `${(pt.x / 560) * 100}%`;
-      drone.style.top = `${(pt.y / 220) * 100}%`;
-      drone.style.transform = `translate3d(-50%, -50%, 0) rotate(${lean}deg)`;
-      raf.current = requestAnimationFrame(tick);
-    };
-
-    raf.current = requestAnimationFrame(tick);
-    return () => {
-      alive = false;
-      if (raf.current) cancelAnimationFrame(raf.current);
-    };
-  }, [inView, reducedMotion]);
 
   return (
-    <div ref={rootRef} className="relative w-full">
-      {/* Desktop / tablet: cards + curved path — compact row */}
-      <div className="relative hidden md:block">
-        <svg
-          className="pointer-events-none absolute inset-0 h-full w-full"
-          viewBox="0 0 560 220"
-          preserveAspectRatio="none"
-          aria-hidden
-        >
-          <path
-            ref={pathRef}
-            d={JOURNEY_PATH}
-            fill="none"
-            stroke="rgba(217,165,46,0.45)"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeDasharray="5 7"
-          />
-          <path
-            d={JOURNEY_PATH}
-            fill="none"
-            stroke="rgba(217,165,46,0.16)"
-            strokeWidth="5"
-            strokeLinecap="round"
-          />
-        </svg>
+    <div className="relative w-full">
+      <ol className="relative hidden grid-cols-3 gap-2.5 md:grid lg:gap-3">
+        {journey.map((step) => (
+          <li key={step.id} className="flex items-stretch">
+            <article className="flex w-full flex-col rounded-xl border border-white/12 bg-white/[0.06] p-3 shadow-[0_6px_18px_rgba(0,0,0,0.14)] lg:p-3.5">
+              <JourneyIcon id={step.id} />
+              <h3 className="mt-2.5 font-display text-[0.92rem] font-semibold text-ink">
+                {step.title}
+              </h3>
+              <p className="mt-1 flex-1 text-[0.75rem] leading-5 text-mint/90">
+                {step.body}
+              </p>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="h-px flex-1 bg-white/15" />
+                <span className="font-display text-[0.65rem] tracking-[0.16em] text-sand">
+                  {step.num}
+                </span>
+                <span className="h-px flex-1 bg-white/15" />
+              </div>
+            </article>
+          </li>
+        ))}
+      </ol>
 
-        <div
-          ref={droneRef}
-          className="pointer-events-none absolute z-20 h-11 w-11"
-          style={{
-            left: "14%",
-            top: "50%",
-            transform: "translate3d(-50%, -50%, 0)",
-          }}
-        >
-          <DroneIcon animate={inView && !reducedMotion} className="h-full w-full" />
-        </div>
-
-        <ol className="relative z-10 grid grid-cols-3 gap-2.5 lg:gap-3">
-          {journey.map((step) => (
-            <li key={step.id} className="flex items-stretch">
-              <article className="flex w-full flex-col rounded-xl border border-white/12 bg-white/[0.06] p-3 shadow-[0_6px_18px_rgba(0,0,0,0.14)] lg:p-3.5">
-                <JourneyIcon id={step.id} />
-                <h3 className="mt-2.5 font-display text-[0.92rem] font-semibold text-ink">
-                  {step.title}
-                </h3>
-                <p className="mt-1 flex-1 text-[0.75rem] leading-5 text-mint/90">
-                  {step.body}
-                </p>
-                <div className="mt-3 flex items-center gap-2">
-                  <span className="h-px flex-1 bg-white/15" />
-                  <span className="font-display text-[0.65rem] tracking-[0.16em] text-sand">
-                    {step.num}
-                  </span>
-                  <span className="h-px flex-1 bg-white/15" />
-                </div>
-              </article>
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      {/* Mobile: compact vertical steps */}
       <ol className="relative flex flex-col gap-0 md:hidden">
         {journey.map((step, i) => (
           <li key={step.id} className="relative flex gap-3">
@@ -283,15 +160,6 @@ export function Hero() {
   const { content } = useSiteContent();
   const { t } = useLocale();
   const { hero, stats, complianceChecks } = content;
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const apply = () => setReducedMotion(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
 
   return (
     <section
@@ -355,7 +223,7 @@ export function Hero() {
 
           {/* Journey — RTL end */}
           <Reveal className="order-2 min-w-0" delay={0.1} variant="left">
-            <JourneyPanel reducedMotion={reducedMotion} />
+            <JourneyPanel />
           </Reveal>
         </div>
 

@@ -3,10 +3,9 @@ import type { SiteContent, SiteSettings } from "@/lib/cms/types";
 export function defaultSiteContentEn(): SiteContent {
   return {
     navLinks: [
-      { href: "#services", label: "Services" },
       { href: "#how", label: "How it works" },
+      { href: "#services", label: "Services" },
       { href: "#why", label: "Why Shagam" },
-      { href: "#operators", label: "Operators" },
       { href: "#enterprise", label: "Beneficiaries" },
       { href: "#contact", label: "Contact" },
     ],

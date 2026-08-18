@@ -280,6 +280,10 @@ a {
   display: none;
 }
 
+.faq-chevron {
+  transform-origin: center;
+}
+
 .faq-item[open] .faq-chevron {
   transform: rotate(180deg);
 }

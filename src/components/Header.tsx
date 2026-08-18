@@ -123,22 +123,22 @@ export function Header() {
             : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="section-pad relative z-[70] mx-auto grid h-14 max-w-[1440px] grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] items-center gap-2 sm:h-[4.25rem] sm:gap-3 lg:h-[4.75rem] lg:gap-4">
+      <div className="section-pad relative z-[70] mx-auto grid h-14 max-w-[1440px] grid-cols-[1fr_auto_1fr] items-center gap-3 sm:h-16 lg:h-[4.5rem]">
         {/* Logo */}
         <a
           href={resolveHref("#top")}
-          className={`group z-10 flex min-w-0 items-center gap-2 sm:gap-2.5 ${
+          className={`group z-10 flex min-w-0 items-center gap-2.5 justify-self-start ${
             light ? "text-brand" : "text-ink"
           }`}
           onClick={() => setOpen(false)}
         >
-          <LogoMark className="h-8 w-8 shrink-0 transition group-hover:scale-[1.04] sm:h-9 sm:w-9" />
+          <LogoMark className="h-9 w-9 shrink-0 transition group-hover:scale-[1.04] sm:h-10 sm:w-10" />
           <span className="min-w-0">
-            <span className="font-display block text-[1.2rem] font-bold leading-none tracking-tight sm:text-[1.5rem]">
+            <span className="font-display block truncate text-[1.15rem] font-bold leading-none tracking-tight sm:text-[1.35rem]">
               {settings.siteName}
             </span>
             <span
-              className={`mt-1 hidden text-[0.68rem] leading-none tracking-[0.04em] sm:block ${
+              className={`mt-1 hidden truncate text-[0.62rem] leading-none tracking-[0.02em] sm:block ${
                 light ? "text-ink-dark-muted" : "text-mint"
               }`}
             >
@@ -147,15 +147,13 @@ export function Header() {
           </span>
         </a>
 
-        {/* Desktop nav — middle column, never overlaps sides */}
+        {/* Desktop nav — truly centered */}
         <nav
-          className={`hidden min-w-0 justify-center lg:flex ${
-            light ? "" : ""
-          }`}
+          className="hidden min-w-0 justify-self-center lg:flex"
           aria-label={t.mainNav}
         >
           <div
-            className={`inline-flex max-w-full items-center gap-0.5 overflow-x-auto rounded-full border px-1.5 py-1 ${
+            className={`inline-flex items-center gap-1 rounded-full border px-1.5 py-1 ${
               light
                 ? "border-brand/12 bg-bg-soft"
                 : "border-white/12 bg-white/10"
@@ -167,10 +165,10 @@ export function Header() {
                 <a
                   key={link.href}
                   href={resolveHref(link.href)}
-                  className={`relative shrink-0 rounded-full font-semibold transition ${
+                  className={`relative whitespace-nowrap rounded-full font-semibold transition ${
                     compactNav
-                      ? "px-2.5 py-2 text-[0.8rem]"
-                      : "px-3.5 py-2 text-[0.88rem]"
+                      ? "px-3 py-2 text-[0.78rem]"
+                      : "px-3.5 py-2 text-[0.82rem]"
                   } ${
                     isActive
                       ? light
@@ -189,13 +187,13 @@ export function Header() {
         </nav>
 
         {/* Actions */}
-        <div className="z-10 flex shrink-0 items-center justify-end gap-1.5 sm:gap-2.5">
+        <div className="z-10 flex shrink-0 items-center justify-end gap-2 justify-self-end">
           <button
             type="button"
             onClick={toggleLocale}
             aria-label={t.langSwitchTo}
             title={t.langSwitchTo}
-            className={`inline-flex h-9 min-w-[2.5rem] items-center justify-center rounded-full border px-2.5 text-[0.75rem] font-bold tracking-wide transition sm:h-10 sm:min-w-[2.75rem] sm:border-2 sm:px-3 sm:text-[0.8rem] ${
+            className={`inline-flex size-9 items-center justify-center rounded-full border text-[0.72rem] font-bold tracking-wide transition sm:size-10 sm:border-2 sm:text-[0.78rem] ${
               light
                 ? "border-brand/25 bg-brand/[0.04] text-brand hover:bg-brand hover:text-ink"
                 : "border-ink/35 text-ink hover:bg-ink hover:text-brand"
@@ -205,7 +203,7 @@ export function Header() {
           </button>
           <a
             href="/join-operator"
-            className={`hidden rounded-full border-2 px-3.5 py-2.5 text-[0.82rem] font-semibold transition xl:inline-flex ${
+            className={`hidden h-10 items-center rounded-full border-2 px-4 text-[0.8rem] font-semibold transition lg:inline-flex ${
               light
                 ? "border-brand text-brand hover:bg-brand hover:text-ink"
                 : "border-ink/50 text-ink hover:bg-ink hover:text-brand"
@@ -215,7 +213,7 @@ export function Header() {
           </a>
           <a
             href="/request-service"
-            className={`hidden rounded-full px-3.5 py-2.5 text-[0.82rem] font-semibold transition md:inline-flex ${
+            className={`hidden h-10 items-center rounded-full px-4 text-[0.8rem] font-semibold transition md:inline-flex ${
               light
                 ? "bg-brand text-ink hover:bg-brand-elevated"
                 : "bg-sand text-ink-dark hover:brightness-105"
