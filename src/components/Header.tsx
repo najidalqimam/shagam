@@ -2,34 +2,13 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BrandLogo } from "./BrandLogo";
 import { useLocale } from "./LocaleProvider";
 import { useSiteContent } from "./SiteContentProvider";
 
-function LogoMark({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 40 40"
-      className={className}
-      aria-hidden
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle cx="20" cy="20" r="18.5" stroke="currentColor" strokeWidth="2.2" />
-      <path
-        d="M20 9.5 L24.2 20 L20 30.5 L15.8 20 Z"
-        fill="#B8944F"
-      />
-      <circle cx="20" cy="11.5" r="2.3" fill="currentColor" />
-      <circle cx="27.5" cy="20" r="2.3" fill="currentColor" />
-      <circle cx="20" cy="28.5" r="2.3" fill="currentColor" />
-      <circle cx="12.5" cy="20" r="2.3" fill="currentColor" />
-    </svg>
-  );
-}
-
 export function Header() {
   const pathname = usePathname();
-  const { content, settings } = useSiteContent();
+  const { content } = useSiteContent();
   const { locale, toggleLocale, t } = useLocale();
   const navLinks = content.navLinks;
   const [scrolled, setScrolled] = useState(false);
@@ -123,28 +102,17 @@ export function Header() {
             : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="section-pad relative z-[70] mx-auto grid h-14 max-w-[1440px] grid-cols-[1fr_auto_1fr] items-center gap-3 sm:h-16 lg:h-[4.5rem]">
+      <div className="section-pad relative z-[70] mx-auto grid h-14 max-w-[1440px] grid-cols-[minmax(0,1fr)_auto_minmax(max-content,1fr)] items-center gap-3 sm:h-16 lg:h-[4.5rem]">
         {/* Logo */}
         <a
           href={resolveHref("#top")}
-          className={`group z-10 flex min-w-0 items-center gap-2.5 justify-self-start ${
-            light ? "text-brand" : "text-ink"
-          }`}
+          className="group z-10 flex min-w-0 items-center justify-self-start"
           onClick={() => setOpen(false)}
         >
-          <LogoMark className="h-9 w-9 shrink-0 transition group-hover:scale-[1.04] sm:h-10 sm:w-10" />
-          <span className="min-w-0">
-            <span className="font-display block truncate text-[1.15rem] font-bold leading-none tracking-tight sm:text-[1.35rem]">
-              {settings.siteName}
-            </span>
-            <span
-              className={`mt-1 hidden truncate text-[0.62rem] leading-none tracking-[0.02em] sm:block ${
-                light ? "text-ink-dark-muted" : "text-mint"
-              }`}
-            >
-              {settings.tagline}
-            </span>
-          </span>
+          <BrandLogo
+            variant={light ? "color" : "white"}
+            className="h-8 w-auto max-w-[150px] transition group-hover:opacity-90 sm:h-10 sm:max-w-[190px]"
+          />
         </a>
 
         {/* Desktop nav — truly centered */}
@@ -187,13 +155,13 @@ export function Header() {
         </nav>
 
         {/* Actions */}
-        <div className="z-10 flex shrink-0 items-center justify-end gap-2 justify-self-end">
+        <div className="z-10 flex shrink-0 items-center justify-end gap-2 justify-self-end whitespace-nowrap">
           <button
             type="button"
             onClick={toggleLocale}
             aria-label={t.langSwitchTo}
             title={t.langSwitchTo}
-            className={`inline-flex size-9 items-center justify-center rounded-full border text-[0.72rem] font-bold tracking-wide transition sm:size-10 sm:border-2 sm:text-[0.78rem] ${
+            className={`inline-flex size-9 shrink-0 items-center justify-center rounded-full border text-[0.72rem] font-bold tracking-wide transition sm:size-10 sm:border-2 sm:text-[0.78rem] ${
               light
                 ? "border-brand/25 bg-brand/[0.04] text-brand hover:bg-brand hover:text-ink"
                 : "border-ink/35 text-ink hover:bg-ink hover:text-brand"
@@ -203,7 +171,7 @@ export function Header() {
           </button>
           <a
             href="/join-operator"
-            className={`hidden h-10 items-center rounded-full border-2 px-4 text-[0.8rem] font-semibold transition lg:inline-flex ${
+            className={`hidden h-10 shrink-0 items-center whitespace-nowrap rounded-full border-2 px-4 text-[0.8rem] font-semibold transition lg:inline-flex ${
               light
                 ? "border-brand text-brand hover:bg-brand hover:text-ink"
                 : "border-ink/50 text-ink hover:bg-ink hover:text-brand"
@@ -213,7 +181,7 @@ export function Header() {
           </a>
           <a
             href="/request-service"
-            className={`hidden h-10 items-center rounded-full px-4 text-[0.8rem] font-semibold transition md:inline-flex ${
+            className={`hidden h-10 shrink-0 items-center whitespace-nowrap rounded-full px-4 text-[0.8rem] font-semibold transition md:inline-flex ${
               light
                 ? "bg-brand text-ink hover:bg-brand-elevated"
                 : "bg-sand text-ink-dark hover:brightness-105"

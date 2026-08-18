@@ -13,7 +13,7 @@ import {
   Settings,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { BrandLogo } from "@/components/BrandLogo";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -117,9 +117,7 @@ export function AdminShell({
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild>
                 <Link href="/admin">
-                  <Avatar className="size-8 rounded-lg">
-                    <AvatarFallback className="rounded-lg">ش</AvatarFallback>
-                  </Avatar>
+                  <BrandLogo className="h-8 w-auto max-w-[132px]" />
                   <div className="grid flex-1 text-start text-sm leading-tight">
                     <span className="truncate font-medium">شاغم</span>
                     <span className="truncate text-xs">لوحة التحكم</span>

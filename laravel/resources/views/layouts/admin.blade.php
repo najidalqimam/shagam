@@ -11,7 +11,9 @@
 <body class="min-h-screen bg-bg-soft text-ink-dark antialiased">
     <div class="grid min-h-screen lg:grid-cols-[240px_1fr]">
         <aside class="bg-brand p-5 text-ink">
-            <a href="{{ route('admin.dashboard') }}" class="block text-xl font-bold">شاغم</a>
+            <a href="{{ route('admin.dashboard') }}" class="block">
+                <img src="{{ asset('logo-shagam-white.png') }}" alt="شاغم" class="h-9 w-auto max-w-[160px] object-contain">
+            </a>
             <p class="mt-1 text-xs text-mint">لوحة التحكم</p>
             <nav class="mt-8 grid gap-1 text-sm">
                 <a href="{{ route('admin.dashboard') }}" class="rounded-lg px-3 py-2 hover:bg-white/10">نظرة عامة</a>

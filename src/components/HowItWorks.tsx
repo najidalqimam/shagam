@@ -1,7 +1,6 @@
-"use client";
+﻿"use client";
 
 import type { StepItem } from "@/lib/cms/types";
-import { DroneIcon } from "./DroneIcon";
 import { Reveal } from "./Reveal";
 import { useLocale } from "./LocaleProvider";
 import { useSiteContent } from "./SiteContentProvider";
@@ -91,49 +90,7 @@ function StepIcon({ index }: { index: number }) {
   );
 }
 
-function DesktopJourney({
-  steps,
-  activeStep,
-  progress,
-  reducedMotion,
-  inView,
-}: {
-  steps: StepItem[];
-  activeStep: number;
-  progress: number;
-  reducedMotion: boolean;
-  inView: boolean;
-}) {
-  const pathRef = useRef<SVGPathElement>(null);
-  const traveledRef = useRef<SVGPathElement>(null);
-  const droneRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const path = pathRef.current;
-    const traveled = traveledRef.current;
-    const drone = droneRef.current;
-    if (!path || !traveled || !drone) return;
-
-    const len = path.getTotalLength();
-    if (len <= 0) return;
-
-    traveled.style.strokeDasharray = `${len}`;
-    const draw = Math.min(1, Math.max(0, progress));
-    traveled.style.strokeDashoffset = `${len * (1 - draw)}`;
-
-    const node = NODE_XY[Math.min(activeStep, NODE_XY.length - 1)];
-    const dist = reducedMotion ? null : draw * len;
-    const pt = dist == null ? node : path.getPointAtLength(dist);
-    const lookAt = dist == null ? len * 0.02 : Math.min(len, dist + 4);
-    const look = path.getPointAtLength(lookAt);
-    const angle = (Math.atan2(look.y - pt.y, look.x - pt.x) * 180) / Math.PI;
-    const lean = Math.max(-24, Math.min(24, angle * 0.2));
-
-    drone.style.left = `${(pt.x / VB_W) * 100}%`;
-    drone.style.top = `${(pt.y / VB_H) * 100}%`;
-    drone.style.transform = `translate3d(-50%, -50%, 0) rotate(${lean}deg)`;
-  }, [progress, activeStep, reducedMotion]);
-
+function DesktopJourney({ steps }: { steps: StepItem[] }) {
   return (
     <div className="relative mx-auto w-full max-w-[1040px]">
       <div className="relative pt-10 pb-16">
@@ -144,97 +101,33 @@ function DesktopJourney({
           preserveAspectRatio="xMidYMid meet"
           aria-hidden
         >
-          {/* Upcoming dashed */}
           <path
             d={PATH_D}
             fill="none"
-            stroke="rgba(7,86,79,0.22)"
+            stroke="rgba(7,86,79,0.28)"
             strokeWidth="2.4"
             strokeDasharray="7 8"
             strokeLinecap="round"
           />
-          {/* Completed solid */}
-          <path
-            ref={traveledRef}
-            d={PATH_D}
-            fill="none"
-            stroke={GREEN}
-            strokeWidth="2.8"
-            strokeLinecap="round"
-            style={{ strokeDasharray: 1, strokeDashoffset: 1 }}
-          />
-          <path
-            ref={pathRef}
-            d={PATH_D}
-            fill="none"
-            stroke="transparent"
-            strokeWidth="10"
-          />
         </svg>
 
-        {/* Nodes */}
-        {NODE_XY.map((pt, i) => {
-          const done = i < activeStep;
-          const active = i === activeStep;
-          return (
-            <div
-              key={steps[i].num}
-              className="absolute z-10"
-              style={{
-                left: `${(pt.x / VB_W) * 100}%`,
-                top: `${(pt.y / VB_H) * 100}%`,
-                transform: "translate(-50%, -50%)",
-              }}
-            >
-              {active && !reducedMotion && (
-                <span
-                  className="absolute inset-0 -m-2 rounded-full bg-[#D3A74D]/35 map-city-pulse"
-                  aria-hidden
-                />
-              )}
-              <span
-                className={`relative flex h-4 w-4 items-center justify-center rounded-full border-2 ${
-                  active
-                    ? "h-5 w-5 border-[#D3A74D] bg-[#07564F]"
-                    : done
-                      ? "border-[#07564F] bg-[#07564F]"
-                      : "border-[#07564F]/35 bg-[#F2F8F6]"
-                }`}
-              >
-                {done && (
-                  <svg width="8" height="8" viewBox="0 0 12 12" fill="none" aria-hidden>
-                    <path
-                      d="M2 6.2l2.6 2.6 5.2-5.4"
-                      stroke="#fff"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                )}
-              </span>
-            </div>
-          );
-        })}
+        {NODE_XY.map((pt, i) => (
+          <div
+            key={steps[i].num}
+            className="absolute z-10"
+            style={{
+              left: `${(pt.x / VB_W) * 100}%`,
+              top: `${(pt.y / VB_H) * 100}%`,
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <span className="flex h-3.5 w-3.5 rounded-full border-2 border-[#07564F] bg-[#F2F8F6]" />
+          </div>
+        ))}
 
-        {/* Drone */}
-        <div
-          ref={droneRef}
-          className="pointer-events-none absolute z-20 h-9 w-9"
-          style={{
-            left: `${(NODE_XY[0].x / VB_W) * 100}%`,
-            top: `${(NODE_XY[0].y / VB_H) * 100}%`,
-            transform: "translate3d(-50%, -50%, 0)",
-          }}
-        >
-          <DroneIcon animate={inView && !reducedMotion} className="h-full w-full" />
-        </div>
-
-        {/* Cards */}
         {steps.map((step, i) => {
           const pt = NODE_XY[i];
           const up = CARD_SIDE[i] === "up";
-          const active = i === activeStep;
-          const upcoming = i > activeStep;
 
           return (
             <div
@@ -255,26 +148,14 @@ function DesktopJourney({
                 aria-hidden
               />
 
-              <article
-                className={`rounded-xl border p-3 shadow-[0_6px_18px_rgba(7,86,79,0.07)] transition duration-300 ${
-                  active
-                    ? "border-[#D3A74D] bg-[#07564F] text-white shadow-[0_10px_24px_rgba(7,86,79,0.2)]"
-                    : upcoming
-                      ? "border-[#07564F]/15 bg-white/90 text-[#07564F] opacity-90"
-                      : "border-[#07564F]/18 bg-white text-[#07564F]"
-                }`}
-              >
-                <div className={active ? "text-[#D3A74D]" : "text-[#07564F]"}>
+              <article className="rounded-xl border border-[#07564F]/18 bg-white p-3 text-[#07564F] shadow-[0_6px_18px_rgba(7,86,79,0.07)]">
+                <div className="text-[#07564F]">
                   <StepIcon index={i} />
                 </div>
                 <h3 className="mt-1.5 font-display text-[0.8rem] font-semibold leading-snug">
-                  {step.num} — {step.title}
+                  {step.num} - {step.title}
                 </h3>
-                <p
-                  className={`mt-1 line-clamp-3 text-[0.68rem] leading-4 ${
-                    active ? "text-white/85" : "text-[#4d6f6a]"
-                  }`}
-                >
+                <p className="mt-1 line-clamp-3 text-[0.68rem] leading-4 text-[#4d6f6a]">
                   {step.body}
                 </p>
               </article>
@@ -303,7 +184,7 @@ function TabletJourney({
     const scroller = scrollerRef.current;
     if (!scroller) return;
     const card = scroller.querySelector<HTMLElement>(`[data-step="${activeStep}"]`);
-    // Instant align — avoid smooth scroll fighting the page scroll
+    // Instant align - avoid smooth scroll fighting the page scroll
     card?.scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" });
   }, [activeStep]);
 
@@ -336,7 +217,7 @@ function TabletJourney({
                 <StepIcon index={i} />
               </div>
               <h3 className="mt-3 font-display text-lg font-semibold">
-                {step.num} — {step.title}
+                {step.num} - {step.title}
               </h3>
               <p
                 className={`mt-2 text-sm leading-6 ${
@@ -366,112 +247,32 @@ function TabletJourney({
   );
 }
 
-function MobileJourney({
-  steps,
-  activeStep,
-  progress,
-  reducedMotion,
-  inView,
-}: {
-  steps: StepItem[];
-  activeStep: number;
-  progress: number;
-  reducedMotion: boolean;
-  inView: boolean;
-}) {
-  const { t: ui } = useLocale();
-  const droneTop = `${8 + progress * 84}%`;
-
+function MobileJourney({ steps }: { steps: StepItem[] }) {
   return (
-    <ol className="relative mx-auto flex max-w-lg flex-col gap-0">
-      {/* Vertical rail */}
-      <span
-        className="absolute start-3 top-4 bottom-4 w-px bg-[#07564F]/20"
-        aria-hidden
-      />
-      <span
-        className="absolute start-3 top-4 w-px origin-top bg-[#07564F] transition-[height] duration-300"
-        style={{ height: `calc(${progress * 100}% - 1rem)` }}
-        aria-hidden
-      />
-
-      {!reducedMotion && (
-        <div
-          className="pointer-events-none absolute start-0 z-20 h-10 w-10 -translate-x-1/4 transition-[top] duration-300"
-          style={{ top: droneTop }}
-        >
-          <DroneIcon animate={inView && !reducedMotion} className="h-full w-full" />
-        </div>
-      )}
-
-      {steps.map((step, i) => {
-        const active = i === activeStep;
-        const done = i < activeStep;
-        return (
-          <li key={step.num} className="relative flex gap-4 pb-5">
-            <span
-              className={`relative z-10 mt-5 flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full border-2 ${
-                active
-                  ? "border-[#D3A74D] bg-[#07564F] ring-4 ring-[#D3A74D]/25"
-                  : done
-                    ? "border-[#07564F] bg-[#07564F]"
-                    : "border-[#07564F]/30 bg-[#F2F8F6]"
-              }`}
-            />
-            <article
-              className={`flex-1 rounded-2xl border p-4 transition ${
-                active
-                  ? "border-[#D3A74D] bg-[#07564F] text-white"
-                  : "border-[#07564F]/15 bg-white text-[#07564F]"
-              }`}
-            >
-              {active && (
-                <p className="mb-2 text-[0.7rem] font-semibold text-[#D3A74D]">
-                  {ui.phaseOf(i + 1, 5)}
-                </p>
-              )}
-              <div className={active ? "text-[#D3A74D]" : "text-[#07564F]"}>
-                <StepIcon index={i} />
-              </div>
-              <h3 className="mt-3 font-display text-base font-semibold">
-                {step.num} — {step.title}
-              </h3>
-              <p
-                className={`mt-2 text-sm leading-6 ${
-                  active ? "text-white/85" : "text-[#4d6f6a]"
-                }`}
-              >
-                {step.body}
-              </p>
-            </article>
-          </li>
-        );
-      })}
+    <ol className="relative mx-auto flex max-w-lg flex-col gap-3">
+      {steps.map((step, i) => (
+        <li key={step.num}>
+          <article className="rounded-2xl border border-[#07564F]/15 bg-white p-4 text-[#07564F]">
+            <div className="text-[#07564F]">
+              <StepIcon index={i} />
+            </div>
+            <h3 className="mt-3 font-display text-base font-semibold">
+              {step.num} - {step.title}
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-[#4d6f6a]">{step.body}</p>
+          </article>
+        </li>
+      ))}
     </ol>
   );
 }
 
 export function HowItWorks() {
   const { content } = useSiteContent();
-  const { locale, t } = useLocale();
+  const { t } = useLocale();
   const steps = content.steps;
-  const ctaArrow = locale === "ar" ? "←" : "→";
-  const sectionRef = useRef<HTMLElement>(null);
-  const progressRef = useRef(0);
-  const stepRef = useRef(0);
-  const [progress, setProgress] = useState(0);
-  const [activeStep, setActiveStep] = useState(0);
-  const [inView, setInView] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
   const [layout, setLayout] = useState<"mobile" | "tablet" | "desktop">("desktop");
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const apply = () => setReducedMotion(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
+  const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
     const desktop = window.matchMedia("(min-width: 1024px)");
@@ -490,96 +291,12 @@ export function HowItWorks() {
     };
   }, []);
 
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([e]) => setInView(e.isIntersecting),
-      { threshold: 0.12 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el || reducedMotion) return;
-
-    const apply = (p: number) => {
-      const clamped = Math.min(1, Math.max(0, p));
-      const step =
-        clamped >= 1
-          ? steps.length - 1
-          : Math.min(steps.length - 1, Math.floor(clamped * steps.length));
-
-      const progressChanged = Math.abs(clamped - progressRef.current) >= 0.02;
-      const stepChanged = step !== stepRef.current;
-      if (!progressChanged && !stepChanged) return;
-
-      progressRef.current = clamped;
-      stepRef.current = step;
-      if (progressChanged) setProgress(clamped);
-      if (stepChanged) setActiveStep(step);
-    };
-
-    /** Progress while the section crosses the viewport — no pin, no trap. */
-    const readProgress = () => {
-      if (!inView && progressRef.current <= 0) return;
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight || 1;
-      const startY = vh * 0.62;
-      const endY = vh * 0.28;
-      const range = rect.height + (startY - endY);
-      if (range <= 0) return;
-      const scrolled = startY - rect.top;
-      apply(scrolled / range);
-    };
-
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        readProgress();
-      });
-    };
-
-    readProgress();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [reducedMotion, inView]);
-
-  // Reduced motion: show full journey without scroll-driven animation.
-  const journeyProgress = reducedMotion ? 1 : progress;
-  const journeyStep = reducedMotion ? steps.length - 1 : activeStep;
-
   return (
     <section
-      ref={sectionRef}
       id="how"
       className="relative overflow-x-clip border-t border-line-dark bg-[#F2F8F6] text-[#07564F]"
       aria-labelledby="how-title"
     >
-      {/* Faint topo lines */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.12]"
-        aria-hidden
-        style={{
-          backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(
-            `<svg xmlns='http://www.w3.org/2000/svg' width='900' height='500' fill='none'><path d='M20 120C160 70 280 160 420 120S700 40 880 90M40 260C200 210 340 300 500 250S780 180 880 230M60 400C220 350 380 430 540 390S780 320 880 370' stroke='%2307564F' stroke-width='1.2'/></svg>`,
-          )}")`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center 30%",
-          backgroundSize: "min(100%, 1000px) auto",
-        }}
-      />
-
       <div className="section-pad relative z-10 mx-auto max-w-[1440px] py-[clamp(1.75rem,3.2vw,2.75rem)]">
         <Reveal variant="up">
           <div className="relative z-20 mx-auto max-w-2xl text-center">
@@ -601,31 +318,15 @@ export function HowItWorks() {
         </Reveal>
 
         <Reveal className="relative z-0 mt-2" delay={0.1} variant="scale">
-          {layout === "desktop" && (
-            <DesktopJourney
-              steps={steps}
-              activeStep={journeyStep}
-              progress={journeyProgress}
-              reducedMotion={reducedMotion}
-              inView={inView}
-            />
-          )}
+          {layout === "desktop" && <DesktopJourney steps={steps} />}
           {layout === "tablet" && (
             <TabletJourney
               steps={steps}
-              activeStep={journeyStep}
+              activeStep={activeStep}
               setActiveStep={setActiveStep}
             />
           )}
-          {layout === "mobile" && (
-            <MobileJourney
-              steps={steps}
-              activeStep={journeyStep}
-              progress={journeyProgress}
-              reducedMotion={reducedMotion}
-              inView={inView}
-            />
-          )}
+          {layout === "mobile" && <MobileJourney steps={steps} />}
         </Reveal>
 
         <Reveal className="relative z-20 mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-8" delay={0.16} variant="up">
@@ -634,20 +335,14 @@ export function HowItWorks() {
             className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D3A74D] px-6 py-3 text-[0.92rem] font-semibold text-[#07564F] transition hover:brightness-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D3A74D]"
           >
             {t.journeyCta}
-            <span aria-hidden>{ctaArrow}</span>
           </a>
           <a
             href="#services"
             className="inline-flex items-center gap-2 text-[0.92rem] font-semibold text-[#07564F] transition hover:text-[#D3A74D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#07564F]"
           >
             {t.journeyDetails}
-            <span aria-hidden>{ctaArrow}</span>
           </a>
         </Reveal>
-
-        <p className="sr-only" aria-live="polite">
-          {t.stageOf(journeyStep + 1, steps.length)}: {steps[journeyStep].title}
-        </p>
       </div>
     </section>
   );

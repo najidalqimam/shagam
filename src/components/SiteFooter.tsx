@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandLogo } from "./BrandLogo";
 import { Reveal } from "./Reveal";
 import { useLocale } from "./LocaleProvider";
 import { useSiteContent } from "./SiteContentProvider";
@@ -17,10 +18,8 @@ export function SiteFooter() {
         variant="up"
       >
         <div>
-          <div className="font-display text-2xl font-semibold text-ink">
-            {settings.siteName}
-          </div>
-          <p className="mt-2 max-w-md text-sm leading-7 text-ink-muted">
+          <BrandLogo variant="white" className="h-11 w-auto max-w-[220px]" />
+          <p className="mt-3 max-w-md text-sm leading-7 text-ink-muted">
             {settings.footerText}
           </p>
         </div>

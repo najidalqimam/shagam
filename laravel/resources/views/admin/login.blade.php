@@ -10,6 +10,7 @@
 <body class="grid min-h-screen place-items-center bg-brand text-ink antialiased">
     <form method="post" action="{{ route('admin.login.store') }}" class="w-full max-w-sm rounded-2xl border border-white/15 bg-white/5 p-6">
         @csrf
+        <img src="{{ asset('logo-shagam-white.png') }}" alt="شاغم" class="mb-4 h-10 w-auto max-w-[180px] object-contain">
         <h1 class="text-2xl font-semibold">لوحة شاغم</h1>
         <p class="mt-2 text-sm text-mint">سجّل الدخول لإدارة المحتوى والطلبات.</p>
         <label class="mt-6 grid gap-1 text-sm">البريد
