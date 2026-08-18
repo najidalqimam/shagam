@@ -6,6 +6,8 @@ import {
   type StoredDroneCatalog,
 } from "@/lib/cms/store";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

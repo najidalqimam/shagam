@@ -6,6 +6,8 @@ import {
 } from "@/lib/cms/store";
 import type { LocalizedSiteSettings, SiteSettings } from "@/lib/cms/types";
 
+export const dynamic = "force-dynamic";
+
 function isLocalizedBody(body: unknown): body is LocalizedSiteSettings {
   return (
     !!body &&

@@ -1,50 +1,31 @@
-import crypto from "crypto";
 import { cookies } from "next/headers";
 
-const COOKIE = "shagam_admin";
-const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+import { COOKIE, laravelJson } from "./laravel";
 
-function password() {
-  return process.env.ADMIN_PASSWORD || "shagam-admin";
-}
+const WEEK_SECONDS = 7 * 24 * 60 * 60;
 
-function secret() {
-  return process.env.ADMIN_SECRET || password();
-}
-
-export function verifyAdminPassword(input: string) {
-  return input === password();
-}
-
-export function createAdminToken() {
-  const exp = Date.now() + WEEK_MS;
-  const payload = `admin:${exp}`;
-  const sig = crypto
-    .createHmac("sha256", secret())
-    .update(payload)
-    .digest("hex");
-  return `${payload}.${sig}`;
-}
-
-export function verifyAdminToken(token: string | undefined | null) {
-  if (!token) return false;
-  const [payload, sig] = token.split(".");
-  if (!payload || !sig) return false;
-  const expected = crypto
-    .createHmac("sha256", secret())
-    .update(payload)
-    .digest("hex");
-  if (expected.length !== sig.length) return false;
-  if (!crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(sig))) {
-    return false;
-  }
-  const exp = Number(payload.split(":")[1]);
-  return Number.isFinite(exp) && exp > Date.now();
+export function adminCookieOptions() {
+  return {
+    httpOnly: true,
+    sameSite: "lax" as const,
+    path: "/",
+    maxAge: WEEK_SECONDS,
+    secure: process.env.NODE_ENV === "production",
+  };
 }
 
 export async function isAdminAuthenticated() {
   const jar = await cookies();
-  return verifyAdminToken(jar.get(COOKIE)?.value);
+  const token = jar.get(COOKIE)?.value;
+  if (!token) return false;
+  try {
+    const data = await laravelJson<{ authenticated?: boolean }>("/admin/session", {
+      admin: true,
+    });
+    return data.authenticated === true;
+  } catch {
+    return false;
+  }
 }
 
 export async function requireAdmin() {

@@ -139,7 +139,7 @@ export function DroneStory() {
       <div className="drone-stage relative w-full max-w-[100vw] overflow-x-clip lg:h-[100svh] lg:overflow-hidden">
         <div className="section-pad relative z-20 mx-auto grid w-full max-w-[1440px] grid-cols-1 items-center gap-8 py-20 lg:h-full lg:grid-cols-2 lg:gap-12 lg:py-0 lg:pt-[4.75rem]">
           <Reveal className="relative z-30 order-1 w-full min-w-0 justify-self-start" variant="right">
-            <div className="relative min-h-[13.5rem] max-w-[34rem] sm:min-h-[12.5rem]">
+            <div className="relative min-h-[10.25rem] max-w-[34rem] sm:min-h-[11rem] lg:min-h-[12.25rem]">
               {stages.map((item, i) => (
                 <div
                   key={item.id}
@@ -163,7 +163,7 @@ export function DroneStory() {
                   <h2 className="font-display max-w-[18ch] text-[clamp(1.25rem,2.8vw,1.85rem)] font-semibold leading-[1.45] text-[#07564F]">
                     {item.title}
                   </h2>
-                  <p className="mt-4 max-w-[36ch] text-[0.95rem] leading-7 text-[#4d6f6a]">
+                  <p className="mt-2.5 max-w-[36ch] text-[0.95rem] leading-7 text-[#4d6f6a]">
                     {item.body}
                   </p>
                 </div>
@@ -171,7 +171,7 @@ export function DroneStory() {
             </div>
 
             <ol
-              className="mt-10 grid max-w-xl grid-cols-4 gap-2"
+              className="mt-4 grid max-w-xl grid-cols-4 gap-2 sm:mt-5 lg:mt-6"
               aria-label={t.stagesAria}
             >
               {stages.map((item, i) => {

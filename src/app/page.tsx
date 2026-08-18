@@ -5,6 +5,8 @@ import {
   getLocalizedSiteContent,
 } from "@/lib/cms/store";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const [content, settings] = await Promise.all([
     getLocalizedSiteContent(),

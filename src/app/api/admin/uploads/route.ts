@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 import { isAdminAuthenticated } from "@/lib/cms/auth";
+import { laravelFetch } from "@/lib/cms/laravel";
 
 export const runtime = "nodejs";
-
-const UPLOAD_DIR = path.join(process.cwd(), "data", "cms", "uploads");
+export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   if (!(await isAdminAuthenticated())) {
@@ -18,26 +16,29 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Invalid file" }, { status: 400 });
   }
 
-  const full = path.join(UPLOAD_DIR, file);
-  try {
-    const data = await fs.readFile(full);
-    const lower = file.toLowerCase();
-    const contentType = lower.endsWith(".pdf")
-      ? "application/pdf"
-      : lower.endsWith(".png")
-        ? "image/png"
-        : lower.endsWith(".jpg") || lower.endsWith(".jpeg")
-          ? "image/jpeg"
-          : "application/octet-stream";
-
-    return new NextResponse(data, {
-      headers: {
-        "Content-Type": contentType,
-        "Content-Disposition": `attachment; filename*=UTF-8''${encodeURIComponent(file)}`,
-        "Cache-Control": "private, no-store",
-      },
-    });
-  } catch {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  const res = await laravelFetch(
+    `/admin/uploads?file=${encodeURIComponent(file)}`,
+    { admin: true },
+  );
+  if (!res.ok) {
+    return NextResponse.json({ error: "Not found" }, { status: res.status });
   }
+
+  const data = Buffer.from(await res.arrayBuffer());
+  const lower = file.toLowerCase();
+  const contentType = lower.endsWith(".pdf")
+    ? "application/pdf"
+    : lower.endsWith(".png")
+      ? "image/png"
+      : lower.endsWith(".jpg") || lower.endsWith(".jpeg")
+        ? "image/jpeg"
+        : "application/octet-stream";
+
+  return new NextResponse(data, {
+    headers: {
+      "Content-Type": contentType,
+      "Content-Disposition": `attachment; filename*=UTF-8''${encodeURIComponent(file)}`,
+      "Cache-Control": "private, no-store",
+    },
+  });
 }

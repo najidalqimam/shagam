@@ -5,6 +5,7 @@ import { useEffect, useState, useTransition } from "react";
 import { OperatorRegistrationPage } from "./operator-join/OperatorRegistrationPage";
 import { RoleEntryShell } from "./RoleTypeSelector";
 import { ServiceRequestPage } from "./service-request/ServiceRequestPage";
+import { hydrateDroneCatalog } from "@/lib/droneCatalog";
 import { useLocale } from "./LocaleProvider";
 
 type Role = "customer" | "operator";
@@ -24,10 +25,27 @@ export function FormsEntryWorkspace() {
   const { locale } = useLocale();
   const [, startTransition] = useTransition();
   const [role, setRole] = useState<Role>(() => roleFromPath(pathname));
+  const [catalogReady, setCatalogReady] = useState(false);
 
   useEffect(() => {
     setRole(roleFromPath(pathname));
   }, [pathname]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/catalog")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!cancelled && data?.manufacturers) {
+          hydrateDroneCatalog(data);
+          setCatalogReady(true);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     document.title =
@@ -62,7 +80,7 @@ export function FormsEntryWorkspace() {
         aria-hidden={role !== "operator"}
         {...(role !== "operator" ? { inert: true } : {})}
       >
-        <OperatorRegistrationPage />
+        <OperatorRegistrationPage key={catalogReady ? "catalog" : "pending"} />
       </div>
     </RoleEntryShell>
   );

@@ -8,6 +8,7 @@ import {
   getLocalizedSiteContent,
 } from "@/lib/cms/store";
 
+export const dynamic = "force-dynamic";
 export const metadata = {
   title: "الشروط والأحكام | شاغم",
 };

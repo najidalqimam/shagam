@@ -1,9 +1,9 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { cache } from "react";
 import {
   defaultSiteContentEn,
   defaultSettingsEn,
 } from "@/lib/i18n/content-en";
+import { laravelJson } from "./laravel";
 import {
   defaultSettings,
   defaultSiteContent,
@@ -14,34 +14,10 @@ import {
   type SiteSettings,
 } from "./types";
 
-const CMS_DIR = path.join(process.cwd(), "data", "cms");
-const CONTENT_FILE = path.join(CMS_DIR, "site-content.json");
-const SETTINGS_FILE = path.join(CMS_DIR, "settings.json");
-const SUBMISSIONS_FILE = path.join(CMS_DIR, "submissions.json");
-const DRONE_CATALOG_FILE = path.join(
-  process.cwd(),
-  "src",
-  "data",
-  "droneCatalog.json",
-);
-
-async function ensureDir() {
-  await fs.mkdir(CMS_DIR, { recursive: true });
-}
-
-async function readJsonFile<T>(file: string, fallback: T): Promise<T> {
-  try {
-    const raw = await fs.readFile(file, "utf8");
-    return JSON.parse(raw) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-async function writeJsonFile(file: string, data: unknown) {
-  await ensureDir();
-  await fs.writeFile(file, JSON.stringify(data, null, 2) + "\n", "utf8");
-}
+type ContentBundle = {
+  content: LocalizedSiteContent;
+  settings: LocalizedSiteSettings;
+};
 
 function isLocalizedContent(
   value: unknown,
@@ -103,19 +79,14 @@ function syncSharedSettings(
   };
 }
 
+const loadBundle = cache(async (): Promise<ContentBundle> => {
+  return laravelJson<ContentBundle>("/content");
+});
+
 export async function getLocalizedSiteContent(): Promise<LocalizedSiteContent> {
   const defaultsAr = defaultSiteContent();
   const defaultsEn = defaultSiteContentEn();
-  const stored = await readJsonFile<unknown>(CONTENT_FILE, null);
-
-  if (!stored) {
-    const bundle: LocalizedSiteContent = {
-      ar: defaultsAr,
-      en: defaultsEn,
-    };
-    await writeJsonFile(CONTENT_FILE, bundle);
-    return bundle;
-  }
+  const stored = (await loadBundle()).content;
 
   if (isLocalizedContent(stored)) {
     return {
@@ -124,13 +95,7 @@ export async function getLocalizedSiteContent(): Promise<LocalizedSiteContent> {
     };
   }
 
-  // Legacy flat JSON = Arabic only
-  const bundle: LocalizedSiteContent = {
-    ar: mergeContent(defaultsAr, stored as Partial<SiteContent>),
-    en: defaultsEn,
-  };
-  await writeJsonFile(CONTENT_FILE, bundle);
-  return bundle;
+  return { ar: defaultsAr, en: defaultsEn };
 }
 
 /** Arabic content by default (dashboard stats, legacy callers). */
@@ -142,9 +107,10 @@ export async function getSiteContent(): Promise<SiteContent> {
 export async function saveLocalizedSiteContent(
   content: LocalizedSiteContent,
 ): Promise<void> {
-  await writeJsonFile(CONTENT_FILE, {
-    ar: content.ar,
-    en: content.en,
+  await laravelJson("/admin/content", {
+    method: "PUT",
+    admin: true,
+    body: JSON.stringify({ ar: content.ar, en: content.en }),
   });
 }
 
@@ -157,16 +123,7 @@ export async function saveSiteContent(content: SiteContent): Promise<void> {
 export async function getLocalizedSettings(): Promise<LocalizedSiteSettings> {
   const defaultsAr = defaultSettings();
   const defaultsEn = defaultSettingsEn();
-  const stored = await readJsonFile<unknown>(SETTINGS_FILE, null);
-
-  if (!stored) {
-    const bundle: LocalizedSiteSettings = {
-      ar: defaultsAr,
-      en: defaultsEn,
-    };
-    await writeJsonFile(SETTINGS_FILE, bundle);
-    return bundle;
-  }
+  const stored = (await loadBundle()).settings;
 
   if (isLocalizedSettings(stored)) {
     const ar = mergeSettings(defaultsAr, stored.ar);
@@ -174,13 +131,10 @@ export async function getLocalizedSettings(): Promise<LocalizedSiteSettings> {
     return { ar, en };
   }
 
-  const ar = mergeSettings(defaultsAr, stored as Partial<SiteSettings>);
-  const bundle: LocalizedSiteSettings = {
-    ar,
-    en: syncSharedSettings(ar, defaultsEn),
+  return {
+    ar: defaultsAr,
+    en: syncSharedSettings(defaultsAr, defaultsEn),
   };
-  await writeJsonFile(SETTINGS_FILE, bundle);
-  return bundle;
 }
 
 export async function getSettings(): Promise<SiteSettings> {
@@ -193,7 +147,11 @@ export async function saveLocalizedSettings(
 ): Promise<void> {
   const ar = settings.ar;
   const en = syncSharedSettings(ar, settings.en);
-  await writeJsonFile(SETTINGS_FILE, { ar, en });
+  await laravelJson("/admin/settings", {
+    method: "PUT",
+    admin: true,
+    body: JSON.stringify({ ar, en }),
+  });
 }
 
 export async function saveSettings(settings: SiteSettings): Promise<void> {
@@ -205,7 +163,9 @@ export async function saveSettings(settings: SiteSettings): Promise<void> {
 }
 
 export async function getSubmissions(): Promise<FormSubmission[]> {
-  const list = await readJsonFile<FormSubmission[]>(SUBMISSIONS_FILE, []);
+  const list = await laravelJson<FormSubmission[]>("/admin/submissions", {
+    admin: true,
+  });
   return list.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
@@ -213,40 +173,53 @@ export async function getSubmissions(): Promise<FormSubmission[]> {
 
 export async function addSubmission(
   payload: Record<string, unknown>,
-  id?: string,
 ): Promise<FormSubmission> {
-  const list = await getSubmissions();
-  const entry: FormSubmission = {
-    id:
-      id ??
-      `sub_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`,
+  const result = await laravelJson<{ ok: boolean; id: string }>("/submissions", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+  return {
+    id: result.id,
     createdAt: new Date().toISOString(),
     status: "new",
     payload,
   };
-  list.unshift(entry);
-  await writeJsonFile(SUBMISSIONS_FILE, list);
-  return entry;
+}
+
+export async function addSubmissionForm(form: FormData): Promise<{ id: string }> {
+  const result = await laravelJson<{ ok: boolean; id: string }>("/submissions", {
+    method: "POST",
+    body: form,
+  });
+  return { id: result.id };
 }
 
 export async function updateSubmissionStatus(
   id: string,
   status: FormSubmission["status"],
 ): Promise<FormSubmission | null> {
-  const list = await getSubmissions();
-  const idx = list.findIndex((s) => s.id === id);
-  if (idx < 0) return null;
-  list[idx] = { ...list[idx], status };
-  await writeJsonFile(SUBMISSIONS_FILE, list);
-  return list[idx];
+  try {
+    return await laravelJson<FormSubmission>("/admin/submissions", {
+      method: "PATCH",
+      admin: true,
+      body: JSON.stringify({ id, status }),
+    });
+  } catch {
+    return null;
+  }
 }
 
 export async function deleteSubmission(id: string): Promise<boolean> {
-  const list = await getSubmissions();
-  const next = list.filter((s) => s.id !== id);
-  if (next.length === list.length) return false;
-  await writeJsonFile(SUBMISSIONS_FILE, next);
-  return true;
+  try {
+    await laravelJson("/admin/submissions", {
+      method: "DELETE",
+      admin: true,
+      body: JSON.stringify({ id }),
+    });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export type StoredDroneCatalog = {
@@ -264,43 +237,42 @@ export async function getDroneCatalog(): Promise<StoredDroneCatalog> {
   const empty: StoredDroneCatalog = {
     version: 1,
     generatedAt: new Date().toISOString(),
-    source: "admin",
+    source: "database",
     manufacturers: [],
   };
-  return readJsonFile<StoredDroneCatalog>(DRONE_CATALOG_FILE, empty);
+  const catalog = await laravelJson<StoredDroneCatalog>("/catalog");
+  return {
+    ...empty,
+    ...catalog,
+    manufacturers: Array.isArray(catalog.manufacturers)
+      ? catalog.manufacturers
+      : [],
+  };
 }
 
 export async function saveDroneCatalog(
   catalog: StoredDroneCatalog,
 ): Promise<void> {
-  await writeJsonFile(DRONE_CATALOG_FILE, {
-    ...catalog,
-    version: catalog.version || 1,
-    generatedAt: new Date().toISOString(),
-    source: catalog.source || "admin",
+  await laravelJson("/admin/catalog", {
+    method: "PUT",
+    admin: true,
+    body: JSON.stringify({
+      ...catalog,
+      version: catalog.version || 1,
+      source: catalog.source || "admin",
+    }),
   });
 }
 
 export async function getDashboardStats() {
-  const [content, submissions] = await Promise.all([
-    getSiteContent(),
-    getSubmissions(),
-  ]);
-  const submissionsNew = submissions.filter((s) => s.status === "new").length;
-  const submissionsReviewed = submissions.filter(
-    (s) => s.status === "reviewed",
-  ).length;
-  const submissionsArchived = submissions.filter(
-    (s) => s.status === "archived",
-  ).length;
-  return {
-    services: content.services.length,
-    faqs: content.faqs.length,
-    cities: content.cities.length,
-    submissionsTotal: submissions.length,
-    submissionsNew,
-    submissionsReviewed,
-    submissionsArchived,
-    recentSubmissions: submissions.slice(0, 6),
-  };
+  return laravelJson<{
+    services: number;
+    faqs: number;
+    cities: number;
+    submissionsTotal: number;
+    submissionsNew: number;
+    submissionsReviewed: number;
+    submissionsArchived: number;
+    recentSubmissions: FormSubmission[];
+  }>("/admin/stats", { admin: true });
 }

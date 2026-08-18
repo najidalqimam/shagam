@@ -1,5 +1,3 @@
-import catalogJson from "@/data/droneCatalog.json";
-
 export type DroneModelRef = {
   id: string;
   name: string;
@@ -18,7 +16,27 @@ export type DroneCatalog = {
   manufacturers: ManufacturerRef[];
 };
 
-export const droneCatalog = catalogJson as DroneCatalog;
+let droneCatalog: DroneCatalog = {
+  version: 1,
+  generatedAt: "",
+  source: "api",
+  manufacturers: [],
+};
+
+export function hydrateDroneCatalog(catalog: DroneCatalog) {
+  droneCatalog = {
+    version: catalog.version || 1,
+    generatedAt: catalog.generatedAt || new Date().toISOString(),
+    source: catalog.source || "api",
+    manufacturers: Array.isArray(catalog.manufacturers)
+      ? catalog.manufacturers
+      : [],
+  };
+}
+
+export function getDroneCatalogSnapshot(): DroneCatalog {
+  return droneCatalog;
+}
 
 export function normalizeCatalogQuery(value: string): string {
   return value

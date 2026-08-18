@@ -7,6 +7,8 @@ import {
 } from "@/lib/cms/store";
 import type { FormSubmission } from "@/lib/cms/types";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -5,7 +5,7 @@
  *   node scripts/import-drone-catalog.mjs [path/to.xlsx]
  *
  * Outputs:
- *   - src/data/droneCatalog.json
+ *   - laravel/database/seeders/data/drone-catalog.json
  *   - data/drone-catalog-import-report.json
  *
  * Idempotent: re-running produces the same stable IDs and does not invent
@@ -19,7 +19,14 @@ const XLSX = require("xlsx");
 
 const ROOT = path.resolve(__dirname, "..");
 const DEFAULT_XLSX = path.join(ROOT, "data", "drone-manufacturers.xlsx");
-const OUT_CATALOG = path.join(ROOT, "src", "data", "droneCatalog.json");
+const OUT_CATALOG = path.join(
+  ROOT,
+  "laravel",
+  "database",
+  "seeders",
+  "data",
+  "drone-catalog.json",
+);
 const OUT_REPORT = path.join(ROOT, "data", "drone-catalog-import-report.json");
 
 /** Trim + collapse internal whitespace. Keeps original casing for display. */
