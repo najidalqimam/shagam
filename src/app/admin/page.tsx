@@ -58,24 +58,28 @@ export default async function AdminDashboardPage() {
       value: stats.submissionsTotal,
       href: "/admin/submissions",
       icon: MessageSquareText,
+      tone: "bg-primary/10 text-primary",
     },
     {
       label: "جديدة",
       value: stats.submissionsNew,
       href: "/admin/submissions",
       icon: Bell,
+      tone: "bg-sand/20 text-sand",
     },
     {
       label: "تمت المراجعة",
       value: stats.submissionsReviewed,
       href: "/admin/submissions",
       icon: CheckCircle2,
+      tone: "bg-mint/25 text-primary",
     },
     {
       label: "مؤرشفة",
       value: stats.submissionsArchived,
       href: "/admin/submissions",
       icon: Archive,
+      tone: "bg-muted text-muted-foreground",
     },
   ];
 
@@ -122,7 +126,7 @@ export default async function AdminDashboardPage() {
       title="نظرة عامة"
       subtitle="ملخص سريع لحالة الطلبات والمحتوى"
       actions={
-        <Button asChild size="sm">
+        <Button asChild size="sm" className="bg-sand text-primary hover:bg-sand/90">
           <Link href="/admin/submissions">
             الطلبات
             <ArrowUpRight />
@@ -137,7 +141,11 @@ export default async function AdminDashboardPage() {
             <Card key={card.label}>
               <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
                 <CardDescription>{card.label}</CardDescription>
-                <Icon className="size-4 text-muted-foreground" />
+                <span
+                  className={`inline-flex size-9 items-center justify-center rounded-lg ${card.tone}`}
+                >
+                  <Icon className="size-4" />
+                </span>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-semibold tracking-tight">
@@ -285,7 +293,7 @@ export default async function AdminDashboardPage() {
               <Link key={item.href} href={item.href}>
                 <Card className="h-full transition hover:bg-muted/40">
                   <CardHeader>
-                    <div className="mb-2 flex size-9 items-center justify-center rounded-lg border bg-background">
+                    <div className="mb-2 flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
                       <Icon className="size-4" />
                     </div>
                     <CardTitle className="text-base">{item.title}</CardTitle>

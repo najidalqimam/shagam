@@ -110,18 +110,21 @@ export function AdminShell({
   };
 
   return (
+    <div className="admin-theme min-h-svh bg-background text-foreground">
     <SidebarProvider>
       <Sidebar side="right" variant="inset" collapsible="icon">
-        <SidebarHeader>
+        <SidebarHeader className="border-b border-sidebar-border">
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton size="lg" asChild>
+              <SidebarMenuButton size="lg" asChild className="hover:bg-transparent">
                 <Link href="/admin">
-                  <BrandLogo className="h-8 w-auto max-w-[132px]" />
-                  <div className="grid flex-1 text-start text-sm leading-tight">
-                    <span className="truncate font-medium">شاغم</span>
-                    <span className="truncate text-xs">لوحة التحكم</span>
-                  </div>
+                  <BrandLogo
+                    variant="white"
+                    className="h-8 w-auto max-w-[148px] group-data-[collapsible=icon]:hidden"
+                  />
+                  <span className="hidden size-8 items-center justify-center rounded-lg bg-sand font-display text-sm font-bold text-primary group-data-[collapsible=icon]:flex">
+                    ش
+                  </span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -147,6 +150,7 @@ export function AdminShell({
                           asChild
                           isActive={active}
                           tooltip={link.label}
+                          className="data-active:bg-sand data-active:font-semibold data-active:text-primary data-active:hover:bg-sand data-active:hover:text-primary"
                         >
                           <Link href={link.href}>
                             <Icon />
@@ -205,7 +209,7 @@ export function AdminShell({
         <div className="flex flex-1 flex-col gap-6 p-4 md:gap-8 md:p-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
-              <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+              <h1 className="font-display text-2xl font-semibold tracking-tight">{title}</h1>
               {subtitle && (
                 <p className="max-w-2xl text-sm text-muted-foreground">
                   {subtitle}
@@ -222,5 +226,6 @@ export function AdminShell({
         </div>
       </SidebarInset>
     </SidebarProvider>
+    </div>
   );
 }

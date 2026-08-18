@@ -1,8 +1,102 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(
+        --radix-accordion-content-height,
+        var(--accordion-panel-height, auto)
+      );
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(
+        --radix-accordion-content-height,
+        var(--accordion-panel-height, auto)
+      );
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@custom-variant data-open {
+  &:where([data-state="open"]),
+  &:where([data-open]:not([data-open="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-closed {
+  &:where([data-state="closed"]),
+  &:where([data-closed]:not([data-closed="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-checked {
+  &:where([data-state="checked"]),
+  &:where([data-checked]:not([data-checked="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-unchecked {
+  &:where([data-state="unchecked"]),
+  &:where([data-unchecked]:not([data-unchecked="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-selected {
+  &:where([data-selected="true"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-disabled {
+  &:where([data-disabled="true"]),
+  &:where([data-disabled]:not([data-disabled="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-active {
+  &:where([data-state="active"]),
+  &:where([data-active]:not([data-active="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-horizontal {
+  &:where([data-orientation="horizontal"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-vertical {
+  &:where([data-orientation="vertical"]) {
+    @slot;
+  }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 
 :root {
   /* Site brand (marketing only — do not override shadcn tokens below) */
@@ -456,4 +550,38 @@ a {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Admin panel — brand tokens only, marketing site stays on default shadcn */
+.admin-theme {
+  --background: #f2f8f6;
+  --foreground: #0b4a45;
+  --card: #ffffff;
+  --card-foreground: #0b4a45;
+  --popover: #ffffff;
+  --popover-foreground: #0b4a45;
+  --primary: #07564f;
+  --primary-foreground: #f5faf9;
+  --secondary: #e8f3f0;
+  --secondary-foreground: #07564f;
+  --muted: #e8eeec;
+  --muted-foreground: #4d6f6a;
+  --accent: #e8f3f0;
+  --accent-foreground: #07564f;
+  --border: rgb(7 86 79 / 0.12);
+  --input: rgb(7 86 79 / 0.16);
+  --ring: #d3a74d;
+  --chart-1: #07564f;
+  --chart-2: #d3a74d;
+  --chart-3: #a9d4cd;
+  --chart-4: #0e5650;
+  --chart-5: #b8944f;
+  --sidebar: #07564f;
+  --sidebar-foreground: #f5faf9;
+  --sidebar-primary: #d3a74d;
+  --sidebar-primary-foreground: #07564f;
+  --sidebar-accent: rgb(255 255 255 / 0.12);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgb(255 255 255 / 0.12);
+  --sidebar-ring: #d3a74d;
 }

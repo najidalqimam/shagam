@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import type { ContentLocale, LocalizedSiteContent, SiteContent } from "@/lib/cms/types";
+import type { LocalizedSiteContent, SiteContent } from "@/lib/cms/types";
 import { cn } from "@/lib/utils";
 
 const TABS = [
@@ -34,29 +34,77 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]["id"];
 
-function Field({
+function DualField({
   label,
-  value,
-  onChange,
+  ar,
+  en,
+  onAr,
+  onEn,
   multiline = false,
 }: {
   label: string;
-  value: string;
-  onChange: (v: string) => void;
+  ar: string;
+  en: string;
+  onAr: (v: string) => void;
+  onEn: (v: string) => void;
   multiline?: boolean;
 }) {
   return (
     <div className="space-y-2">
       <Label>{label}</Label>
-      {multiline ? (
-        <Textarea
-          rows={3}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      ) : (
-        <Input value={value} onChange={(e) => onChange(e.target.value)} />
-      )}
+      <div className="grid gap-3 md:grid-cols-2">
+        <div className="space-y-1.5">
+          <p className="text-xs font-medium text-muted-foreground">العربية</p>
+          {multiline ? (
+            <Textarea
+              dir="rtl"
+              rows={3}
+              value={ar}
+              onChange={(e) => onAr(e.target.value)}
+            />
+          ) : (
+            <Input
+              dir="rtl"
+              value={ar}
+              onChange={(e) => onAr(e.target.value)}
+            />
+          )}
+        </div>
+        <div className="space-y-1.5">
+          <p className="text-xs font-medium text-muted-foreground">English</p>
+          {multiline ? (
+            <Textarea
+              dir="ltr"
+              rows={3}
+              value={en}
+              onChange={(e) => onEn(e.target.value)}
+            />
+          ) : (
+            <Input
+              dir="ltr"
+              value={en}
+              onChange={(e) => onEn(e.target.value)}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SharedField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="space-y-2">
+      <Label>{label}</Label>
+      <Input value={value} onChange={(e) => onChange(e.target.value)} />
     </div>
   );
 }
@@ -71,9 +119,9 @@ function ItemCard({
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-[#07564F]/10 bg-white p-4">
+    <div className="rounded-xl border bg-card p-4">
       <div className="mb-3 flex items-center justify-between gap-2">
-        <p className="text-xs font-semibold text-[#4d6f6a]">{title}</p>
+        <p className="text-xs font-semibold text-muted-foreground">{title}</p>
         <Button
           type="button"
           variant="ghost"
@@ -84,30 +132,30 @@ function ItemCard({
           حذف
         </Button>
       </div>
-      {children}
+      <div className="space-y-3">{children}</div>
     </div>
   );
 }
 
-function AddButton({ label, onClick }: { label: string; onClick: () => void }) {
-  return (
-    <Button type="button" onClick={onClick}>
-      + {label}
-    </Button>
-  );
-}
-
-function LinesEditor({
+function DualLinesEditor({
   label,
   hint,
-  value,
+  arValues,
+  enValues,
   onChange,
 }: {
   label: string;
   hint?: string;
-  value: string[];
-  onChange: (next: string[]) => void;
+  arValues: string[];
+  enValues: string[];
+  onChange: (ar: string[], en: string[]) => void;
 }) {
+  const count = Math.max(arValues.length, enValues.length);
+  const rows = Array.from({ length: count }, (_, i) => ({
+    ar: arValues[i] ?? "",
+    en: enValues[i] ?? "",
+  }));
+
   return (
     <div className="space-y-2">
       <div className="flex items-end justify-between gap-2">
@@ -121,35 +169,57 @@ function LinesEditor({
           type="button"
           size="sm"
           variant="outline"
-          onClick={() => onChange([...value, ""])}
+          onClick={() => onChange([...arValues, ""], [...enValues, ""])}
         >
           + إضافة سطر
         </Button>
       </div>
       <div className="space-y-2">
-        {value.map((line, i) => (
-          <div key={i} className="flex gap-2">
+        {rows.map((row, i) => (
+          <div key={i} className="grid gap-2 md:grid-cols-[1fr_1fr_auto]">
             <Input
-              value={line}
+              dir="rtl"
+              value={row.ar}
+              placeholder={`عربي ${i + 1}`}
               onChange={(e) => {
-                const next = [...value];
-                next[i] = e.target.value;
-                onChange(next);
+                const nextAr = [...arValues];
+                const nextEn = [...enValues];
+                while (nextAr.length <= i) nextAr.push("");
+                while (nextEn.length <= i) nextEn.push("");
+                nextAr[i] = e.target.value;
+                onChange(nextAr, nextEn);
               }}
-              placeholder={`عنصر ${i + 1}`}
+            />
+            <Input
+              dir="ltr"
+              value={row.en}
+              placeholder={`English ${i + 1}`}
+              onChange={(e) => {
+                const nextAr = [...arValues];
+                const nextEn = [...enValues];
+                while (nextAr.length <= i) nextAr.push("");
+                while (nextEn.length <= i) nextEn.push("");
+                nextEn[i] = e.target.value;
+                onChange(nextAr, nextEn);
+              }}
             />
             <Button
               type="button"
               variant="outline"
               size="sm"
-              className="shrink-0 text-destructive"
-              onClick={() => onChange(value.filter((_, idx) => idx !== i))}
+              className="text-destructive"
+              onClick={() =>
+                onChange(
+                  arValues.filter((_, idx) => idx !== i),
+                  enValues.filter((_, idx) => idx !== i),
+                )
+              }
             >
               حذف
             </Button>
           </div>
         ))}
-        {value.length === 0 ? (
+        {count === 0 ? (
           <p className="text-sm text-muted-foreground">لا عناصر بعد.</p>
         ) : null}
       </div>
@@ -157,24 +227,33 @@ function LinesEditor({
   );
 }
 
+function replaceAt<T>(list: T[], i: number, item: T): T[] {
+  const next = list.slice();
+  while (next.length <= i) next.push(item);
+  next[i] = item;
+  return next;
+}
+
 export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
   const [tab, setTab] = useState<TabId>("hero");
-  const [editLocale, setEditLocale] = useState<ContentLocale>("ar");
   const [bundle, setBundle] = useState(initial);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
 
-  const content = bundle[editLocale];
-  const setContent = (next: SiteContent) => {
-    setBundle((b) => ({ ...b, [editLocale]: next }));
-  };
+  const ar = bundle.ar;
+  const en = bundle.en;
+
+  const patchAr = (next: SiteContent) =>
+    setBundle((b) => ({ ...b, ar: next }));
+  const patchEn = (next: SiteContent) =>
+    setBundle((b) => ({ ...b, en: next }));
+  const mapBoth = (fn: (c: SiteContent) => SiteContent) =>
+    setBundle((b) => ({ ar: fn(b.ar), en: fn(b.en) }));
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const t = params.get("tab") as TabId | null;
     if (t && TABS.some((x) => x.id === t)) setTab(t);
-    const lang = params.get("lang");
-    if (lang === "en" || lang === "ar") setEditLocale(lang);
   }, []);
 
   const save = async () => {
@@ -187,17 +266,9 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
         body: JSON.stringify(bundle),
       });
       if (!res.ok) throw new Error("fail");
-      setMsg(
-        editLocale === "en"
-          ? "English content saved."
-          : "تم حفظ المحتوى بنجاح.",
-      );
+      setMsg("تم حفظ المحتوى العربي والإنجليزي.");
     } catch {
-      setMsg(
-        editLocale === "en"
-          ? "Could not save. Check your login."
-          : "تعذر الحفظ. تأكد من تسجيل الدخول.",
-      );
+      setMsg("تعذر الحفظ. تأكد من تسجيل الدخول.");
     } finally {
       setSaving(false);
     }
@@ -207,95 +278,182 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
     if (tab === "hero") {
       return (
         <div className="grid gap-4">
-          <Field
+          <DualField
             label="سطر علوي"
-            value={content.hero.eyebrow}
-            onChange={(v) =>
-              setContent({ ...content, hero: { ...content.hero, eyebrow: v } })
-            }
+            ar={ar.hero.eyebrow}
+            en={en.hero.eyebrow}
+            onAr={(v) => patchAr({ ...ar, hero: { ...ar.hero, eyebrow: v } })}
+            onEn={(v) => patchEn({ ...en, hero: { ...en.hero, eyebrow: v } })}
           />
-          <Field
+          <DualField
             label="العنوان"
-            value={content.hero.title}
-            onChange={(v) =>
-              setContent({ ...content, hero: { ...content.hero, title: v } })
-            }
+            ar={ar.hero.title}
+            en={en.hero.title}
+            onAr={(v) => patchAr({ ...ar, hero: { ...ar.hero, title: v } })}
+            onEn={(v) => patchEn({ ...en, hero: { ...en.hero, title: v } })}
             multiline
           />
-          <Field
+          <DualField
             label="الوصف"
-            value={content.hero.body}
-            onChange={(v) =>
-              setContent({ ...content, hero: { ...content.hero, body: v } })
-            }
+            ar={ar.hero.body}
+            en={en.hero.body}
+            onAr={(v) => patchAr({ ...ar, hero: { ...ar.hero, body: v } })}
+            onEn={(v) => patchEn({ ...en, hero: { ...en.hero, body: v } })}
             multiline
           />
-          <Field
+          <DualField
             label="زر أساسي"
-            value={content.hero.primaryCta}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                hero: { ...content.hero, primaryCta: v },
-              })
+            ar={ar.hero.primaryCta}
+            en={en.hero.primaryCta}
+            onAr={(v) =>
+              patchAr({ ...ar, hero: { ...ar.hero, primaryCta: v } })
+            }
+            onEn={(v) =>
+              patchEn({ ...en, hero: { ...en.hero, primaryCta: v } })
             }
           />
-          <Field
+          <DualField
             label="زر ثانوي"
-            value={content.hero.secondaryCta}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                hero: { ...content.hero, secondaryCta: v },
-              })
+            ar={ar.hero.secondaryCta}
+            en={en.hero.secondaryCta}
+            onAr={(v) =>
+              patchAr({ ...ar, hero: { ...ar.hero, secondaryCta: v } })
+            }
+            onEn={(v) =>
+              patchEn({ ...en, hero: { ...en.hero, secondaryCta: v } })
             }
           />
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium">الإحصائيات</p>
-              <AddButton
-                label="إحصائية"
+              <Button
+                type="button"
                 onClick={() =>
-                  setContent({
-                    ...content,
-                    stats: [...content.stats, { value: "0", label: "جديد" }],
-                  })
-                }
-              />
-            </div>
-            {content.stats.map((s, i) => (
-              <ItemCard
-                key={i}
-                title={`إحصائية ${i + 1}`}
-                onRemove={() =>
-                  setContent({
-                    ...content,
-                    stats: content.stats.filter((_, idx) => idx !== i),
-                  })
+                  mapBoth((c) => ({
+                    ...c,
+                    stats: [...c.stats, { value: "", label: "" }],
+                  }))
                 }
               >
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <Field
-                    label="القيمة"
-                    value={s.value}
-                    onChange={(v) => {
-                      const stats = [...content.stats];
-                      stats[i] = { ...stats[i], value: v };
-                      setContent({ ...content, stats });
-                    }}
-                  />
-                  <Field
-                    label="العنوان"
-                    value={s.label}
-                    onChange={(v) => {
-                      const stats = [...content.stats];
-                      stats[i] = { ...stats[i], label: v };
-                      setContent({ ...content, stats });
-                    }}
-                  />
-                </div>
-              </ItemCard>
-            ))}
+                + إحصائية
+              </Button>
+            </div>
+            <div className="overflow-x-auto rounded-xl border">
+              <table className="w-full min-w-[720px] text-sm">
+                <thead className="bg-muted/50">
+                  <tr className="border-b text-start">
+                    <th className="w-12 px-3 py-2.5 font-medium">#</th>
+                    <th className="px-3 py-2.5 font-medium">القيمة عربي</th>
+                    <th className="px-3 py-2.5 font-medium">Value EN</th>
+                    <th className="px-3 py-2.5 font-medium">العنوان عربي</th>
+                    <th className="px-3 py-2.5 font-medium">Title EN</th>
+                    <th className="w-20 px-3 py-2.5 font-medium" />
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.from(
+                    { length: Math.max(ar.stats.length, en.stats.length) },
+                    (_, i) => {
+                      const arItem = ar.stats[i] ?? { value: "", label: "" };
+                      const enItem = en.stats[i] ?? { value: "", label: "" };
+                      return (
+                        <tr key={i} className="border-b last:border-b-0">
+                          <td className="px-3 py-2 text-muted-foreground">
+                            {i + 1}
+                          </td>
+                          <td className="px-3 py-2">
+                            <Input
+                              dir="rtl"
+                              value={arItem.value}
+                              onChange={(e) =>
+                                patchAr({
+                                  ...ar,
+                                  stats: replaceAt(ar.stats, i, {
+                                    ...arItem,
+                                    value: e.target.value,
+                                  }),
+                                })
+                              }
+                            />
+                          </td>
+                          <td className="px-3 py-2">
+                            <Input
+                              dir="ltr"
+                              value={enItem.value}
+                              onChange={(e) =>
+                                patchEn({
+                                  ...en,
+                                  stats: replaceAt(en.stats, i, {
+                                    ...enItem,
+                                    value: e.target.value,
+                                  }),
+                                })
+                              }
+                            />
+                          </td>
+                          <td className="px-3 py-2">
+                            <Input
+                              dir="rtl"
+                              value={arItem.label}
+                              onChange={(e) =>
+                                patchAr({
+                                  ...ar,
+                                  stats: replaceAt(ar.stats, i, {
+                                    ...arItem,
+                                    label: e.target.value,
+                                  }),
+                                })
+                              }
+                            />
+                          </td>
+                          <td className="px-3 py-2">
+                            <Input
+                              dir="ltr"
+                              value={enItem.label}
+                              onChange={(e) =>
+                                patchEn({
+                                  ...en,
+                                  stats: replaceAt(en.stats, i, {
+                                    ...enItem,
+                                    label: e.target.value,
+                                  }),
+                                })
+                              }
+                            />
+                          </td>
+                          <td className="px-3 py-2">
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="text-destructive hover:text-destructive"
+                              onClick={() =>
+                                mapBoth((c) => ({
+                                  ...c,
+                                  stats: c.stats.filter((_, idx) => idx !== i),
+                                }))
+                              }
+                            >
+                              حذف
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    },
+                  )}
+                  {ar.stats.length === 0 && en.stats.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={6}
+                        className="px-3 py-8 text-center text-muted-foreground"
+                      >
+                        لا توجد إحصائيات بعد.
+                      </td>
+                    </tr>
+                  ) : null}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       );
@@ -304,51 +462,74 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
     if (tab === "nav") {
       return (
         <div className="space-y-3">
-          {content.navLinks.map((link, i) => (
-            <ItemCard
-              key={i}
-              title={`رابط ${i + 1}`}
-              onRemove={() =>
-                setContent({
-                  ...content,
-                  navLinks: content.navLinks.filter((_, idx) => idx !== i),
-                })
-              }
-            >
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Field
-                  label="النص"
-                  value={link.label}
-                  onChange={(v) => {
-                    const navLinks = [...content.navLinks];
-                    navLinks[i] = { ...navLinks[i], label: v };
-                    setContent({ ...content, navLinks });
-                  }}
-                />
-                <Field
-                  label="الرابط"
-                  value={link.href}
-                  onChange={(v) => {
-                    const navLinks = [...content.navLinks];
-                    navLinks[i] = { ...navLinks[i], href: v };
-                    setContent({ ...content, navLinks });
-                  }}
-                />
-              </div>
-            </ItemCard>
-          ))}
-          <AddButton
-            label="إضافة رابط"
+          {Array.from(
+            { length: Math.max(ar.navLinks.length, en.navLinks.length) },
+            (_, i) => {
+              const arItem = ar.navLinks[i] ?? { href: "#", label: "" };
+              const enItem = en.navLinks[i] ?? { href: "#", label: "" };
+              return (
+                <ItemCard
+                  key={i}
+                  title={`رابط ${i + 1}`}
+                  onRemove={() =>
+                    mapBoth((c) => ({
+                      ...c,
+                      navLinks: c.navLinks.filter((_, idx) => idx !== i),
+                    }))
+                  }
+                >
+                  <DualField
+                    label="النص"
+                    ar={arItem.label}
+                    en={enItem.label}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        navLinks: replaceAt(ar.navLinks, i, {
+                          ...arItem,
+                          label: v,
+                        }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        navLinks: replaceAt(en.navLinks, i, {
+                          ...enItem,
+                          label: v,
+                        }),
+                      })
+                    }
+                  />
+                  <SharedField
+                    label="الرابط (مشترك)"
+                    value={arItem.href}
+                    onChange={(v) =>
+                      mapBoth((c) => ({
+                        ...c,
+                        navLinks: replaceAt(
+                          c.navLinks,
+                          i,
+                          { ...(c.navLinks[i] ?? arItem), href: v },
+                        ),
+                      }))
+                    }
+                  />
+                </ItemCard>
+              );
+            },
+          )}
+          <Button
+            type="button"
             onClick={() =>
-              setContent({
-                ...content,
-                navLinks: [
-                  ...content.navLinks,
-                  { href: "#", label: "رابط جديد" },
-                ],
-              })
+              mapBoth((c) => ({
+                ...c,
+                navLinks: [...c.navLinks, { href: "#", label: "" }],
+              }))
             }
-          />
+          >
+            + إضافة رابط
+          </Button>
         </div>
       );
     }
@@ -356,94 +537,123 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
     if (tab === "how") {
       return (
         <div className="space-y-4">
-          <Field
+          <DualField
             label="عنوان صغير"
-            value={content.how.eyebrow}
-            onChange={(v) =>
-              setContent({ ...content, how: { ...content.how, eyebrow: v } })
-            }
+            ar={ar.how.eyebrow}
+            en={en.how.eyebrow}
+            onAr={(v) => patchAr({ ...ar, how: { ...ar.how, eyebrow: v } })}
+            onEn={(v) => patchEn({ ...en, how: { ...en.how, eyebrow: v } })}
           />
-          <Field
+          <DualField
             label="العنوان"
-            value={content.how.title}
-            onChange={(v) =>
-              setContent({ ...content, how: { ...content.how, title: v } })
-            }
+            ar={ar.how.title}
+            en={en.how.title}
+            onAr={(v) => patchAr({ ...ar, how: { ...ar.how, title: v } })}
+            onEn={(v) => patchEn({ ...en, how: { ...en.how, title: v } })}
           />
-          <Field
+          <DualField
             label="الوصف"
-            value={content.how.body}
-            onChange={(v) =>
-              setContent({ ...content, how: { ...content.how, body: v } })
-            }
+            ar={ar.how.body}
+            en={en.how.body}
+            onAr={(v) => patchAr({ ...ar, how: { ...ar.how, body: v } })}
+            onEn={(v) => patchEn({ ...en, how: { ...en.how, body: v } })}
             multiline
           />
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium">الخطوات</p>
-            <AddButton
-              label="خطوة"
+            <Button
+              type="button"
               onClick={() =>
-                setContent({
-                  ...content,
+                mapBoth((c) => ({
+                  ...c,
                   steps: [
-                    ...content.steps,
+                    ...c.steps,
                     {
-                      num: String(content.steps.length + 1).padStart(2, "0"),
-                      title: "خطوة جديدة",
+                      num: String(c.steps.length + 1).padStart(2, "0"),
+                      title: "",
                       body: "",
                     },
                   ],
-                })
-              }
-            />
-          </div>
-          {content.steps.map((step, i) => (
-            <ItemCard
-              key={i}
-              title={`الخطوة ${step.num || i + 1}`}
-              onRemove={() =>
-                setContent({
-                  ...content,
-                  steps: content.steps.filter((_, idx) => idx !== i),
-                })
+                }))
               }
             >
-              <div className="grid gap-3 sm:grid-cols-3">
-                <Field
-                  label="الرقم"
-                  value={step.num}
-                  onChange={(v) => {
-                    const steps = [...content.steps];
-                    steps[i] = { ...steps[i], num: v };
-                    setContent({ ...content, steps });
-                  }}
-                />
-                <div className="sm:col-span-2">
-                  <Field
-                    label="العنوان"
-                    value={step.title}
-                    onChange={(v) => {
-                      const steps = [...content.steps];
-                      steps[i] = { ...steps[i], title: v };
-                      setContent({ ...content, steps });
-                    }}
+              + خطوة
+            </Button>
+          </div>
+          {Array.from(
+            { length: Math.max(ar.steps.length, en.steps.length) },
+            (_, i) => {
+              const arItem = ar.steps[i] ?? { num: "", title: "", body: "" };
+              const enItem = en.steps[i] ?? { num: "", title: "", body: "" };
+              return (
+                <ItemCard
+                  key={i}
+                  title={`الخطوة ${arItem.num || i + 1}`}
+                  onRemove={() =>
+                    mapBoth((c) => ({
+                      ...c,
+                      steps: c.steps.filter((_, idx) => idx !== i),
+                    }))
+                  }
+                >
+                  <SharedField
+                    label="الرقم (مشترك)"
+                    value={arItem.num}
+                    onChange={(v) =>
+                      mapBoth((c) => ({
+                        ...c,
+                        steps: replaceAt(c.steps, i, {
+                          ...(c.steps[i] ?? arItem),
+                          num: v,
+                        }),
+                      }))
+                    }
                   />
-                </div>
-              </div>
-              <div className="mt-3">
-                <Field
-                  label="الوصف"
-                  value={step.body}
-                  onChange={(v) => {
-                    const steps = [...content.steps];
-                    steps[i] = { ...steps[i], body: v };
-                    setContent({ ...content, steps });
-                  }}
-                  multiline
-                />
-              </div>
-            </ItemCard>
-          ))}
+                  <DualField
+                    label="العنوان"
+                    ar={arItem.title}
+                    en={enItem.title}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        steps: replaceAt(ar.steps, i, {
+                          ...arItem,
+                          title: v,
+                        }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        steps: replaceAt(en.steps, i, {
+                          ...enItem,
+                          title: v,
+                        }),
+                      })
+                    }
+                  />
+                  <DualField
+                    label="الوصف"
+                    ar={arItem.body}
+                    en={enItem.body}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        steps: replaceAt(ar.steps, i, { ...arItem, body: v }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        steps: replaceAt(en.steps, i, { ...enItem, body: v }),
+                      })
+                    }
+                    multiline
+                  />
+                </ItemCard>
+              );
+            },
+          )}
         </div>
       );
     }
@@ -451,123 +661,205 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
     if (tab === "services") {
       return (
         <div className="space-y-4">
-          <Field
+          <DualField
             label="عنوان صغير"
-            value={content.servicesSection.eyebrow}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                servicesSection: { ...content.servicesSection, eyebrow: v },
+            ar={ar.servicesSection.eyebrow}
+            en={en.servicesSection.eyebrow}
+            onAr={(v) =>
+              patchAr({
+                ...ar,
+                servicesSection: { ...ar.servicesSection, eyebrow: v },
+              })
+            }
+            onEn={(v) =>
+              patchEn({
+                ...en,
+                servicesSection: { ...en.servicesSection, eyebrow: v },
               })
             }
           />
-          <Field
+          <DualField
             label="عنوان القسم"
-            value={content.servicesSection.title}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                servicesSection: { ...content.servicesSection, title: v },
+            ar={ar.servicesSection.title}
+            en={en.servicesSection.title}
+            onAr={(v) =>
+              patchAr({
+                ...ar,
+                servicesSection: { ...ar.servicesSection, title: v },
+              })
+            }
+            onEn={(v) =>
+              patchEn({
+                ...en,
+                servicesSection: { ...en.servicesSection, title: v },
               })
             }
           />
-          <Field
+          <DualField
             label="وصف القسم"
-            value={content.servicesSection.body}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                servicesSection: { ...content.servicesSection, body: v },
+            ar={ar.servicesSection.body}
+            en={en.servicesSection.body}
+            onAr={(v) =>
+              patchAr({
+                ...ar,
+                servicesSection: { ...ar.servicesSection, body: v },
+              })
+            }
+            onEn={(v) =>
+              patchEn({
+                ...en,
+                servicesSection: { ...en.servicesSection, body: v },
               })
             }
             multiline
           />
-          <Field
+          <DualField
             label="نص الزر"
-            value={content.servicesSection.cta}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                servicesSection: { ...content.servicesSection, cta: v },
+            ar={ar.servicesSection.cta}
+            en={en.servicesSection.cta}
+            onAr={(v) =>
+              patchAr({
+                ...ar,
+                servicesSection: { ...ar.servicesSection, cta: v },
+              })
+            }
+            onEn={(v) =>
+              patchEn({
+                ...en,
+                servicesSection: { ...en.servicesSection, cta: v },
               })
             }
           />
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium">الخدمات</p>
-            <AddButton
-              label="خدمة"
+            <Button
+              type="button"
               onClick={() =>
-                setContent({
-                  ...content,
+                mapBoth((c) => ({
+                  ...c,
                   services: [
-                    ...content.services,
-                    {
-                      title: "خدمة جديدة",
-                      body: "",
-                      meta: "",
-                      kind: "data",
-                    },
+                    ...c.services,
+                    { title: "", body: "", meta: "", kind: "data" },
                   ],
-                })
-              }
-            />
-          </div>
-          {content.services.map((service, i) => (
-            <ItemCard
-              key={i}
-              title={`خدمة ${i + 1}`}
-              onRemove={() =>
-                setContent({
-                  ...content,
-                  services: content.services.filter((_, idx) => idx !== i),
-                })
+                }))
               }
             >
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Field
-                  label="العنوان"
-                  value={service.title}
-                  onChange={(v) => {
-                    const services = [...content.services];
-                    services[i] = { ...services[i], title: v };
-                    setContent({ ...content, services });
-                  }}
-                />
-                <Field
-                  label="النوع (kind)"
-                  value={service.kind}
-                  onChange={(v) => {
-                    const services = [...content.services];
-                    services[i] = { ...services[i], kind: v };
-                    setContent({ ...content, services });
-                  }}
-                />
-              </div>
-              <div className="mt-3">
-                <Field
-                  label="الوصف"
-                  value={service.body}
-                  onChange={(v) => {
-                    const services = [...content.services];
-                    services[i] = { ...services[i], body: v };
-                    setContent({ ...content, services });
-                  }}
-                  multiline
-                />
-              </div>
-              <div className="mt-3">
-                <Field
-                  label="الوصف المختصر (meta)"
-                  value={service.meta}
-                  onChange={(v) => {
-                    const services = [...content.services];
-                    services[i] = { ...services[i], meta: v };
-                    setContent({ ...content, services });
-                  }}
-                />
-              </div>
-            </ItemCard>
-          ))}
+              + خدمة
+            </Button>
+          </div>
+          {Array.from(
+            { length: Math.max(ar.services.length, en.services.length) },
+            (_, i) => {
+              const arItem = ar.services[i] ?? {
+                title: "",
+                body: "",
+                meta: "",
+                kind: "data",
+              };
+              const enItem = en.services[i] ?? {
+                title: "",
+                body: "",
+                meta: "",
+                kind: "data",
+              };
+              return (
+                <ItemCard
+                  key={i}
+                  title={`خدمة ${i + 1}`}
+                  onRemove={() =>
+                    mapBoth((c) => ({
+                      ...c,
+                      services: c.services.filter((_, idx) => idx !== i),
+                    }))
+                  }
+                >
+                  <DualField
+                    label="العنوان"
+                    ar={arItem.title}
+                    en={enItem.title}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        services: replaceAt(ar.services, i, {
+                          ...arItem,
+                          title: v,
+                        }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        services: replaceAt(en.services, i, {
+                          ...enItem,
+                          title: v,
+                        }),
+                      })
+                    }
+                  />
+                  <SharedField
+                    label="النوع kind (مشترك)"
+                    value={arItem.kind}
+                    onChange={(v) =>
+                      mapBoth((c) => ({
+                        ...c,
+                        services: replaceAt(c.services, i, {
+                          ...(c.services[i] ?? arItem),
+                          kind: v,
+                        }),
+                      }))
+                    }
+                  />
+                  <DualField
+                    label="الوصف"
+                    ar={arItem.body}
+                    en={enItem.body}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        services: replaceAt(ar.services, i, {
+                          ...arItem,
+                          body: v,
+                        }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        services: replaceAt(en.services, i, {
+                          ...enItem,
+                          body: v,
+                        }),
+                      })
+                    }
+                    multiline
+                  />
+                  <DualField
+                    label="الوصف المختصر (meta)"
+                    ar={arItem.meta}
+                    en={enItem.meta}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        services: replaceAt(ar.services, i, {
+                          ...arItem,
+                          meta: v,
+                        }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        services: replaceAt(en.services, i, {
+                          ...enItem,
+                          meta: v,
+                        }),
+                      })
+                    }
+                  />
+                </ItemCard>
+              );
+            },
+          )}
         </div>
       );
     }
@@ -575,85 +867,118 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
     if (tab === "faqs") {
       return (
         <div className="space-y-4">
-          <Field
+          <DualField
             label="عنوان صغير"
-            value={content.faq.eyebrow}
-            onChange={(v) =>
-              setContent({ ...content, faq: { ...content.faq, eyebrow: v } })
-            }
+            ar={ar.faq.eyebrow}
+            en={en.faq.eyebrow}
+            onAr={(v) => patchAr({ ...ar, faq: { ...ar.faq, eyebrow: v } })}
+            onEn={(v) => patchEn({ ...en, faq: { ...en.faq, eyebrow: v } })}
           />
-          <Field
+          <DualField
             label="عنوان القسم"
-            value={content.faq.title}
-            onChange={(v) =>
-              setContent({ ...content, faq: { ...content.faq, title: v } })
-            }
+            ar={ar.faq.title}
+            en={en.faq.title}
+            onAr={(v) => patchAr({ ...ar, faq: { ...ar.faq, title: v } })}
+            onEn={(v) => patchEn({ ...en, faq: { ...en.faq, title: v } })}
           />
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium">الأسئلة</p>
-            <AddButton
-              label="سؤال"
+            <Button
+              type="button"
               onClick={() =>
-                setContent({
-                  ...content,
-                  faqs: [...content.faqs, { q: "سؤال جديد؟", a: "" }],
-                })
-              }
-            />
-          </div>
-          {content.faqs.map((faq, i) => (
-            <ItemCard
-              key={i}
-              title={`سؤال ${i + 1}`}
-              onRemove={() =>
-                setContent({
-                  ...content,
-                  faqs: content.faqs.filter((_, idx) => idx !== i),
-                })
+                mapBoth((c) => ({
+                  ...c,
+                  faqs: [...c.faqs, { q: "", a: "" }],
+                }))
               }
             >
-              <Field
-                label="السؤال"
-                value={faq.q}
-                onChange={(v) => {
-                  const faqs = [...content.faqs];
-                  faqs[i] = { ...faqs[i], q: v };
-                  setContent({ ...content, faqs });
-                }}
-              />
-              <div className="mt-3">
-                <Field
-                  label="الجواب"
-                  value={faq.a}
-                  onChange={(v) => {
-                    const faqs = [...content.faqs];
-                    faqs[i] = { ...faqs[i], a: v };
-                    setContent({ ...content, faqs });
-                  }}
-                  multiline
-                />
-              </div>
-            </ItemCard>
-          ))}
+              + سؤال
+            </Button>
+          </div>
+          {Array.from(
+            { length: Math.max(ar.faqs.length, en.faqs.length) },
+            (_, i) => {
+              const arItem = ar.faqs[i] ?? { q: "", a: "" };
+              const enItem = en.faqs[i] ?? { q: "", a: "" };
+              return (
+                <ItemCard
+                  key={i}
+                  title={`سؤال ${i + 1}`}
+                  onRemove={() =>
+                    mapBoth((c) => ({
+                      ...c,
+                      faqs: c.faqs.filter((_, idx) => idx !== i),
+                    }))
+                  }
+                >
+                  <DualField
+                    label="السؤال"
+                    ar={arItem.q}
+                    en={enItem.q}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        faqs: replaceAt(ar.faqs, i, { ...arItem, q: v }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        faqs: replaceAt(en.faqs, i, { ...enItem, q: v }),
+                      })
+                    }
+                  />
+                  <DualField
+                    label="الجواب"
+                    ar={arItem.a}
+                    en={enItem.a}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        faqs: replaceAt(ar.faqs, i, { ...arItem, a: v }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        faqs: replaceAt(en.faqs, i, { ...enItem, a: v }),
+                      })
+                    }
+                    multiline
+                  />
+                </ItemCard>
+              );
+            },
+          )}
         </div>
       );
     }
 
     if (tab === "lists") {
       return (
-        <div className="grid gap-6 lg:grid-cols-2">
-          <LinesEditor
+        <div className="grid gap-6">
+          <DualLinesEditor
             label="المدن"
             hint="تظهر في نماذج العميل والمشغّل"
-            value={content.cities}
-            onChange={(cities) => setContent({ ...content, cities })}
+            arValues={ar.cities}
+            enValues={en.cities}
+            onChange={(cities, citiesEn) =>
+              setBundle((b) => ({
+                ar: { ...b.ar, cities },
+                en: { ...b.en, cities: citiesEn },
+              }))
+            }
           />
-          <LinesEditor
+          <DualLinesEditor
             label="خيارات الخدمات في النموذج"
             hint="قائمة اختيار الخدمة في طلب الخدمة"
-            value={content.serviceOptions}
-            onChange={(serviceOptions) =>
-              setContent({ ...content, serviceOptions })
+            arValues={ar.serviceOptions}
+            enValues={en.serviceOptions}
+            onChange={(serviceOptions, serviceOptionsEn) =>
+              setBundle((b) => ({
+                ar: { ...b.ar, serviceOptions },
+                en: { ...b.en, serviceOptions: serviceOptionsEn },
+              }))
             }
           />
         </div>
@@ -663,77 +988,109 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
     if (tab === "why") {
       return (
         <div className="space-y-4">
-          <Field
+          <DualField
             label="عنوان صغير"
-            value={content.why.eyebrow}
-            onChange={(v) =>
-              setContent({ ...content, why: { ...content.why, eyebrow: v } })
-            }
+            ar={ar.why.eyebrow}
+            en={en.why.eyebrow}
+            onAr={(v) => patchAr({ ...ar, why: { ...ar.why, eyebrow: v } })}
+            onEn={(v) => patchEn({ ...en, why: { ...en.why, eyebrow: v } })}
           />
-          <Field
+          <DualField
             label="العنوان"
-            value={content.why.title}
-            onChange={(v) =>
-              setContent({ ...content, why: { ...content.why, title: v } })
-            }
+            ar={ar.why.title}
+            en={en.why.title}
+            onAr={(v) => patchAr({ ...ar, why: { ...ar.why, title: v } })}
+            onEn={(v) => patchEn({ ...en, why: { ...en.why, title: v } })}
           />
-          <Field
+          <DualField
             label="الوصف"
-            value={content.why.body}
-            onChange={(v) =>
-              setContent({ ...content, why: { ...content.why, body: v } })
-            }
+            ar={ar.why.body}
+            en={en.why.body}
+            onAr={(v) => patchAr({ ...ar, why: { ...ar.why, body: v } })}
+            onEn={(v) => patchEn({ ...en, why: { ...en.why, body: v } })}
             multiline
           />
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium">العناصر</p>
-            <AddButton
-              label="عنصر"
+            <Button
+              type="button"
               onClick={() =>
-                setContent({
-                  ...content,
-                  whyItems: [
-                    ...content.whyItems,
-                    { title: "عنصر جديد", body: "" },
-                  ],
-                })
-              }
-            />
-          </div>
-          {content.whyItems.map((item, i) => (
-            <ItemCard
-              key={i}
-              title={`عنصر ${i + 1}`}
-              onRemove={() =>
-                setContent({
-                  ...content,
-                  whyItems: content.whyItems.filter((_, idx) => idx !== i),
-                })
+                mapBoth((c) => ({
+                  ...c,
+                  whyItems: [...c.whyItems, { title: "", body: "" }],
+                }))
               }
             >
-              <Field
-                label="العنوان"
-                value={item.title}
-                onChange={(v) => {
-                  const whyItems = [...content.whyItems];
-                  whyItems[i] = { ...whyItems[i], title: v };
-                  setContent({ ...content, whyItems });
-                }}
-              />
-              <div className="mt-3">
-                <Field
-                  label="الوصف"
-                  value={item.body}
-                  onChange={(v) => {
-                    const whyItems = [...content.whyItems];
-                    whyItems[i] = { ...whyItems[i], body: v };
-                    setContent({ ...content, whyItems });
-                  }}
-                  multiline
-                />
-              </div>
-            </ItemCard>
-          ))}
+              + عنصر
+            </Button>
+          </div>
+          {Array.from(
+            { length: Math.max(ar.whyItems.length, en.whyItems.length) },
+            (_, i) => {
+              const arItem = ar.whyItems[i] ?? { title: "", body: "" };
+              const enItem = en.whyItems[i] ?? { title: "", body: "" };
+              return (
+                <ItemCard
+                  key={i}
+                  title={`عنصر ${i + 1}`}
+                  onRemove={() =>
+                    mapBoth((c) => ({
+                      ...c,
+                      whyItems: c.whyItems.filter((_, idx) => idx !== i),
+                    }))
+                  }
+                >
+                  <DualField
+                    label="العنوان"
+                    ar={arItem.title}
+                    en={enItem.title}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        whyItems: replaceAt(ar.whyItems, i, {
+                          ...arItem,
+                          title: v,
+                        }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        whyItems: replaceAt(en.whyItems, i, {
+                          ...enItem,
+                          title: v,
+                        }),
+                      })
+                    }
+                  />
+                  <DualField
+                    label="الوصف"
+                    ar={arItem.body}
+                    en={enItem.body}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        whyItems: replaceAt(ar.whyItems, i, {
+                          ...arItem,
+                          body: v,
+                        }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        whyItems: replaceAt(en.whyItems, i, {
+                          ...enItem,
+                          body: v,
+                        }),
+                      })
+                    }
+                    multiline
+                  />
+                </ItemCard>
+              );
+            },
+          )}
         </div>
       );
     }
@@ -741,117 +1098,184 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
     if (tab === "operators") {
       return (
         <div className="space-y-4">
-          <Field
+          <DualField
             label="عنوان صغير"
-            value={content.operators.eyebrow}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                operators: { ...content.operators, eyebrow: v },
+            ar={ar.operators.eyebrow}
+            en={en.operators.eyebrow}
+            onAr={(v) =>
+              patchAr({
+                ...ar,
+                operators: { ...ar.operators, eyebrow: v },
+              })
+            }
+            onEn={(v) =>
+              patchEn({
+                ...en,
+                operators: { ...en.operators, eyebrow: v },
               })
             }
           />
-          <Field
+          <DualField
             label="العنوان"
-            value={content.operators.title}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                operators: { ...content.operators, title: v },
-              })
+            ar={ar.operators.title}
+            en={en.operators.title}
+            onAr={(v) =>
+              patchAr({ ...ar, operators: { ...ar.operators, title: v } })
+            }
+            onEn={(v) =>
+              patchEn({ ...en, operators: { ...en.operators, title: v } })
             }
           />
-          <Field
+          <DualField
             label="الوصف"
-            value={content.operators.body}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                operators: { ...content.operators, body: v },
-              })
+            ar={ar.operators.body}
+            en={en.operators.body}
+            onAr={(v) =>
+              patchAr({ ...ar, operators: { ...ar.operators, body: v } })
+            }
+            onEn={(v) =>
+              patchEn({ ...en, operators: { ...en.operators, body: v } })
             }
             multiline
           />
-          <Field
+          <DualField
             label="نص الزر"
-            value={content.operators.cta}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                operators: { ...content.operators, cta: v },
-              })
+            ar={ar.operators.cta}
+            en={en.operators.cta}
+            onAr={(v) =>
+              patchAr({ ...ar, operators: { ...ar.operators, cta: v } })
+            }
+            onEn={(v) =>
+              patchEn({ ...en, operators: { ...en.operators, cta: v } })
             }
           />
-          <LinesEditor
+          <DualLinesEditor
             label="المزايا"
-            value={content.operatorPerks}
-            onChange={(operatorPerks) =>
-              setContent({ ...content, operatorPerks })
+            arValues={ar.operatorPerks}
+            enValues={en.operatorPerks}
+            onChange={(operatorPerks, operatorPerksEn) =>
+              setBundle((b) => ({
+                ar: { ...b.ar, operatorPerks },
+                en: { ...b.en, operatorPerks: operatorPerksEn },
+              }))
             }
           />
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium">مستويات التأهيل</p>
-            <AddButton
-              label="مستوى"
+            <Button
+              type="button"
               onClick={() =>
-                setContent({
-                  ...content,
+                mapBoth((c) => ({
+                  ...c,
                   operatorLevels: [
-                    ...content.operatorLevels,
+                    ...c.operatorLevels,
                     {
-                      level: String(content.operatorLevels.length + 1),
-                      title: "مستوى جديد",
+                      level: String(c.operatorLevels.length + 1),
+                      title: "",
                       body: "",
                     },
                   ],
-                })
-              }
-            />
-          </div>
-          {content.operatorLevels.map((level, i) => (
-            <ItemCard
-              key={i}
-              title={`مستوى ${i + 1}`}
-              onRemove={() =>
-                setContent({
-                  ...content,
-                  operatorLevels: content.operatorLevels.filter(
-                    (_, idx) => idx !== i,
-                  ),
-                })
+                }))
               }
             >
-              <div className="grid gap-3 sm:grid-cols-3">
-                <Field
-                  label="المستوى"
-                  value={level.level}
-                  onChange={(v) => {
-                    const operatorLevels = [...content.operatorLevels];
-                    operatorLevels[i] = { ...operatorLevels[i], level: v };
-                    setContent({ ...content, operatorLevels });
-                  }}
-                />
-                <Field
-                  label="العنوان"
-                  value={level.title}
-                  onChange={(v) => {
-                    const operatorLevels = [...content.operatorLevels];
-                    operatorLevels[i] = { ...operatorLevels[i], title: v };
-                    setContent({ ...content, operatorLevels });
-                  }}
-                />
-                <Field
-                  label="الوصف"
-                  value={level.body}
-                  onChange={(v) => {
-                    const operatorLevels = [...content.operatorLevels];
-                    operatorLevels[i] = { ...operatorLevels[i], body: v };
-                    setContent({ ...content, operatorLevels });
-                  }}
-                />
-              </div>
-            </ItemCard>
-          ))}
+              + مستوى
+            </Button>
+          </div>
+          {Array.from(
+            {
+              length: Math.max(
+                ar.operatorLevels.length,
+                en.operatorLevels.length,
+              ),
+            },
+            (_, i) => {
+              const arItem = ar.operatorLevels[i] ?? {
+                level: "",
+                title: "",
+                body: "",
+              };
+              const enItem = en.operatorLevels[i] ?? {
+                level: "",
+                title: "",
+                body: "",
+              };
+              return (
+                <ItemCard
+                  key={i}
+                  title={`مستوى ${i + 1}`}
+                  onRemove={() =>
+                    mapBoth((c) => ({
+                      ...c,
+                      operatorLevels: c.operatorLevels.filter(
+                        (_, idx) => idx !== i,
+                      ),
+                    }))
+                  }
+                >
+                  <SharedField
+                    label="المستوى (مشترك)"
+                    value={arItem.level}
+                    onChange={(v) =>
+                      mapBoth((c) => ({
+                        ...c,
+                        operatorLevels: replaceAt(c.operatorLevels, i, {
+                          ...(c.operatorLevels[i] ?? arItem),
+                          level: v,
+                        }),
+                      }))
+                    }
+                  />
+                  <DualField
+                    label="العنوان"
+                    ar={arItem.title}
+                    en={enItem.title}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        operatorLevels: replaceAt(ar.operatorLevels, i, {
+                          ...arItem,
+                          title: v,
+                        }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        operatorLevels: replaceAt(en.operatorLevels, i, {
+                          ...enItem,
+                          title: v,
+                        }),
+                      })
+                    }
+                  />
+                  <DualField
+                    label="الوصف"
+                    ar={arItem.body}
+                    en={enItem.body}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        operatorLevels: replaceAt(ar.operatorLevels, i, {
+                          ...arItem,
+                          body: v,
+                        }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        operatorLevels: replaceAt(en.operatorLevels, i, {
+                          ...enItem,
+                          body: v,
+                        }),
+                      })
+                    }
+                    multiline
+                  />
+                </ItemCard>
+              );
+            },
+          )}
         </div>
       );
     }
@@ -859,98 +1283,154 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
     if (tab === "enterprise") {
       return (
         <div className="space-y-4">
-          <Field
+          <DualField
             label="عنوان صغير"
-            value={content.enterprise.eyebrow}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                enterprise: { ...content.enterprise, eyebrow: v },
+            ar={ar.enterprise.eyebrow}
+            en={en.enterprise.eyebrow}
+            onAr={(v) =>
+              patchAr({
+                ...ar,
+                enterprise: { ...ar.enterprise, eyebrow: v },
+              })
+            }
+            onEn={(v) =>
+              patchEn({
+                ...en,
+                enterprise: { ...en.enterprise, eyebrow: v },
               })
             }
           />
-          <Field
+          <DualField
             label="العنوان"
-            value={content.enterprise.title}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                enterprise: { ...content.enterprise, title: v },
+            ar={ar.enterprise.title}
+            en={en.enterprise.title}
+            onAr={(v) =>
+              patchAr({
+                ...ar,
+                enterprise: { ...ar.enterprise, title: v },
+              })
+            }
+            onEn={(v) =>
+              patchEn({
+                ...en,
+                enterprise: { ...en.enterprise, title: v },
               })
             }
           />
-          <Field
+          <DualField
             label="الوصف"
-            value={content.enterprise.body}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                enterprise: { ...content.enterprise, body: v },
-              })
+            ar={ar.enterprise.body}
+            en={en.enterprise.body}
+            onAr={(v) =>
+              patchAr({ ...ar, enterprise: { ...ar.enterprise, body: v } })
+            }
+            onEn={(v) =>
+              patchEn({ ...en, enterprise: { ...en.enterprise, body: v } })
             }
             multiline
           />
-          <Field
+          <DualField
             label="نص الزر"
-            value={content.enterprise.cta}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                enterprise: { ...content.enterprise, cta: v },
-              })
+            ar={ar.enterprise.cta}
+            en={en.enterprise.cta}
+            onAr={(v) =>
+              patchAr({ ...ar, enterprise: { ...ar.enterprise, cta: v } })
+            }
+            onEn={(v) =>
+              patchEn({ ...en, enterprise: { ...en.enterprise, cta: v } })
             }
           />
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium">العناصر</p>
-            <AddButton
-              label="عنصر"
+            <Button
+              type="button"
               onClick={() =>
-                setContent({
-                  ...content,
+                mapBoth((c) => ({
+                  ...c,
                   enterpriseItems: [
-                    ...content.enterpriseItems,
-                    { title: "عنصر جديد", body: "" },
+                    ...c.enterpriseItems,
+                    { title: "", body: "" },
                   ],
-                })
-              }
-            />
-          </div>
-          {content.enterpriseItems.map((item, i) => (
-            <ItemCard
-              key={i}
-              title={`عنصر ${i + 1}`}
-              onRemove={() =>
-                setContent({
-                  ...content,
-                  enterpriseItems: content.enterpriseItems.filter(
-                    (_, idx) => idx !== i,
-                  ),
-                })
+                }))
               }
             >
-              <Field
-                label="العنوان"
-                value={item.title}
-                onChange={(v) => {
-                  const enterpriseItems = [...content.enterpriseItems];
-                  enterpriseItems[i] = { ...enterpriseItems[i], title: v };
-                  setContent({ ...content, enterpriseItems });
-                }}
-              />
-              <div className="mt-3">
-                <Field
-                  label="الوصف"
-                  value={item.body}
-                  onChange={(v) => {
-                    const enterpriseItems = [...content.enterpriseItems];
-                    enterpriseItems[i] = { ...enterpriseItems[i], body: v };
-                    setContent({ ...content, enterpriseItems });
-                  }}
-                  multiline
-                />
-              </div>
-            </ItemCard>
-          ))}
+              + عنصر
+            </Button>
+          </div>
+          {Array.from(
+            {
+              length: Math.max(
+                ar.enterpriseItems.length,
+                en.enterpriseItems.length,
+              ),
+            },
+            (_, i) => {
+              const arItem = ar.enterpriseItems[i] ?? { title: "", body: "" };
+              const enItem = en.enterpriseItems[i] ?? { title: "", body: "" };
+              return (
+                <ItemCard
+                  key={i}
+                  title={`عنصر ${i + 1}`}
+                  onRemove={() =>
+                    mapBoth((c) => ({
+                      ...c,
+                      enterpriseItems: c.enterpriseItems.filter(
+                        (_, idx) => idx !== i,
+                      ),
+                    }))
+                  }
+                >
+                  <DualField
+                    label="العنوان"
+                    ar={arItem.title}
+                    en={enItem.title}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        enterpriseItems: replaceAt(ar.enterpriseItems, i, {
+                          ...arItem,
+                          title: v,
+                        }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        enterpriseItems: replaceAt(en.enterpriseItems, i, {
+                          ...enItem,
+                          title: v,
+                        }),
+                      })
+                    }
+                  />
+                  <DualField
+                    label="الوصف"
+                    ar={arItem.body}
+                    en={enItem.body}
+                    onAr={(v) =>
+                      patchAr({
+                        ...ar,
+                        enterpriseItems: replaceAt(ar.enterpriseItems, i, {
+                          ...arItem,
+                          body: v,
+                        }),
+                      })
+                    }
+                    onEn={(v) =>
+                      patchEn({
+                        ...en,
+                        enterpriseItems: replaceAt(en.enterpriseItems, i, {
+                          ...enItem,
+                          body: v,
+                        }),
+                      })
+                    }
+                    multiline
+                  />
+                </ItemCard>
+              );
+            },
+          )}
         </div>
       );
     }
@@ -958,50 +1438,79 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
     if (tab === "compliance") {
       return (
         <div className="space-y-4">
-          <Field
+          <DualField
             label="عنوان صغير"
-            value={content.compliance.eyebrow}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                compliance: { ...content.compliance, eyebrow: v },
+            ar={ar.compliance.eyebrow}
+            en={en.compliance.eyebrow}
+            onAr={(v) =>
+              patchAr({
+                ...ar,
+                compliance: { ...ar.compliance, eyebrow: v },
+              })
+            }
+            onEn={(v) =>
+              patchEn({
+                ...en,
+                compliance: { ...en.compliance, eyebrow: v },
               })
             }
           />
-          <Field
+          <DualField
             label="العنوان"
-            value={content.compliance.title}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                compliance: { ...content.compliance, title: v },
+            ar={ar.compliance.title}
+            en={en.compliance.title}
+            onAr={(v) =>
+              patchAr({
+                ...ar,
+                compliance: { ...ar.compliance, title: v },
+              })
+            }
+            onEn={(v) =>
+              patchEn({
+                ...en,
+                compliance: { ...en.compliance, title: v },
               })
             }
           />
-          <Field
+          <DualField
             label="الوصف"
-            value={content.compliance.body}
-            onChange={(v) =>
-              setContent({
-                ...content,
-                compliance: { ...content.compliance, body: v },
+            ar={ar.compliance.body}
+            en={en.compliance.body}
+            onAr={(v) =>
+              patchAr({
+                ...ar,
+                compliance: { ...ar.compliance, body: v },
+              })
+            }
+            onEn={(v) =>
+              patchEn({
+                ...en,
+                compliance: { ...en.compliance, body: v },
               })
             }
             multiline
           />
-          <LinesEditor
+          <DualLinesEditor
             label="بنود الامتثال"
-            value={content.complianceItems}
-            onChange={(complianceItems) =>
-              setContent({ ...content, complianceItems })
+            arValues={ar.complianceItems}
+            enValues={en.complianceItems}
+            onChange={(complianceItems, complianceItemsEn) =>
+              setBundle((b) => ({
+                ar: { ...b.ar, complianceItems },
+                en: { ...b.en, complianceItems: complianceItemsEn },
+              }))
             }
           />
-          <LinesEditor
+          <DualLinesEditor
             label="فحوصات الامتثال السريعة"
             hint="تظهر كنقاط مختصرة إن وُجدت في التصميم"
-            value={content.complianceChecks}
-            onChange={(complianceChecks) =>
-              setContent({ ...content, complianceChecks })
+            arValues={ar.complianceChecks}
+            enValues={en.complianceChecks}
+            onChange={(complianceChecks, complianceChecksEn) =>
+              setBundle((b) => ({
+                ar: { ...b.ar, complianceChecks },
+                en: { ...b.en, complianceChecks: complianceChecksEn },
+              }))
             }
           />
         </div>
@@ -1010,89 +1519,60 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
 
     return (
       <div className="space-y-4">
-        <Field
+        <DualField
           label="عنوان صغير"
-          value={content.contact.eyebrow}
-          onChange={(v) =>
-            setContent({
-              ...content,
-              contact: { ...content.contact, eyebrow: v },
-            })
+          ar={ar.contact.eyebrow}
+          en={en.contact.eyebrow}
+          onAr={(v) =>
+            patchAr({ ...ar, contact: { ...ar.contact, eyebrow: v } })
+          }
+          onEn={(v) =>
+            patchEn({ ...en, contact: { ...en.contact, eyebrow: v } })
           }
         />
-        <Field
+        <DualField
           label="العنوان"
-          value={content.contact.title}
-          onChange={(v) =>
-            setContent({
-              ...content,
-              contact: { ...content.contact, title: v },
-            })
+          ar={ar.contact.title}
+          en={en.contact.title}
+          onAr={(v) =>
+            patchAr({ ...ar, contact: { ...ar.contact, title: v } })
+          }
+          onEn={(v) =>
+            patchEn({ ...en, contact: { ...en.contact, title: v } })
           }
         />
-        <Field
+        <DualField
           label="الوصف"
-          value={content.contact.body}
-          onChange={(v) =>
-            setContent({
-              ...content,
-              contact: { ...content.contact, body: v },
-            })
+          ar={ar.contact.body}
+          en={en.contact.body}
+          onAr={(v) =>
+            patchAr({ ...ar, contact: { ...ar.contact, body: v } })
+          }
+          onEn={(v) =>
+            patchEn({ ...en, contact: { ...en.contact, body: v } })
           }
           multiline
         />
       </div>
     );
-  }, [tab, content, editLocale]);
+  }, [tab, ar, en]);
 
   return (
     <AdminShell
       title="محتوى الموقع"
-      subtitle="عدّل النسخة العربية والإنجليزية لكل أقسام الصفحة الرئيسية والنماذج"
+      subtitle="كل حقل له خانة عربية وخانة إنجليزية جنب بعض"
       actions={
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="flex rounded-lg border border-[#07564F]/15 p-0.5">
-            <Button
-              type="button"
-              size="sm"
-              variant={editLocale === "ar" ? "default" : "ghost"}
-              className="h-8"
-              onClick={() => setEditLocale("ar")}
-            >
-              عربي
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant={editLocale === "en" ? "default" : "ghost"}
-              className="h-8"
-              onClick={() => setEditLocale("en")}
-            >
-              English
-            </Button>
-          </div>
-          <Button onClick={save} disabled={saving}>
-            {saving
-              ? editLocale === "en"
-                ? "Saving…"
-                : "جاري الحفظ…"
-              : editLocale === "en"
-                ? "Save changes"
-                : "حفظ التغييرات"}
-          </Button>
-        </div>
+        <Button onClick={save} disabled={saving}>
+          {saving ? "جاري الحفظ…" : "حفظ التغييرات"}
+        </Button>
       }
     >
       <Card>
         <CardHeader className="space-y-4">
           <div>
-            <CardTitle>
-              {editLocale === "en" ? "Content sections" : "أقسام المحتوى"}
-            </CardTitle>
+            <CardTitle>أقسام المحتوى</CardTitle>
             <CardDescription>
-              {editLocale === "en"
-                ? "Editing English copy. Switch to عربي for Arabic. Save writes both languages."
-                : "تحرّر النسخة العربية الآن. بدّل إلى English للإنجليزية. الحفظ يحفظ اللغتين معاً."}
+              العربية على اليمين، English على اليسار. الحفظ يكتب اللغتين معاً.
             </CardDescription>
           </div>
           <ScrollArea className="w-full whitespace-nowrap">
@@ -1112,17 +1592,13 @@ export function ContentEditor({ initial }: { initial: LocalizedSiteContent }) {
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         </CardHeader>
-        <CardContent
-          className="space-y-4"
-          dir={editLocale === "en" ? "ltr" : "rtl"}
-          lang={editLocale}
-        >
+        <CardContent className="space-y-4">
           {panel}
           {msg ? (
             <p
               className={cn(
                 "text-sm",
-                msg.includes("تعذر") || msg.includes("Could not")
+                msg.includes("تعذر")
                   ? "text-destructive"
                   : "text-muted-foreground",
               )}

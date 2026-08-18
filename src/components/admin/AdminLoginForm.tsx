@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 
 import { loginAdmin, type LoginState } from "@/app/admin/login/actions";
+import { BrandLogo } from "@/components/BrandLogo";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,13 +22,16 @@ export function AdminLoginForm() {
   const [state, action, pending] = useActionState(loginAdmin, initial);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>تسجيل دخول لوحة التحكم</CardTitle>
-          <CardDescription>
-            أدخل كلمة مرور المشرف للوصول إلى إدارة المحتوى والطلبات.
-          </CardDescription>
+    <div className="admin-theme flex min-h-screen items-center justify-center bg-primary px-4">
+      <Card className="w-full max-w-md shadow-xl">
+        <CardHeader className="space-y-4">
+          <BrandLogo className="h-10 w-auto max-w-[180px]" />
+          <div className="space-y-1">
+            <CardTitle>تسجيل دخول لوحة التحكم</CardTitle>
+            <CardDescription>
+              أدخل كلمة مرور المشرف للوصول إلى إدارة المحتوى والطلبات.
+            </CardDescription>
+          </div>
         </CardHeader>
         <form action={action}>
           <CardContent className="space-y-4">
@@ -49,7 +53,11 @@ export function AdminLoginForm() {
             ) : null}
           </CardContent>
           <CardFooter>
-            <Button type="submit" disabled={pending} className="w-full">
+            <Button
+              type="submit"
+              disabled={pending}
+              className="w-full bg-sand text-primary hover:bg-sand/90"
+            >
               {pending ? "جاري الدخول…" : "دخول"}
             </Button>
           </CardFooter>
