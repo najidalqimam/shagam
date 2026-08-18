@@ -10,18 +10,18 @@ import { useEffect, useRef, useState } from "react";
 const GOLD = "#D3A74D";
 const GREEN = "#07564F";
 const VB_W = 1000;
-const VB_H = 420;
+const VB_H = 200;
 
-/** 5 evenly spaced nodes (RTL: 01 on the right). Peaks up, troughs down. */
+/** 5 evenly spaced nodes (RTL: 01 on the right). Shallow sine. */
 const NODE_XY = [
-  { x: 880, y: 150 },
-  { x: 690, y: 270 },
-  { x: 500, y: 150 },
-  { x: 310, y: 270 },
-  { x: 120, y: 150 },
+  { x: 880, y: 86 },
+  { x: 690, y: 128 },
+  { x: 500, y: 86 },
+  { x: 310, y: 128 },
+  { x: 120, y: 86 },
 ] as const;
 
-const HANDLE = 63;
+const HANDLE = 42;
 
 /** Smooth sine through the nodes, flat tangents at each step. */
 const PATH_D = [
@@ -37,7 +37,7 @@ const CARD_SIDE: Array<"up" | "down"> = ["up", "down", "up", "down", "up"];
 
 function StepIcon({ index }: { index: number }) {
   const common = {
-    className: "h-8 w-8",
+    className: "h-6 w-6",
     fill: "none" as const,
     viewBox: "0 0 32 32",
     "aria-hidden": true as const,
@@ -104,7 +104,6 @@ function DesktopJourney({
   reducedMotion: boolean;
   inView: boolean;
 }) {
-  const { t: ui } = useLocale();
   const pathRef = useRef<SVGPathElement>(null);
   const traveledRef = useRef<SVGPathElement>(null);
   const droneRef = useRef<HTMLDivElement>(null);
@@ -136,11 +135,12 @@ function DesktopJourney({
   }, [progress, activeStep, reducedMotion]);
 
   return (
-    <div className="relative mx-auto w-full max-w-[1100px]">
-      <div className="relative" style={{ paddingTop: "8.5rem", paddingBottom: "8.5rem" }}>
+    <div className="relative mx-auto w-full max-w-[1040px]">
+      <div className="relative pt-10 pb-16">
+        <div className="relative w-full" style={{ aspectRatio: `${VB_W} / ${VB_H}` }}>
         <svg
           viewBox={`0 0 ${VB_W} ${VB_H}`}
-          className="pointer-events-none absolute inset-0 h-full w-full"
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full"
           preserveAspectRatio="xMidYMid meet"
           aria-hidden
         >
@@ -219,7 +219,7 @@ function DesktopJourney({
         {/* Drone */}
         <div
           ref={droneRef}
-          className="pointer-events-none absolute z-20 h-12 w-12"
+          className="pointer-events-none absolute z-20 h-9 w-9"
           style={{
             left: `${(NODE_XY[0].x / VB_W) * 100}%`,
             top: `${(NODE_XY[0].y / VB_H) * 100}%`,
@@ -239,33 +239,26 @@ function DesktopJourney({
           return (
             <div
               key={step.num}
-              className="absolute z-10 w-[min(200px,18vw)]"
+              className="absolute z-10 w-[min(168px,16.5vw)]"
               style={{
                 left: `${(pt.x / VB_W) * 100}%`,
                 top: `${(pt.y / VB_H) * 100}%`,
                 transform: up
-                  ? "translate(-50%, calc(-100% - 22px))"
-                  : "translate(-50%, 22px)",
+                  ? "translate(-50%, calc(-100% - 12px))"
+                  : "translate(-50%, 12px)",
               }}
             >
-              {/* Connector stub */}
               <span
                 className={`absolute left-1/2 w-px bg-[#07564F]/25 ${
-                  up ? "bottom-0 h-6 translate-y-full" : "top-0 h-6 -translate-y-full"
+                  up ? "bottom-0 h-3 translate-y-full" : "top-0 h-3 -translate-y-full"
                 }`}
                 aria-hidden
               />
 
-              {active && (
-                <p className="mb-2 text-center text-[0.7rem] font-semibold tracking-[0.04em] text-[#D3A74D]">
-                  {ui.phaseOf(i + 1, 5)}
-                </p>
-              )}
-
               <article
-                className={`rounded-2xl border p-4 shadow-[0_8px_24px_rgba(7,86,79,0.08)] transition duration-300 ${
+                className={`rounded-xl border p-3 shadow-[0_6px_18px_rgba(7,86,79,0.07)] transition duration-300 ${
                   active
-                    ? "-translate-y-1 border-[#D3A74D] bg-[#07564F] text-white shadow-[0_12px_32px_rgba(7,86,79,0.22)]"
+                    ? "border-[#D3A74D] bg-[#07564F] text-white shadow-[0_10px_24px_rgba(7,86,79,0.2)]"
                     : upcoming
                       ? "border-[#07564F]/15 bg-white/90 text-[#07564F] opacity-90"
                       : "border-[#07564F]/18 bg-white text-[#07564F]"
@@ -274,11 +267,11 @@ function DesktopJourney({
                 <div className={active ? "text-[#D3A74D]" : "text-[#07564F]"}>
                   <StepIcon index={i} />
                 </div>
-                <h3 className="mt-3 font-display text-[0.95rem] font-semibold leading-snug">
+                <h3 className="mt-1.5 font-display text-[0.8rem] font-semibold leading-snug">
                   {step.num} — {step.title}
                 </h3>
                 <p
-                  className={`mt-2 text-[0.78rem] leading-5 ${
+                  className={`mt-1 line-clamp-3 text-[0.68rem] leading-4 ${
                     active ? "text-white/85" : "text-[#4d6f6a]"
                   }`}
                 >
@@ -288,6 +281,7 @@ function DesktopJourney({
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );
@@ -586,27 +580,27 @@ export function HowItWorks() {
         }}
       />
 
-      <div className="section-pad relative z-10 mx-auto max-w-[1440px] py-[clamp(3rem,7vw,5.5rem)]">
+      <div className="section-pad relative z-10 mx-auto max-w-[1440px] py-[clamp(1.75rem,3.2vw,2.75rem)]">
         <Reveal variant="up">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="mb-3 inline-flex items-center gap-3 font-display text-[0.75rem] font-semibold tracking-[0.2em] text-[#D3A74D]">
+          <div className="relative z-20 mx-auto max-w-2xl text-center">
+            <p className="mb-2 inline-flex items-center gap-3 font-display text-[0.75rem] font-semibold tracking-[0.2em] text-[#D3A74D]">
               <span className="hidden h-px w-8 bg-[#D3A74D]/50 sm:block" />
               {content.how.eyebrow}
               <span className="hidden h-px w-8 bg-[#D3A74D]/50 sm:block" />
             </p>
             <h2
               id="how-title"
-              className="font-display text-[clamp(1.45rem,2.8vw,2.15rem)] font-semibold leading-[1.4]"
+              className="font-display text-[clamp(1.3rem,2.4vw,1.85rem)] font-semibold leading-[1.35]"
             >
               {content.how.title}
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-[0.98rem] leading-7 text-[#4d6f6a]">
+            <p className="mx-auto mt-2 max-w-xl text-[0.9rem] leading-6 text-[#4d6f6a]">
               {content.how.body}
             </p>
           </div>
         </Reveal>
 
-        <Reveal className="mt-10 lg:mt-12" delay={0.1} variant="scale">
+        <Reveal className="relative z-0 mt-2" delay={0.1} variant="scale">
           {layout === "desktop" && (
             <DesktopJourney
               steps={steps}
@@ -634,7 +628,7 @@ export function HowItWorks() {
           )}
         </Reveal>
 
-        <Reveal className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-8" delay={0.16} variant="up">
+        <Reveal className="relative z-20 mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-8" delay={0.16} variant="up">
           <a
             href="/request-service"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D3A74D] px-6 py-3 text-[0.92rem] font-semibold text-[#07564F] transition hover:brightness-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D3A74D]"
