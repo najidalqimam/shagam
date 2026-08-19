@@ -178,7 +178,10 @@ export function MobileTabBar() {
         ? active === "#operators" || pathname.startsWith("/join-operator")
         : active === tab.hash;
 
-    const href = "href" in tab && tab.href ? tab.href : resolveHash(tab.hash);
+    const href =
+      "href" in tab && tab.href
+        ? tab.href
+        : resolveHash(("hash" in tab ? tab.hash : undefined) ?? "#top");
 
     return (
       <Link
