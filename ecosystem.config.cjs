@@ -12,6 +12,7 @@ const apps = [
     env: {
       NODE_ENV: "production",
       PORT: 3035,
+      LARAVEL_API_URL: "https://api-shagam.najidalqimam.sa/api",
     },
   },
 ];
